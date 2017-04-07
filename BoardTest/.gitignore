@@ -1,0 +1,10 @@
+#.gitignore
+/.gradle/
+/.settings/
+/bin/
+/build/
+/.classpath
+/.project
+#gradlew
+#gradlew.bat
+#settings.gradle
