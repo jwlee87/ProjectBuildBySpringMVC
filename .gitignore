@@ -1,4 +1,4 @@
-#.gitignore
+.gitignore
 BoardTest/.gradle/
 BoardTest/.settings/
 BoardTest/bin/
