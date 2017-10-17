@@ -27,6 +27,7 @@ public interface MemberDao {
 	
 	public void deleteMember(Member member) throws Exception;
 	
+	public Member getMemberByEmail(String email);
 	
 	
 	
@@ -34,7 +35,9 @@ public interface MemberDao {
 	
 	
 	
-
+	
+	
+	
 	
 	// SELECT ONE
 	public Member getMember(String email) throws Exception ;
@@ -49,6 +52,9 @@ public interface MemberDao {
 		
 	//(totalCount)  return
 	public int getTotalCount(Search search) throws Exception ;
+
+	
+	
 	
 	
 	

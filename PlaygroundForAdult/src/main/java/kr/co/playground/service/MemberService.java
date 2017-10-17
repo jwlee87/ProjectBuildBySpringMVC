@@ -25,24 +25,16 @@ public interface MemberService {
 	
 	public void deleteMember(Member member) throws Exception;
 	
+	public Member getMemberByEmail(String value);
 	
 	
 	
 	
 	
 	
-	public Member getMember(String email) throws Exception;
 	
-	public Member getMember(int member_no) throws Exception;
-	
-	
-	public Map<String , Object> getMemberList(Search search) throws Exception;
-	
-	
-	
-	public void faceupdateMember(Member member) throws Exception;
 
-	public boolean checkDuplication(String email) throws Exception;
+	
 	
 	
 

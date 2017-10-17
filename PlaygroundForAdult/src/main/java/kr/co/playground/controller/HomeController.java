@@ -32,13 +32,11 @@ public class HomeController {
 	public String goMain(HttpServletRequest request, HttpServletResponse response,
 				HttpSession session, @ModelAttribute("member") Member member) throws Exception {
 		
-		System.out.println("\n  :: HomeController :: / : GET goMain 1111");
+		System.out.println("\n  :: HomeController :: ");
 		//Business Logic
-		List<Member> memberList = memberService.getMember();
-		
-		System.out.println("홈 컨트롤러 디버깅 memberList= "+memberList);
-		
-		session.setAttribute("memberSize", String.valueOf(memberList.size()));
+		//List<Member> memberList = memberService.getMember();
+		//System.out.println("홈 컨트롤러 디버깅 memberList= "+memberList);
+		//session.setAttribute("memberSize", String.valueOf(memberList.size()));
 		
 		return "forward:/index.jsp";
 	}

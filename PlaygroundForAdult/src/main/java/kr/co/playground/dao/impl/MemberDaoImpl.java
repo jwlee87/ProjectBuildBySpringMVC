@@ -73,6 +73,13 @@ public class MemberDaoImpl implements MemberDao{
 		sqlSession.update("MemberMapper.deleteMember", member);
 	}
 	
+	public Member getMemberByEmail(String email) {
+		return sqlSession.selectOne("MemberMapper.getMemberByEmail", email);
+	}
+	
+	
+	
+	
 	
 	
 	
@@ -106,6 +113,11 @@ public class MemberDaoImpl implements MemberDao{
 		sqlSession.update("MemberMapper.faceupdateMember", member);
 		
 	}
+
+	
+	
+	
+	
 	
 	
 	

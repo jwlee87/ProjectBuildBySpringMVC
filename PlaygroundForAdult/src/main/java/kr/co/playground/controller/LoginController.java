@@ -1,10 +1,6 @@
 package kr.co.playground.controller;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,14 +16,18 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.co.playground.common.EmailSender;
+import kr.co.playground.domain.Email;
 import kr.co.playground.domain.Member;
 import kr.co.playground.domain.WebFile;
 import kr.co.playground.service.MemberService;
@@ -45,6 +45,12 @@ public class LoginController {
 	@Autowired
 	@Qualifier("webFileServiceImpl")
 	private WebFileService webFileService;
+	
+	@Autowired
+	private Email email;
+	
+	@Autowired
+	private EmailSender emailSender;
 	
 	@Value("#{commonProperties['uploadPath']}")
 	 String uploadPath;
@@ -229,6 +235,60 @@ public class LoginController {
 		return "forward:/index.jsp";
 	}
 	
+	//계정찾기 메일보내기
+	@RequestMapping("/ajaxId")
+	@ResponseBody
+	public Map<String, Object> findAcnt(@RequestParam Map<String, Object> paramMap) throws Exception {
+		
+		String type = (String)paramMap.get("type");
+		String value = (String)paramMap.get("value");
+		
+		System.out.println("/ajaxId 넘어온값 type= "+type+", value= "+value);
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		
+		
+		if(type.equals("email")) {
+			
+			System.out.println("타입 이메일");
+			Member member = memberService.getMemberByEmail(value);
+			
+			if( member == null) {
+				System.out.println("멤버 널 "+member);
+				resultMap.put("check","false");
+			} else {
+				System.out.println("멤버 낫널 "+member);
+				
+				int authKey = emailSender.generateAuthKey();
+				
+				String mailAddr = member.getEmail();
+				
+				
+				email.setAuthKey(authKey);
+				email.setContent("인증번호: "+authKey);
+				email.setReceiver(value);
+				email.setSubject(member.getNickName()+"님의 아이디 찾기 결과입니다.");
+				emailSender.sendEmail(email);
+				
+				resultMap.put("authKey", authKey);
+				resultMap.put("check", "true");
+			}
+			System.out.println("타입 아이디");
+		}
+		
+		
+		
+		return resultMap;
+	}
+	
+	//email checkKey
+	@RequestMapping("/checkKey")
+	@ResponseBody
+	public Map<String, Object> checkKey(@RequestBody Map<String, Object> params){
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("type", "id");
+		return resultMap;
+	}
 	
 	//닉네임 중복체크
 	@RequestMapping( value="/duplCheck", method=RequestMethod.POST)

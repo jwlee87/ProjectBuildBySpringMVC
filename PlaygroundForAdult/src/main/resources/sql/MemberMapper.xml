@@ -120,6 +120,13 @@
 	</set>
 	WHERE _UniqueID = #{uniqueID}
 	</update>
+	
+	<!-- getMemberByEmail -->
+	<select id="getMemberByEmail" parameterType="string" resultMap="member">
+	SELECT *
+	FROM MEMBER
+	WHERE _EMAIL = #{email}
+	</select>
 
 
 

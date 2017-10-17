@@ -104,9 +104,9 @@
 		<form action="검색컨트롤러를 타라!">
 		<input onfocusout="focusOut()" type="text" value="" id="search" name="search" placeholder="검색어를 입력하세요."></form></div>
 		<div class="siteinfo"><table>
-			<tr><td class="info-name"><span>Today</span></td><td class="info-value"><span id="counting">1</span></td></tr>
-			<tr><td class="info-name"><span>Member</span></td><td class="info-value"><span>${memberSize}</span></td></tr>
-			<tr><td colspan="2" class="info-today"><p id="infoToday"/></td></tr></table>
+			<%-- <tr><td class="info-name"><span>Today</span></td><td class="info-value"><span id="counting">1</span></td></tr>
+			<tr><td class="info-name"><span>Member</span></td><td class="info-value"><span>${memberSize}</span></td></tr> --%>
+			<tr><td colspan="2" class="info-today" style="width:200px;"><p id="infoToday"/></td></tr></table>
 		</div>
 	</div>
 </div>
@@ -122,7 +122,7 @@
 	<c:if test='${empty sessionScope.login.id}'>
 		<a href="/account/loginForm.jsp"><button class="button">로그인</button></a>
 		<a href="/account/clickWrap.jsp"><button class="button">회원가입</button></a>
-		<a href="#"><button class="button">계정찾기</button></a>
+		<a href="/account/findPassword.jsp"><button class="button">계정찾기</button></a>
 	</c:if>
 	<c:if test='${!empty sessionScope.login.id }'>
 		<a href="/account/myInfo.jsp"><button class="button">&nbsp;내정보 &nbsp;</button></a>

@@ -68,9 +68,12 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.getMemberByID(id);
 	}
 	
-	@Override
 	public void deleteMember(Member member) throws Exception {
 		memberDao.deleteMember(member);
+	}
+	
+	public Member getMemberByEmail(String email) {
+		return memberDao.getMemberByEmail(email); 
 	}
 	
 	
@@ -85,7 +88,10 @@ public class MemberServiceImpl implements MemberService{
 	
 	
 	
+	
+	
 
+	
 	
 	
 	public Member getMember(String email) throws Exception {
@@ -126,6 +132,9 @@ public class MemberServiceImpl implements MemberService{
 		return result;
 	}
 
+	
+	
+	
 	
 	
 	

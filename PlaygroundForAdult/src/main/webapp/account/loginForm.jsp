@@ -60,7 +60,7 @@ input  {border-color:#e4e4e4;}
 				</tr>
 				<tr>
 					<td><input type="image" src="/resources/images/loginbtn.png" name="Submit" value="Submit" style="margin-top:20px;"><br/>
-					<br/><a href="/account/clickWrap.jsp">회원가입</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="findPassword.jsp">비밀번호를 잃어버렸나요?</a></td>
+					<br/><a href="/account/clickWrap.jsp">회원가입</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/account/findPassword.jsp">비밀번호를 잃어버렸나요?</a></td>
 				</tr>
 				<tr>
 					<td style="padding-top:40px;"><a href="javascript:location.href='/index.jsp'" style="color:#58595a;">돌아가기</a></td>
