@@ -16,7 +16,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -238,7 +237,8 @@ public class LoginController {
 	//계정찾기 메일보내기
 	@RequestMapping("/ajaxId")
 	@ResponseBody
-	public Map<String, Object> findAcnt(@RequestParam Map<String, Object> paramMap) throws Exception {
+	public Map<String, Object> findAcnt(HttpSession session,
+			@RequestParam Map<String, Object> paramMap) throws Exception {
 		
 		String type = (String)paramMap.get("type");
 		String value = (String)paramMap.get("value");
@@ -251,6 +251,7 @@ public class LoginController {
 		if(type.equals("email")) {
 			
 			System.out.println("타입 이메일");
+			
 			Member member = memberService.getMemberByEmail(value);
 			
 			if( member == null) {
@@ -259,16 +260,44 @@ public class LoginController {
 			} else {
 				System.out.println("멤버 낫널 "+member);
 				
-				int authKey = emailSender.generateAuthKey();
-				
+				int key = emailSender.generateAuthKey();
+				String authKey = String.valueOf(key);
 				String mailAddr = member.getEmail();
 				
+				session.setAttribute("mailAddr", mailAddr);
+				session.setAttribute("authKey", authKey);
 				
-				email.setAuthKey(authKey);
-				email.setContent("인증번호: "+authKey);
+				email.setAuthKey(key);
+				email.setContent(""
+						+ "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>"
+						+ "<table class='wrapper' width='100%' height='100%' style='border-spacing: 0; background-size: 64px 64px !important; background: #ffffff url(); padding: 100px 0 0; border: 0;'>"
+						+ "<tbody><tr><td align='center' style='vertical-align: top; padding: 0;'>"
+						+ "<table class='main welcome' style='border-spacing: 0; max-width: 560px; border-radius: 5px; background: white; padding: 0; border: 0;'>"
+						+ "<thead><tr><td align='center' style='vertical-align: top; height: 26px; color: white; border-top-left-radius: 5px; border-top-right-radius: 5px; background: #4A90BE; padding: 20px;'>"
+						+ "<img width='80' height='80' alt='Smile' src='http://tryhelloworld.co.kr/assets/icons/ic_smile-45a284c191283d76d502592026377b66f71c85e0c5b3b4e768c82682e834b07f.png'>"
+						+ "<h2 style='font-weight: 300; font-size: 36px; line-height: 58px; letter-spacing: -1px; word-spacing: -1px; margin: 0;'>환영합니다</h2>"
+						+ "</td></tr></thead>"
+						+ "<tbody><tr><td style='vertical-align: top; padding: 40px;'>"
+						+ "<h5 style='font-weight: 400; font-size: 18px; line-height: 28px; word-spacing: -0.5px; margin: 0 0 10px;'>"+member.getNickName()+"님께서 요청하신 내용입니다.</h5> "
+						+ "<br><span style='font-size: 18px;'>인증번호는 </span>"+authKey+"<span style='font-size: 26px; font-weight: bold;'></span><span style='font-size: 18px;'>입니다</span>"
+						+ "<div style='text-align: center; margin-bottom: 80px;'>"
+						+ "</div>"
+						+ "<h6 style='font-weight: 300; font-size: 0.75rem; line-height: 20px; word-spacing: -0.5px; color: #808080; text-align: center; margin: 0 0 20px;'>"
+						+ " </h6>"
+						+ " </td></tr></tbody>"
+						+ "</table>"
+						+ "</td></tr><tr><td align='center' height='100%' style='vertical-align: top; color: white; font-weight: 500; padding: 20px 0 40px;'>"
+						+ "<h4 style='font-weight: 400; font-size: 18px; line-height: 28px; word-spacing: -0.5px; margin: 0;'>coily</h4>"
+						+ " </td></tr></tbody></table>"
+						+ "</meta>"
+						+ "</div>"
+						);
 				email.setReceiver(value);
 				email.setSubject(member.getNickName()+"님의 아이디 찾기 결과입니다.");
 				emailSender.sendEmail(email);
+				
+				
+				session.setAttribute("email", email);
 				
 				resultMap.put("authKey", authKey);
 				resultMap.put("check", "true");
@@ -284,9 +313,30 @@ public class LoginController {
 	//email checkKey
 	@RequestMapping("/checkKey")
 	@ResponseBody
-	public Map<String, Object> checkKey(@RequestBody Map<String, Object> params){
+	public Map<String, Object> checkKey(HttpSession session,
+			@RequestParam Map<String, Object> params){
+		
+		System.out.println("/checkKey 디버깅 입니다.");
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("type", "id");
+		Email email = (Email)session.getAttribute("email");
+		String authKey = String.valueOf(email.getAuthKey());
+		String paramKey = (String)params.get("authKey");
+		String paramEmail = (String)params.get("email");
+		
+		//인증번호 맞을경우
+		if(authKey.equals(paramKey)) {
+			System.out.println(" 인증번호 일치 ");
+			resultMap.put("type","true");
+		}
+		//인증번호 다를경우
+		else {
+			System.out.println(" 인증번호 불일치 ");
+			resultMap.put("type","false");
+		}
+		
+		System.out.println(" 세션 이메일 객체 디버깅 email= "+email);
+		System.out.println("   ajax로 넘긴 params값들 디버깅  :: paramKey= "+paramKey+" paramEmail= "+paramEmail);
+		
 		return resultMap;
 	}
 	

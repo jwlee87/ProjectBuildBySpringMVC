@@ -44,34 +44,39 @@ input  {border-color:#e4e4e4;}
 	
 	<!-- 이메일주소로 아이디 찾기 -->
 	<form id="idForm" action="/login/findId" method="post" class="loginform">
-		<table class="idTable" style="display: none; width: 400px; margin: 0 auto; text-align: center;">
-		<tr>
-			<td><p id="nCrtEmail" style="display: none;">일치하는 이메일주소가 없습니다.</p>
-			<input type="email" id="email" name="email" class="inputbox" placeholder="이메일 주소를 입력하세요." required>
-			</td>
-		</tr>
-		<tr style="height: 100px;">
-			<td><span id="findId"
-			class="para" style="border-style: solid; padding: 3%;">아이디 찾기</span></td>
-		</tr>
-		</table>
+		<input type="hidden" name="email" />
 	</form>
+	
+	<table class="idTable" style="display: none; width: 400px; margin: 0 auto; text-align: center;">
+	<tr>
+		<td><p id="nCrtEmail" style="display: none;">일치하는 이메일주소가 없습니다.</p>
+		<input type="email" id="email" name="email" class="inputbox" placeholder="이메일 주소를 입력하세요." required>
+		</td>
+	</tr>
+	<tr style="height: 100px;">
+		<td><span id="findId"
+		class="para" style="border-style: solid; padding: 3%;">아이디 찾기</span></td>
+	</tr>
+	</table>
 	
 	<!-- 아이디와 이메일 주소로 비밀번호 찾기 -->
 	<form id="pwForm" action="/login/findPw" method="post" class="loginform">
-		<table class="pwTable" style="display: none; width: 400px; margin: 0 auto; text-align: center;">
-		<tr>
-			<td><input type="text" id="id" name="id" class="inputbox" placeholder="아이디를 입력하세요." required>
-			</td>
-		</tr>
-		<tr></tr>
-		<tr></tr>
-		<tr>
-			<td><input type="email" id="email" name="email" class="inputbox" placeholder="이메일 주소를 입력하세요." required>
-			</td>
-		</tr>
-		</table>
+		<input type="hidden" name="id"/>
+		<input type="hidden" name="email"/>
 	</form>
+	
+	<table class="pwTable" style="display: none; width: 400px; margin: 0 auto; text-align: center;">
+	<tr>
+		<td><input type="text" id="id" name="id" class="inputbox" placeholder="아이디를 입력하세요." required>
+		</td>
+	</tr>
+	<tr></tr>
+	<tr></tr>
+	<tr>
+		<td><input type="email" id="email" name="email" class="inputbox" placeholder="이메일 주소를 입력하세요." required>
+		</td>
+	</tr>
+	</table>
 	
 	<!-- keyTable -->
 	<table id="keyTable" style="display: none; width: 400px; margin: 0 auto; text-align: center;">
@@ -84,6 +89,22 @@ input  {border-color:#e4e4e4;}
 		</tr>
 	</table>
 	
+	<!-- 새 비밀번호 설정 페이지 -->
+	<table id="newPwTable" style="display: none; width: 400px; margin: 0 auto; text-align: center;">
+		<tr>
+			<td><p>새로운 비밀번호를 설정해주세요.</p>
+			<p id="nCrtNewPw" style="display: none;"><span style="color: red;">패스워드가 일치하지 않습니다.</span></p>
+			<input type="password" id="newPw" name="pass" class="inputbox"
+			 placeholder="비밀번호를 입력하세요." required></input></td>
+		</tr>
+		<tr>
+			<td><input type="password" id="newPwCheck" name="pass" class="inputbox"
+			 placeholder="비밀번호를 확인" required></input></td>
+		</tr>
+		<tr style="height: 100px;">
+			<td><span id="checkPw" class="para" style="border-style: solid; padding: 3%;">다음</span></td>
+		</tr>
+	</table>
 	<!-- 돌아가기 버튼 -->
 	<table style="width: 400px; margin: 0 auto; text-align: center;">
 		<tr>
@@ -128,7 +149,7 @@ $("#findId").on("click", function(){
 			if( data.check == "true" ){
 				$("#keyTable").show();
 				$(".idTable").hide();
-				alert(data.type+" : "+data.check);
+				alert(data.authKey+" : "+data.check);
 			} else {
 				$("#nCrtEmail").show();
 			}
@@ -144,17 +165,22 @@ $("#checkEmail").on("click", function(){
 	
 	var data = {}
 	data["authKey"] = $("#authKey").val();
-	
+	//var authKey = $("#authKey").val();
+	data["email"] = $("#email").val();
+	//var email = $("#email").val();
 	
 	$.ajax({
 		type: "POST"
 		, url: "/login/checkKey"
-		, data: JSON.stringify(data) 
+		, data: data
 		, dataType: "json"
 		, success: function(data){
-			if( data.type == "id" ){
-				idSubmit();
-			} else if( data.type == "pw"){
+			console.log(data.type);
+			if( data.type == "true" ){
+				$("#newPwTable").show();
+				$("#keyTable").hide();
+			} else if( data.type == "false"){
+				alert("2");
 				pwSubmit();
 			}
 		}
@@ -164,6 +190,15 @@ $("#checkEmail").on("click", function(){
 	});
 })
 
+$("#checkPw").on("click", function(){
+	if( $("#newPw").val() == $("#newPwCheck").val() ){
+		$("#nCrtNewPw").hide();
+		idSubmit();
+	} else {
+		$("#nCrtNewPw").show();
+	}
+})
+
 //폼 섬밋 날리는 fnc
 function idSubmit(){
 	$("#idForm").submit();
@@ -171,6 +206,7 @@ function idSubmit(){
 function pwSubmit(){
 	$("#pwForm").submit();
 }
+
 
 
 
