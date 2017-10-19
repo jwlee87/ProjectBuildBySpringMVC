@@ -77,7 +77,7 @@
 	</select>
 	
 	<!-- 내정보 수정 -->
-	<update id="updateMyInfo" parameterType="member">
+	<update id="updateMember" parameterType="member">
 	UPDATE MEMBER
 	<set>
 		_NICKNAME	=	#{nickName}

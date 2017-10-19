@@ -41,7 +41,7 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.selectList("MemberMapper.getMember");
 	}
 	public void updateMember(Member member) throws Exception {
-		sqlSession.update("MemberMapper.updateMyInfo", member);
+		sqlSession.update("MemberMapper.updateMember", member);
 	}
 	public List<Member> duplCheck(Map<String, Object> m) throws Exception {
 		return sqlSession.selectList("MemberMapper.duplCheck", m);

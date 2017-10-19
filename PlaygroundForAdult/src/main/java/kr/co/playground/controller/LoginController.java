@@ -234,29 +234,61 @@ public class LoginController {
 		return "forward:/index.jsp";
 	}
 	
+	@RequestMapping(value="/newPw")
+	public String findId(HttpSession session, @ModelAttribute Member newMember) throws Exception {
+		
+		Email email = (Email)session.getAttribute("email");
+		String emailAddr = email.getReceiver();
+		System.out.println("넘어오면 값 잘 받는것"+newMember.getPass());
+		
+		Member member = memberService.getMemberByEmail(emailAddr);
+		member.setPass(newMember.getPass());
+		memberService.updateMember(member);
+		
+		return "forward:/account/loginForm.jsp";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//ajax 처리 부분
+	
 	//계정찾기 메일보내기
 	@RequestMapping("/ajaxId")
 	@ResponseBody
 	public Map<String, Object> findAcnt(HttpSession session,
 			@RequestParam Map<String, Object> paramMap) throws Exception {
 		
-		String type = (String)paramMap.get("type");
-		String value = (String)paramMap.get("value");
+		String id = (String)paramMap.get("id");
+		String emailAddr = (String)paramMap.get("email");
 		
-		System.out.println("/ajaxId 넘어온값 type= "+type+", value= "+value);
+		System.out.println("/ajaxId 넘어온값 id= "+id+", emailAddr= "+emailAddr);
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
 		
 		
-		if(type.equals("email")) {
+		if( emailAddr != null && id == null ) {
 			
-			System.out.println("타입 이메일");
+			System.out.println(" emailAddr is not null but id is null ");
 			
-			Member member = memberService.getMemberByEmail(value);
+			Member member = memberService.getMemberByEmail(emailAddr);
 			
 			if( member == null) {
 				System.out.println("멤버 널 "+member);
-				resultMap.put("check","false");
+				resultMap.put("check","nCrtId");
 			} else {
 				System.out.println("멤버 낫널 "+member);
 				
@@ -264,8 +296,6 @@ public class LoginController {
 				String authKey = String.valueOf(key);
 				String mailAddr = member.getEmail();
 				
-				session.setAttribute("mailAddr", mailAddr);
-				session.setAttribute("authKey", authKey);
 				
 				email.setAuthKey(key);
 				email.setContent(""
@@ -292,17 +322,93 @@ public class LoginController {
 						+ "</meta>"
 						+ "</div>"
 						);
-				email.setReceiver(value);
+				email.setReceiver(emailAddr);
 				email.setSubject(member.getNickName()+"님의 아이디 찾기 결과입니다.");
 				emailSender.sendEmail(email);
 				
 				
 				session.setAttribute("email", email);
+				session.setAttribute("authKey", authKey);
 				
 				resultMap.put("authKey", authKey);
 				resultMap.put("check", "true");
 			}
-			System.out.println("타입 아이디");
+		// 아이디 이메일로 새로운 비밀번호 생성
+		}  else if ( id != null && emailAddr != null ) {
+			
+			System.out.println(" Both id and emailAddr are not null");
+			Member member = memberService.getMemberByID(id);
+			
+			if( member == null) {
+				
+				System.out.println("멤버 널 "+member);
+				resultMap.put("check","nCrtId");
+				
+			} else {
+				
+				System.out.println("멤버 낫널 "+member);
+				
+				int key = emailSender.generateAuthKey();
+				String authKey = String.valueOf(key);
+				
+				//입력한 아이디와 이메일주소의 사용자가 일치
+				if( member.getEmail().equals(emailAddr) ){
+					
+					System.out.println("입력한 아이디와 이메일주소의 사용자가 일치");
+					
+					
+					email.setAuthKey(key);
+					email.setContent(""
+							+ "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>"
+							+ "<table class='wrapper' width='100%' height='100%' style='border-spacing: 0; background-size: 64px 64px !important; background: #ffffff url(); padding: 100px 0 0; border: 0;'>"
+							+ "<tbody><tr><td align='center' style='vertical-align: top; padding: 0;'>"
+							+ "<table class='main welcome' style='border-spacing: 0; max-width: 560px; border-radius: 5px; background: white; padding: 0; border: 0;'>"
+							+ "<thead><tr><td align='center' style='vertical-align: top; height: 26px; color: white; border-top-left-radius: 5px; border-top-right-radius: 5px; background: #4A90BE; padding: 20px;'>"
+							+ "<img width='80' height='80' alt='Smile' src='http://tryhelloworld.co.kr/assets/icons/ic_smile-45a284c191283d76d502592026377b66f71c85e0c5b3b4e768c82682e834b07f.png'>"
+							+ "<h2 style='font-weight: 300; font-size: 36px; line-height: 58px; letter-spacing: -1px; word-spacing: -1px; margin: 0;'>환영합니다</h2>"
+							+ "</td></tr></thead>"
+							+ "<tbody><tr><td style='vertical-align: top; padding: 40px;'>"
+							+ "<h5 style='font-weight: 400; font-size: 18px; line-height: 28px; word-spacing: -0.5px; margin: 0 0 10px;'>"+member.getNickName()+"님께서 요청하신 내용입니다.</h5> "
+							+ "<br><span style='font-size: 18px;'>인증번호는 </span>"+authKey+"<span style='font-size: 26px; font-weight: bold;'></span><span style='font-size: 18px;'>입니다</span>"
+							+ "<div style='text-align: center; margin-bottom: 80px;'>"
+							+ "</div>"
+							+ "<h6 style='font-weight: 300; font-size: 0.75rem; line-height: 20px; word-spacing: -0.5px; color: #808080; text-align: center; margin: 0 0 20px;'>"
+							+ " </h6>"
+							+ " </td></tr></tbody>"
+							+ "</table>"
+							+ "</td></tr><tr><td align='center' height='100%' style='vertical-align: top; color: white; font-weight: 500; padding: 20px 0 40px;'>"
+							+ "<h4 style='font-weight: 400; font-size: 18px; line-height: 28px; word-spacing: -0.5px; margin: 0;'>coily</h4>"
+							+ " </td></tr></tbody></table>"
+							+ "</meta>"
+							+ "</div>"
+							);
+					email.setReceiver(emailAddr);
+					email.setSubject(member.getNickName()+"님의 아이디 찾기 결과입니다.");
+					emailSender.sendEmail(email);
+					
+					
+					session.setAttribute("email", email);
+					session.setAttribute("authKey", authKey);
+					
+					System.out.println("아이디 이메일로 비밀번호 변경 인증키 ="+authKey);
+					
+					resultMap.put("authKey", authKey);
+					resultMap.put("check", "true");
+					
+				// 입력한 아이디와 이메일주소의 사용자가 불일치 
+				} else {
+					
+					System.out.println(" 입력한 아이디와 이메일주소의 사용자가 불일치 ");
+					resultMap.put("check", "nCrt");
+				}
+			}
+			
+		// 입력한 id와 emailAddr 모두 null
+		} else {
+			
+			System.out.println(" Both id and emailAddr are null");
+			resultMap.put("check", "false");
+			
 		}
 		
 		
@@ -323,6 +429,11 @@ public class LoginController {
 		String paramKey = (String)params.get("authKey");
 		String paramEmail = (String)params.get("email");
 		
+		Member member = memberService.getMemberByEmail(email.getReceiver());
+		String memberId = member.getId();
+		
+		resultMap.put("memberId", memberId);
+		
 		//인증번호 맞을경우
 		if(authKey.equals(paramKey)) {
 			System.out.println(" 인증번호 일치 ");
@@ -339,6 +450,38 @@ public class LoginController {
 		
 		return resultMap;
 	}
+	
+	//email checkKey2
+		@RequestMapping("/checkKeyForChgPw")
+		@ResponseBody
+		public Map<String, Object> checkKeyForChgPw(HttpSession session,
+				@RequestParam Map<String, Object> params){
+			
+			System.out.println("/checkKeyForChgPw 디버깅 입니다.");
+			Map<String, Object> resultMap = new HashMap<String, Object>();
+			Email email = (Email)session.getAttribute("email");
+			String authKey = (String)session.getAttribute("authKey");
+			String paramKey = (String)params.get("authKey");
+			String paramEmail = (String)params.get("email");
+			String paramId = (String)params.get("id");
+			
+			
+			System.out.println("ajax 받아온 값 디버깅 = "+authKey+" : "+paramKey+" : "+paramEmail+" : "+paramId);
+			//인증번호 맞을경우
+			if(authKey.equals(paramKey)) {
+				System.out.println(" 인증번호 일치 ");
+				resultMap.put("type","true");
+			}
+			//인증번호 다를경우
+			else {
+				System.out.println(" 인증번호 불일치 ");
+				resultMap.put("type","false");
+			}
+			
+			System.out.println("   ajax로 넘긴 params값들 디버깅  :: paramKey= "+paramKey+" paramEmail= "+paramEmail);
+			
+			return resultMap;
+		}
 	
 	//닉네임 중복체크
 	@RequestMapping( value="/duplCheck", method=RequestMethod.POST)

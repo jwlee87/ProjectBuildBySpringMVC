@@ -90,6 +90,7 @@
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 	<mvc:resources mapping="/account/**" location="/account/" />
 	<mvc:resources mapping="/fileUpload/**" location="/fileUpload/" />
+	<mvc:resources mapping="/board/**" location="/board/" />
 	
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 

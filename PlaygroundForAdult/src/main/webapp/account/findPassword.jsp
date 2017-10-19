@@ -43,14 +43,10 @@ input  {border-color:#e4e4e4;}
 	</table>
 	
 	<!-- 이메일주소로 아이디 찾기 -->
-	<form id="idForm" action="/login/findId" method="post" class="loginform">
-		<input type="hidden" name="email" />
-	</form>
 	
 	<table class="idTable" style="display: none; width: 400px; margin: 0 auto; text-align: center;">
 	<tr>
-		<td><p id="nCrtEmail" style="display: none;">일치하는 이메일주소가 없습니다.</p>
-		<input type="email" id="email" name="email" class="inputbox" placeholder="이메일 주소를 입력하세요." required>
+		<td><input type="email" id="emailById" name="email" class="inputbox" placeholder="이메일 주소를 입력하세요." required>
 		</td>
 	</tr>
 	<tr style="height: 100px;">
@@ -59,15 +55,19 @@ input  {border-color:#e4e4e4;}
 	</tr>
 	</table>
 	
+	<table class="idTable" style="width: 400px; margin: 0 auto; text-align: center;">
+		<tr><td><p id="nCrtEmail" style="display: none;">일치하는 이메일주소가 없습니다.</p></td></tr>
+		<tr><td><p id="nCrtId" style="display: none;">일치하는 아이디가 없습니다.</p></td></tr>
+		<tr><td><p id="nCrtMember" style="display: none;">입력하신 정보가 부정확합니다.</p></td></tr>
+	</table>
 	<!-- 아이디와 이메일 주소로 비밀번호 찾기 -->
-	<form id="pwForm" action="/login/findPw" method="post" class="loginform">
-		<input type="hidden" name="id"/>
-		<input type="hidden" name="email"/>
-	</form>
 	
+	<!-- 비번 찾기 테이블 -->
 	<table class="pwTable" style="display: none; width: 400px; margin: 0 auto; text-align: center;">
+	
 	<tr>
-		<td><input type="text" id="id" name="id" class="inputbox" placeholder="아이디를 입력하세요." required>
+		<td>
+		<input type="text" id="id" name="id" class="inputbox" placeholder="아이디를 입력하세요." required>
 		</td>
 	</tr>
 	<tr></tr>
@@ -75,6 +75,9 @@ input  {border-color:#e4e4e4;}
 	<tr>
 		<td><input type="email" id="email" name="email" class="inputbox" placeholder="이메일 주소를 입력하세요." required>
 		</td>
+	</tr>
+	<tr>
+		<td style="height: 100px;"><a href="javascript:newPwById();" style="text-decoration: none;"><span class="para" style="border-style: solid; padding: 3%;">인증메일 전송</span></a></td>
 	</tr>
 	</table>
 	
@@ -89,7 +92,20 @@ input  {border-color:#e4e4e4;}
 		</tr>
 	</table>
 	
+	<!-- keyTable -->
+	<table id="keyTable2" style="display: none; width: 400px; margin: 0 auto; text-align: center;">
+		<tr>
+			<td><p>해당 이메일로 인증번호를 전송했습니다.</p><input type="text" id="authKey2" name="authKey" class="inputbox"
+			 placeholder="인증번호를 입력하세요." required></input></td>
+		</tr>
+		<tr style="height: 100px;">
+			<td><span id="checkKeyPwChg" class="para" style="border-style: solid; padding: 3%;">인증하기</span></td>
+		</tr>
+	</table>
+	
+	
 	<!-- 새 비밀번호 설정 페이지 -->
+	<form id="changePw" action="/login/newPw" method="post" class="loginform">
 	<table id="newPwTable" style="display: none; width: 400px; margin: 0 auto; text-align: center;">
 		<tr>
 			<td><p>새로운 비밀번호를 설정해주세요.</p>
@@ -98,13 +114,31 @@ input  {border-color:#e4e4e4;}
 			 placeholder="비밀번호를 입력하세요." required></input></td>
 		</tr>
 		<tr>
-			<td><input type="password" id="newPwCheck" name="pass" class="inputbox"
+			<td><input type="password" id="newPwCheck" class="inputbox"
 			 placeholder="비밀번호를 확인" required></input></td>
 		</tr>
 		<tr style="height: 100px;">
 			<td><span id="checkPw" class="para" style="border-style: solid; padding: 3%;">다음</span></td>
 		</tr>
 	</table>
+	</form>
+	
+	
+	<!-- 아이디 체크 결과 -->
+	<table id="findIdRst" style="display: none; width: 400px; margin: 0 auto; text-align: center;">
+		<tr>
+			<td colspan="2"><p>회원님의 아이디는<span id="fId" style="font-weight: bold;">
+			</span> 입니다.</p></td>
+		</tr>
+		<tr></tr><tr></tr><tr></tr>
+		<tr>
+			<td width="150px;"><a href="/account/loginForm.jsp" style="text-decoration: none;"><span class="para" style="border-style: solid;">로그인</span></a></td>
+			<td width="150px;"><a href="javascript:void(0)"
+			onclick="fpb();" style="text-decoration: none;">
+			<span id="pwBtn" class="para" style="border-style: solid;">비밀번호 찾기</span></a></td>
+		</tr>
+	</table>
+	
 	<!-- 돌아가기 버튼 -->
 	<table style="width: 400px; margin: 0 auto; text-align: center;">
 		<tr>
@@ -131,25 +165,32 @@ $("#idBtn").on("click", function(){
 	$(".idTable").show();
 })
 $("#pwBtn").on("click", function(){
+	alert("pwBtn click");
 	$("#choiceBtn").hide();
+	$("#findIdRst").hide();
 	$(".pwTable").show();
 })
+
+function fpb(){
+	$("#choiceBtn").hide();
+	$("#findIdRst").hide();
+	$(".pwTable").show();
+}
 
 //아이디찾기 ajax 처리
 $("#findId").on("click", function(){
 	
-	var email = $("#email").val();
+	var email = $("#emailById").val();
 	
 	$.ajax({
 		type: "POST"
 		, url: "/login/ajaxId"
-		, data: {type:'email', value:email}
+		, data: {email:email}
 		, dataType: "json"
 		, success: function(data){
 			if( data.check == "true" ){
 				$("#keyTable").show();
 				$(".idTable").hide();
-				alert(data.authKey+" : "+data.check);
 			} else {
 				$("#nCrtEmail").show();
 			}
@@ -160,13 +201,43 @@ $("#findId").on("click", function(){
 	});
 })
 
+//아이디 비밀번호로 새로운 비밀번호 설정 ajax 처리
+function newPwById(){
+	
+	var data = {};
+	data["id"] = $("#id").val();
+	data["email"] = $("#email").val();
+	
+	$.ajax({
+		type: "POST"
+		, url: "/login/ajaxId"
+		, data: data
+		, dataType: "json"
+		, success: function(data){
+			if( data.check == "true" ){
+				$(".pwTable").hide();
+				$("#keyTable2").show();
+			} else
+			if ( data.check == "nCrtId"){
+				$("#nCrtId").show();
+			} else
+			if ( data.check == "nCrt"){
+				$("#nCrtMember").show();
+				alert("not correct id and email")
+			} else {
+				$("#nCrtMember").show();
+			}
+		}
+	})
+}
+
 //이메일 키 체크
 $("#checkEmail").on("click", function(){
 	
 	var data = {}
 	data["authKey"] = $("#authKey").val();
 	//var authKey = $("#authKey").val();
-	data["email"] = $("#email").val();
+	data["email"] = $("#emailById").val();
 	//var email = $("#email").val();
 	
 	$.ajax({
@@ -177,11 +248,39 @@ $("#checkEmail").on("click", function(){
 		, success: function(data){
 			console.log(data.type);
 			if( data.type == "true" ){
-				$("#newPwTable").show();
+				$("#findIdRst").show();
 				$("#keyTable").hide();
+				$("#fId").html(data.memberId);
 			} else if( data.type == "false"){
-				alert("2");
-				pwSubmit();
+				alert("인증번호가 일치하지 하지 않습니다.");
+			}
+		}
+		, error: function(){
+			
+		}
+	});
+})
+
+//이메일 키 체크
+$("#checkKeyPwChg").on("click", function(){
+	
+	var data = {}
+	data["authKey"] = $("#authKey2").val();
+	data["email"] = $("#emailById").val();
+	data["id"] = $("#id").val();
+	
+	$.ajax({
+		type: "POST"
+		, url: "/login/checkKeyForChgPw"
+		, data: data
+		, dataType: "json"
+		, success: function(data){
+			console.log(data.type);
+			if( data.type == "true" ){
+				$("#keyTable2").hide();
+				$("#newPwTable").show();
+			} else if( data.type == "false"){
+				alert("인증번호가 일치하지 하지 않습니다.");
 			}
 		}
 		, error: function(){
@@ -201,69 +300,9 @@ $("#checkPw").on("click", function(){
 
 //폼 섬밋 날리는 fnc
 function idSubmit(){
-	$("#idForm").submit();
+	$("#changePw").submit();
+	alert("변경되었습니다.")
 }
-function pwSubmit(){
-	$("#pwForm").submit();
-}
-
-
-
-
-
-
-/* 폼 날리는 조건 체크 */
-function formConditionCheck(){
-	if( $("#idDuplCheck").val() == "success" &&
-			$("#passCrt").val() == "success" &&
-			$("#nickDuplCheck").val() == "success" ){
-		//alert("회원가입 success");
-		$("form[name=registerform]").submit();
-	} else {
-		alert("회원가입 안됨 - 조건 실패");
-	}
-
-}
-
-/* 폼 전송 	*/
-$("#nextBtn").on("click", function(){
-	
-	var id = $("#id").val();
-	var pass = $("#pass").val();
-	var passCheck = $("#passcheck").val();
-	var nick = $("#nickName").val();
-	var email = $("#email").val();
-	
-	/* 아이디 중복 체크 */
-	if( $("#idDuplCheck").val() == "false" ){
-		$.ajax({
-			type: "POST"
-			, url: "/login/duplCheck"
-			, data: {param:'id', value:id}
-			, dataType: "text"
-			, success: function(value, data){
-				if( value == "success") {
-					//alert("아이디 성공");
-					$("#idDuplCheck").val("success");
-					$("#duplId").hide();
-				} else {
-					//alert("아이디 중복");
-					$("#idDuplCheck").val("false");
-					$("#duplId").show();
-				}
-			nickDuplCheck();
-			}
-			, error: function(){
-				alert(" ID 중복체크 중 오류발생. 잠시후 다시 시도해 주세요.");
-				$("#idDuplCheck").val("false");
-			}
-		})
-	//아이디 성공인데 버튼 눌린 경우
-	} else {
-		nickDuplCheck();
-	}
-	
-})
 
 </script>
 </body>
