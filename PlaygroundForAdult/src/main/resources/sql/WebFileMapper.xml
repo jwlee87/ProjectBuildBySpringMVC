@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="WebFileMapper">
+
+	<resultMap id="profileImgFile" type="webFile">
+		<result property="fileNo"		column="file_no"/>
+		<result property="no"			column="no"/>
+		<result property="oriName"		column="ori_name"/>
+		<result property="systemName"	column="system_name"/>
+		<result property="filePath"		column="file_path"/>
+		<result property="fileSize"		column="file_size"/>
+		<result property="uniqueID"		column="_UniqueID"/>
+	</resultMap>
+	
+	<insert	id="addPrFile"		parameterType="webFile" >
+		INSERT
+		INTO	WEB_FILE
+		VALUES	( NULL, #{oriName},#{systemName}, #{filePath}, #{fileSize}, #{uniqueID} )
+	</insert>
+	
+	<select id="selectListByUniqueID"	parameterType="int"	resultMap="profileImgFile">
+		SELECT *
+		FROM WEB_FILE
+		WHERE _UniqueID = #{uniqueID}
+	</select>
+
+	<update id="updatePrFile"	parameterType="webFile">
+		UPDATE	WEB_FILE
+		<set>
+			file_path = #{filePath}
+		</set>
+		WHERE _UniqueID = #{uniqueID}
+	</update>
+</mapper>

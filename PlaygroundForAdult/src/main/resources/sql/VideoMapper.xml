@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="VideoMapper">
+
+	<resultMap id="video" type="video">
+		<result property="videoNo"	 	column="_UniqueID"		jdbcType="INTEGER"/>
+		<result property="no"	 		column="NO"				jdbcType="VARCHAR"/>
+		<result property="title"		column="TITLE"			jdbcType="VARCHAR" />
+		<result property="runningTime"	column="RUNNINGTIME"	jdbcType="VARCHAR" />
+		<result property="code"			column="CODE"			jdbcType="VARCHAR" />
+		<result property="type"			column="TYPE"			jdbcType="BIT" />
+		<result property="price"		column="PRICE"			jdbcType="INTEGER" />
+		<result property="point"		column="POINT"			jdbcType="INTEGER" />
+		<result property="coin"			column="COIN"			jdbcType="INTEGER"  />
+		<result property="explain"		column="EXPLAIN"		jdbcType="VARCHAR" />
+		<result property="countryCode"	column="COUNTRY"		jdbcType="SMALLINT" />
+	</resultMap>
+	
+	<select id="getVideo" resultMap="video">
+	SELECT *
+	FROM VIDEO m
+	</select>
+	
+	<select id="getFreeVideoJver" resultMap="video">
+	SELECT * 
+	FROM VIDEO 
+	WHERE COUNTRY = 3
+	</select>
+	
+	<select id="getFreeVideoKver" resultMap="video">
+	SELECT * 
+	FROM VIDEO 
+	WHERE COUNTRY = 1
+	</select>
+
+
+
+
+
+
+</mapper>
