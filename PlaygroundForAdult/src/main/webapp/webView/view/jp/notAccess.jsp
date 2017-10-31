@@ -21,6 +21,6 @@
 
 </head>
 <body>
-	<p>This page is not abailable at Desktop.</p>
+	<p>This page is not available at your system.</p>
 </body>
 </html>

@@ -1,13 +1,7 @@
 #.gitignore
 /.gradle/
-/.settings/
 /bin/
+/.settings/
 /build/
-#.classpath
-#*.project
-#build.gradle
-/libs/
-/RemoteSystemTempFiles/
-/src/main/webapp/resources/
-/src/main/webapp/webView/video/
-/src/main/webapp/node_modules/
+/.classpath
+/.project

@@ -20,11 +20,10 @@
 <script src="/node_modules/bootstrap/js/bootstrap.js"></script>
 
 <style>
-
-/* Samsung Galaxy S7 (landscape) */
+/* 4inch smart phone iPone5(landscape) */
 @media only screen
-and (max-device-width : 640px)
-and (min-device-width : 639px) {
+and (max-device-width : 568px)
+and (min-device-width : 360px) {
 	.container-fluid {width: 640px; height: 360px; background-image: url("/webView/img/640x360/bg_without.png"); background-repeat: no-repeat;}
 	#detailcon {height: 100%; padding:2%; overflow: hidden;}
 	#thumnail {width: 100%; margin: 8% auto;}
@@ -32,10 +31,24 @@ and (min-device-width : 639px) {
 	#title {font-size: 1.2em; font-weight: bold; margin:auto;}
 	#explain {font-size: 0.8em;}
 	#rt {font-size: 0.8em; margin: -15% 0 0 0;}
-	#play {height:100%; background-size: 100%; background-repeat:no-repeat; background-image: url('/webView/img/common/free/click_btn.png');
-		margin: -15% 0 0 0;
-	}
-	#playBtn {font-size: 2em; color: white; font-weight: bold; margin: -6% 0 0 15%;}
+	#exit_btn{}
+	#playBtn {height: 30px; margin: -85px 0 0 2px;}
+}
+
+/* Samsung Galaxy S7 (landscape) */
+@media only screen
+and (max-device-width : 640px)
+and (min-device-width : 639px) {
+	.container-fluid {width: 640px; height: 360px; background-image: url("/webView/img/640x360/bg_without.png"); background-repeat: no-repeat;}
+	#detailcon {height: 100%; padding:2%; overflow: hidden;}
+	#thumnail {width: 100%; margin: 30px auto;}
+	#free{height: 100px;}
+	#cate {margin: 0 0 -10px 0; font-size: 12px; font-weight: bold;}
+	#title {font-size: 20px; font-weight: bold; margin:auto;}
+	#explain {font-size: 15px;}
+	#rt {font-size: 10px; margin: -15% 0 0 0;}
+	#exit_btn{height: 30px;}
+	#playBtn {height: 30px; margin: -85px 0 0 2px;}
 }
 
 /* Samsung Galaxy S8 (landscape) */
@@ -44,15 +57,14 @@ and (max-device-width : 740px)
 and (min-device-width : 641px) {
 	.container-fluid {width: 740px; height: 360px; background-image: url("/webView/img/740x360/bg_without.png"); background-repeat: no-repeat;}
 	#detailcon {height: 100%; padding:2%; overflow: hidden;}
-	#thumnail {width: 100%; margin: 3% auto;}
-	#cate {margin: 0 0 -7% 0; font-size: 1.2em; font-weight: bold;}
-	#title {font-size: 1.2em; font-weight: bold; margin:auto;}
-	#explain {font-size: 0.8em;}
-	#rt {font-size: 0.8em; margin: -15% 0 0 0;}
-	#play {height:100%; background-size: 100%; background-repeat:no-repeat; background-image: url('/webView/img/common/free/click_btn.png');
-		margin: -15% 0 0 0;
-	}
-	#playBtn {font-size: 2em; color: white; font-weight: bold; margin: -6% 0 0 15%;}
+	#thumnail {width: 100%; margin: 10px auto;}
+	#free{height: 100px;}
+	#cate {margin: 0 0 -10px 0; font-size: 13px; font-weight: bold;}
+	#title {font-size: 20px; font-weight: bold; margin:auto;}
+	#explain {font-size: 15px;}
+	#rt {font-size: 12px; margin: -35px 0 0 -15px;}
+	#exit_btn{height: 30px;}
+	#playBtn {height: 30px; margin: -85px 0 0 2px;}
 }
 
 /* Samsung Galaxy Note4 , LG G3 (landscape) */
@@ -61,14 +73,14 @@ and (max-device-width : 853px)
 and (min-device-width : 741px) {
 	.container-fluid {width: 853px; height: 480px; background-image: url("/webView/img/853x480/bg_without.png"); background-repeat: no-repeat;}
 	#detailcon {height: 100%; padding:2%; overflow: hidden;}
-	#thumnail {width: 100%; margin: 8% auto;}
-	#cate {margin: 0 0 -5% 0; font-size: 1.2em; font-weight: bold;}
-	#title {font-size: 1.4em; font-weight: bold; margin:auto;}
-	#explain {font-size: 1.2em;}
-	#rt {font-size: 0.8em; margin: -15% 0 0 0;}
-	#play {height:100%; background-size: 100%; background-repeat:no-repeat; background-image: url('/webView/img/common/free/click_btn.png');
-		margin: -15% 0 0 0;}
-	#playBtn {font-size: 2.4em; color: white; font-weight: bold; margin: -3% 0 0 20%;}
+	#thumnail {width: 100%; margin: 30px auto;}
+	#free{height: 120px;}
+	#cate {margin: 0 0 -10px 0; font-size: 15px; font-weight: bold;}
+	#title {font-size: 22px; font-weight: bold; margin:auto;}
+	#explain {font-size: 15px;}
+	#rt {font-size: 15px; margin: -55px 0 0 -30px;}
+	#exit_btn{height: 30px; margin: 0 0 0 10px;}
+	#playBtn {height: 40px; margin: -85px 0 0 -15px;}
 }
 
 /* Samsung Galaxy Note4 , LG G3 (landscape) */
@@ -77,14 +89,14 @@ and (max-device-width : 960px)
 and (min-device-width : 854px) {
 	.container-fluid {width: 960px; height: 540px; background-image: url("/webView/img/960x540/bg_without.png"); background-repeat: no-repeat;}
 	#detailcon {height: 100%; padding:2%; overflow: hidden;}
-	#thumnail {width: 100%; margin: 8% auto;}
-	#cate {margin: 0 0 -5% 0; font-size: 1.2em; font-weight: bold;}
-	#title {font-size: 1.4em; font-weight: bold; margin:auto;}
-	#explain {font-size: 1.2em;}
-	#rt {font-size: 0.8em; margin: -15% 0 0 0;}
-	#play {height:100%; background-size: 100%; background-repeat:no-repeat; background-image: url('/webView/img/common/free/click_btn.png');
-		margin: -15% 0 0 0;}
-	#playBtn {font-size: 2.5em; color: white; font-weight: bold; margin: -2% 0 0 23%;}
+	#thumnail {width: 100%; margin: 40px auto;}
+	#free{height: 140px;}
+	#cate {margin: 0 0 -10px 0; font-size: 16px; font-weight: bold;}
+	#title {font-size: 22px; font-weight: bold; margin:auto;}
+	#explain {font-size: 16px;}
+	#rt {font-size: 15px; margin: -55px 0 0 -20px;}
+	#exit_btn{height: 30px; margin: 0 0 0 30px;}
+	#playBtn {height: 50px; margin: -85px 0 0 -15px;}
 }
 
 /* Tablet Tab10, Xperia Z4 (landscape) */
@@ -94,14 +106,14 @@ and (min-device-width : 961px)
 and (orientation : landscape) {
 	.container-fluid {width: 1280px; height: 800px; background-image: url("/webView/img/1280x800/bg_without.png"); background-repeat: no-repeat;}
 	#detailcon {height: 100%; padding:2%; overflow: hidden;}
-	#thumnail {width: 100%; margin: 15% auto;}
-	#cate {margin: 0 0 -2% 0; font-size: 1.8em; font-weight: bold;}
-	#title {font-size: 2.4em; font-weight: bold; margin:auto;}
-	#explain {font-size: 1.6em;}
-	#rt {font-size: 1.4em; margin: -15% 0 0 0;}
-	#play {height:100%; background-size: 100%; background-repeat:no-repeat; background-image: url('/webView/img/common/free/click_btn.png');
-		margin: -15% 0 0 0;}
-	#playBtn {font-size: 3.5em; color: white; font-weight: bold; margin: -5% 0 0 21%;}
+	#thumnail {width: 100%; margin: 40px auto;}
+	#free{height: 200px;}
+	#cate {margin: 0 0 -10px 0; font-size: 20px; font-weight: bold;}
+	#title {font-size: 28px; font-weight: bold; margin:auto;}
+	#explain {font-size: 20px;}
+	#rt {font-size: 20px; margin: -55px 0 0 -10px;}
+	#exit_btn{height: 50px; margin: 0 0 0 40px;}
+	#playBtn {height: 70px; margin: -85px 0 0 -15px;}
 }
 
 .hr {background-color: white; color: white;}
@@ -131,13 +143,13 @@ a:hover {color: white; text-decoration: none;}
 					<div class="row" style="height: 25%;">
 						<div class="row" style="width: 100%; height: 30%;">
 							<div class="col-2">
-								<img src="/webView/img/common/free/free_icon_detail.png" style="height: 400%;"/>
+								<img id="free" src="/webView/img/common/free/free_icon_detail.png"/>
 							</div>
 							<div class="col-2"></div><div class="col-2"></div>
 							<div class="col-2"></div><div class="col-2"></div>
 							<div class="col-2">
 								<a href="javascript:history.go(-1)">
-								<img src="/webView/img/common/free/exit_btn.png" style="height: 100%;"/></a>
+								<img id="exit_btn" src="/webView/img/common/free/exit_btn.png"/></a>
 							</div>
 						</div>
 						<div class="row" style="width: 100%; height: 70%;">
@@ -172,10 +184,10 @@ a:hover {color: white; text-decoration: none;}
 					</div>
 					<div class="row" style="height: 13%; float: center;">
 						<div class="col-3"></div>
-						<div id="play" class="col-6">
-							<p id="playBtn">
+						<div class="col-6">
 							<a href="/webView/view/jp/freePlayer.jsp?no=${param.no}">
-							PLAY</a></p>
+								<img id="playBtn" src="/webView/img/common/free/play_btn.png"/>
+							</a>
 						</div>
 						<div class="col-3"></div>
 					</div>

@@ -28,9 +28,9 @@ body {
 }
 .absolute {
  position: absolute;
- top: 1%;
+ top: 2%;
  right: 0;
- left: 96%;
+ left: 95%;
  height: 0;
 }
 </style>

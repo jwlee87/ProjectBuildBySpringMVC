@@ -67,6 +67,8 @@ public class webViewController {
 		if(device == null) {
 			System.out.println("divice is null");
 		}
+		System.out.println("DEVICE GET DEVICEPLATFORM = "+device.getDevicePlatform().name());
+		
 		String deviceType="unknown";
 		if(device.isNormal()) {
 			deviceType = "normal";
@@ -99,12 +101,44 @@ public class webViewController {
 				model.addAttribute("list", list);
 				return "/webView/view/jp/videoList.jsp";
 			} else {
-				return "";
+				return "/webView/view/jp/notAccess.jsp";
 			}
 		} else {
 			System.out.println("This page is not serviced at Desktop");
 			return "/webView/view/jp/notAccess.jsp";
 		}
 		
+		
+		//findAccount
+		
+	}
+	
+	// terms of service
+	@RequestMapping(value="/tos", method=RequestMethod.GET)
+	public String tos(HttpSession session, HttpServletRequest request
+			, @ModelAttribute Member member, @RequestParam String id
+			, @ModelAttribute Video video, Model model) throws Exception {
+		
+		member = memberService.getMemberByID(id);
+		if(member == null) {
+			return "/webView/view/jp/notAccess.jsp";
+		}
+		//en
+		if(member.getCountryCode()==0) {
+			return "/webView/view/kr/tos.jsp";
+		}
+		//kr
+		else if(member.getCountryCode()==1) {
+			return "/webView/view/kr/tos.jsp";
+		}
+		//ch
+		else if(member.getCountryCode()==2) {
+			return "/webView/view/kr/tos.jsp";
+		}
+		//jp
+		else if(member.getCountryCode()==3) {
+			return "/webView/view/jp/tos.jsp";
+		}
+		return "/webView/view/jp/notAccess.jsp";
 	}
 }

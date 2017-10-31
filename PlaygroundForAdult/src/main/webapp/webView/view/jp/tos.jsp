@@ -80,14 +80,14 @@ and (orientation : landscape) {
 			<div class="col-6" style="margin: 0 auto;">
 				<div class="row">
 					<div class="col-4"></div>
-					<img class="col-4" id="tosBtn" src="/webView/img/common/tos/tos_btn.png" style="padding: 0; margin-left: 13%;"/>
+					<img class="col-4" id="tosBtn" src="/webView/img/common/tos/jp/tos_btn.png" style="padding: 0; margin-left: 13%;"/>
 					<div class="col-4"></div>
 				</div>
 			</div>
 			<div class="col-6" style="margin: 0 auto;">
 				<div class="row">
 					<div class="col-4"></div>
-					<img class="col-4" id="privacyBtn" src="/webView/img/common/tos/privacy_btn.png" style="padding: 0; margin-left: -13%;"/>
+					<img class="col-4" id="privacyBtn" src="/webView/img/common/tos/jp/privacy_btn.png" style="padding: 0; margin-left: -13%;"/>
 					<div class="col-4"></div>
 				</div>
 			</div>
@@ -473,15 +473,15 @@ and (orientation : landscape) {
 $("#tosBtn").on("click", function(){
 	$("#tos").show();
 	$("#privacy").hide();
-	$("#tosBtn").attr("src", "/webView/img/common/tos/tos_btn_on.png");
-	$("#privacyBtn").attr("src", "/webView/img/common/tos/privacy_btn.png");
+	$("#tosBtn").attr("src", "/webView/img/common/tos/jp/tos_btn_on.png");
+	$("#privacyBtn").attr("src", "/webView/img/common/tos/jp/privacy_btn.png");
 })
 
 $("#privacyBtn").on("click", function(){
 	$("#privacy").show();
 	$("#tos").hide();
-	$("#tosBtn").attr("src", "/webView/img/common/tos/tos_btn.png");
-	$("#privacyBtn").attr("src", "/webView/img/common/tos/privacy_btn_on.png");
+	$("#tosBtn").attr("src", "/webView/img/common/tos/jp/tos_btn.png");
+	$("#privacyBtn").attr("src", "/webView/img/common/tos/jp/privacy_btn_on.png");
 })
 
 </script>
