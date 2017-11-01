@@ -1,6 +1,8 @@
 package kr.co.playground.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.playground.domain.Member;
 import kr.co.playground.domain.Video;
@@ -47,8 +50,9 @@ public class webViewController {
 	public webViewController() {
 		System.out.println(this.getClass());
 	}
-	
-	//videoList
+	//////////////////
+	//  videoList  //
+	////////////////
 	@RequestMapping(value="/videoList", method=RequestMethod.GET)
 	public String videoList(HttpSession session, HttpServletRequest request
 			, @ModelAttribute Member member, @RequestParam String id
@@ -82,7 +86,7 @@ public class webViewController {
 		if(deviceType.equals("mobile")||deviceType.equals("tablet")||deviceType.equals("normal")) {
 			//en
 			if (countryCode.trim().equals("0")) {
-				List<Video> list = videoService.getVideo();
+				List<Video> list = videoService.getFreeVideoKver();
 				model.addAttribute("list", list);
 				return "/webView/view/en/videoList.jsp";
 			//kr
@@ -92,7 +96,7 @@ public class webViewController {
 				return "/webView/view/kr/videoList.jsp";
 			//ch
 			} else if (countryCode.trim().equals("2")){
-				List<Video> list = videoService.getVideo();
+				List<Video> list = videoService.getFreeVideoKver();
 				model.addAttribute("list", list);
 				return "/webView/view/ch/videoList.jsp";
 			//jp
@@ -100,6 +104,7 @@ public class webViewController {
 				List<Video> list = videoService.getFreeVideoJver();
 				model.addAttribute("list", list);
 				return "/webView/view/jp/videoList.jsp";
+			//error
 			} else {
 				return "/webView/view/jp/notAccess.jsp";
 			}
@@ -107,13 +112,11 @@ public class webViewController {
 			System.out.println("This page is not serviced at Desktop");
 			return "/webView/view/jp/notAccess.jsp";
 		}
-		
-		
-		//findAccount
-		
 	}
 	
-	// terms of service
+	////////////////////////
+	//  terms of service  //
+	////////////////////////
 	@RequestMapping(value="/tos", method=RequestMethod.GET)
 	public String tos(HttpSession session, HttpServletRequest request
 			, @ModelAttribute Member member, @RequestParam String id
@@ -140,5 +143,67 @@ public class webViewController {
 			return "/webView/view/jp/tos.jsp";
 		}
 		return "/webView/view/jp/notAccess.jsp";
+	}
+	
+	/////////////
+	//  find  //
+	///////////
+	@RequestMapping(value="/find", method=RequestMethod.GET)
+	public String find(HttpSession session, HttpServletRequest request
+			, @ModelAttribute Member member, @RequestParam String id
+			, @ModelAttribute Video video, Model model) throws Exception {
+		member = memberService.getMemberByID(id);
+		session.setAttribute("member", member);
+		if(member.getCountryCode()==0) {
+			System.out.println("en version");
+			return "/webView/view/en/findAccount.jsp";
+		}
+		//kr
+		else if(member.getCountryCode()==1) {
+			System.out.println("kr version");
+			return "/webView/view/kr/findAccount.jsp";
+		}
+		//ch
+		else if(member.getCountryCode()==2) {
+			System.out.println("ch version");
+			return "/webView/view/ch/findAccount.jsp";
+		}
+		//jp
+		else if(member.getCountryCode()==3) {
+			System.out.println("jp version");
+			return "/webView/view/jp/findAccount.jsp";
+		}
+		return "/webView/view/jp/notAccess.jsp";
+	}
+	
+	
+	//////////////
+	//	ajax	//
+	//////////////
+	@RequestMapping(value="/findId", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> findAcnt(HttpSession session,
+			@RequestParam Map<String, Object> paramMap) throws Exception {
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>(); 
+		
+		String loginId = (String)paramMap.get("loginId");
+		String email = (String)paramMap.get("email");
+		
+		System.out.println("/findId debugging param loginId= "+loginId+" ; email= "+email);
+		
+		Member loginMember = memberService.getMemberByID(loginId);
+		
+		//true
+		if(loginMember.getEmail().equals(email)) {
+			System.out.println("/findId true");
+			resultMap.put("check", "true");
+		//false
+		} else {
+			System.out.println("/findId false");
+			resultMap.put("check", "false");
+		}
+		
+		return resultMap;
 	}
 }

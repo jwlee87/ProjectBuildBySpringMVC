@@ -26,7 +26,7 @@
 @media only screen
 and (max-device-width : 569px)
 and (min-device-width : 360px) {
-	.container-fluid {width: 568px; height: 320px; background-image: url("/webView/img/640x360/bg.png"); background-repeat: no-repeat;}
+	.container-fluid {width: 568px; height: 320px; background-image: url("/webView/img/568x320/bg.png"); background-repeat: no-repeat;}
 	#homeIcon {height: 35px; margin: 18% 0 0 30%;}
 	#shopIcon {height: 35px; margin: 15% 0 0 80%;}
 	#myIcon {height: 35px; margin: 15% 0 0 30%;}
@@ -42,7 +42,7 @@ and (min-device-width : 360px) {
 
 /* Samsung Galaxy S7 (landscape) */
 @media only screen
-and (max-device-width : 667px)
+and (max-device-width : 640px)
 and (min-device-width : 570px) {
 	.container-fluid {width: 640px; height: 360px; background-image: url("/webView/img/640x360/bg.png"); background-repeat: no-repeat;}
 	#homeIcon {height: 35px; margin: 18% 0 0 30%;}
@@ -61,7 +61,7 @@ and (min-device-width : 570px) {
 /* Samsung Galaxy S8 (landscape) */
 @media only screen
 and (max-device-width : 740px)
-and (min-device-width : 668px) {
+and (min-device-width : 641px) {
 	.container-fluid {width: 740px; height: 360px; background-image: url("/webView/img/740x360/bg.png"); background-repeat: no-repeat; margin-left: -3px;}
 	#homeIcon {height: 35px; margin: 13% 0 0 30%;}
 	#shopIcon {height: 35px; margin: 10% 0 0 80%;}
@@ -152,7 +152,7 @@ a:hover {text-decoration: none;}
 					<div class="col-6"></div>
 				</div>
 			</div>
-			<img id="logo" class="col-4" src="/webView/img/common/logo_icon.png" style="padding: 0;"/>
+			<div class="col-4" style="padding: 0;"></div>
 			<div class="col-4" style="padding: 0;">
 				<div class="row" style="height: 100%;">
 					<div class="col-6"><img id="shopIcon" src="/webView/img/common/videoList/shop_icon_off.png"/></div>

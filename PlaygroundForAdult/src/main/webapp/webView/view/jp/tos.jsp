@@ -7,7 +7,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
 
-<title>이용약관</title>
+<title>terms of service</title>
 
 <link rel="stylesheet" href="/node_modules/bootstrap/css/bootstrap.min.css"/>
 
@@ -17,10 +17,19 @@
 
 <style>
 
+/* 4inch smartphone (landscape) */
+@media only screen
+and (max-device-width : 568px)
+and (min-device-width : 400px) {
+	.container-fluid {padding: 2%; width: 568px; height: 320px; background-image: url("/webView/img/568x320/bg.png"); background-repeat: no-repeat;}
+	#tosBtn {margin: auto;}
+	#privacyBtn {margin: auto;}
+}
+
 /* Samsung Galaxy S7 (landscape) */
 @media only screen
 and (max-device-width : 640px)
-and (min-device-width : 639px) {
+and (min-device-width : 569px) {
 	.container-fluid {width: 640px; height: 360px; background-image: url("/webView/img/640x360/bg.png"); background-repeat: no-repeat;}
 	#tosBtn {margin: 5% auto;}
 	#privacyBtn {margin: 5% auto;}
@@ -53,11 +62,19 @@ and (min-device-width : 854px) {
 	#privacyBtn {margin: 5% auto;}
 }
 
+/* Tablet iPad (landscape) */
+@media only screen
+and (max-device-width : 1024px)
+and (min-device-width : 961px) {
+	.container-fluid {width: 1024px; height: 768px; background-image: url("/webView/img/1024x768/bg.png"); background-repeat: no-repeat;}
+	#tosBtn {margin: 5% auto;}
+	#privacyBtn {margin: 5% auto;}
+}
+
 /* Tablet Tab10, Xperia Z4 (landscape) */
 @media only screen
-and (max-device-width : 1280px)
-and (min-device-width : 961px)
-and (orientation : landscape) {
+and (max-device-width : 2560px)
+and (min-device-width : 1025px) {
 	.container-fluid {width: 1280px; height: 800px; background-image: url("/webView/img/1280x800/bg.png"); background-repeat: no-repeat;}
 	#tosBtn {margin: 5% auto;}
 	#privacyBtn {margin: 5% auto;}
@@ -76,18 +93,18 @@ and (orientation : landscape) {
 
 
 	<div class="contentcon" style="height: 100%;">
-		<div class="row" style="height: 15%;">
+		<div class="row" style="height: 17%;">
 			<div class="col-6" style="margin: 0 auto;">
 				<div class="row">
 					<div class="col-4"></div>
-					<img class="col-4" id="tosBtn" src="/webView/img/common/tos/jp/tos_btn.png" style="padding: 0; margin-left: 13%;"/>
+					<img class="col-4" id="tosBtn" src="/webView/img/common/tos/jp/tos_btn.png" style="padding: 0; margin-left: 10%;"/>
 					<div class="col-4"></div>
 				</div>
 			</div>
 			<div class="col-6" style="margin: 0 auto;">
 				<div class="row">
 					<div class="col-4"></div>
-					<img class="col-4" id="privacyBtn" src="/webView/img/common/tos/jp/privacy_btn.png" style="padding: 0; margin-left: -13%;"/>
+					<img class="col-4" id="privacyBtn" src="/webView/img/common/tos/jp/privacy_btn.png" style="padding: 0; margin-left: -10%;"/>
 					<div class="col-4"></div>
 				</div>
 			</div>

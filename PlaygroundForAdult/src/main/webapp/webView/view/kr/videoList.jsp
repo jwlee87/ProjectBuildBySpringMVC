@@ -5,7 +5,9 @@
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <meta http-equiv="Expires" content="Mon, 06 Jan 1990 00:00:01 GMT">
 <meta http-equiv="Expires" content="-1">
 <meta http-equiv="Pragma" content="no-cache">
@@ -20,55 +22,56 @@
 <script src="/node_modules/bootstrap/js/bootstrap.js"></script>
 
 <style>
+/* 4inch smart phone iPone5(landscape) */
+@media only screen
+and (max-device-width : 569px)
+and (min-device-width : 360px) {
+	.container-fluid {width: 568px; height: 320px; background-image: url("/webView/img/568x320/bg.png"); background-repeat: no-repeat;}
+	#homeIcon {height: 30px; margin: 18% 0 0 30%;}
+	#shopIcon {height: 30px; margin: 15% 0 0 80%;}
+	#myIcon {height: 30px; margin: 15% 0 0 30%;}
+	#topcon {height: 15%;}
+	#homecon, #shopcon, #mycon {height: 80%; margin-top: 1%;}
+	#freeicon {width: 110px; margin: 10% auto;}
+	.category {font-size: 15px; margin: 2% 0 0 0;}
+	.title {font-size: 18px; font-weight: bold; margin: 0 auto;}
+	.runningtime {font-size: 10px;}
+	.thumnail {width: 88%; margin: 5%;}
+}
+
 
 /* Samsung Galaxy S7 (landscape) */
 @media only screen
 and (max-device-width : 640px)
-and (min-device-width : 639px) {
+and (min-device-width : 570px) {
 	.container-fluid {width: 640px; height: 360px; background-image: url("/webView/img/640x360/bg.png"); background-repeat: no-repeat;}
-	#homeIcon {height: 65%; margin: 18% 0 0 30%;}
-	#shopIcon {height: 67%; margin: 15% 0 0 80%;}
-	#myIcon {height: 65%; margin: 15% 0 0 30%;}
+	#homeIcon {height: 35px; margin: 18% 0 0 30%;}
+	#shopIcon {height: 35px; margin: 15% 0 0 80%;}
+	#myIcon {height: 35px; margin: 15% 0 0 30%;}
 	#topcon {height: 15%;}
 	#homecon, #shopcon, #mycon {height: 80%; margin-top: 1%;} 
-	#freeicon {width: 100%; margin: 10% auto;}
-	.category {font-size: 1em; margin: 2% 0 0 0;}
-	.title {font-size: 1.4em; font-weight: bold; margin: 0 auto;}
-	.runningtime {font-size: 0.8em;}
+	#freeicon {width: 125px; margin: 10% auto;}
+	.category {font-size: 12px; margin: 2% 0 0 0;}
+	.title {font-size: 20px; font-weight: bold; margin: 0 auto;}
+	.runningtime {font-size: 12px;}
 	.thumnail {width: 88%; margin: 5%;}
 }
 
-/* 화웨이 (landscape) */
-@media only screen
-and (max-device-width : 732px)
-and (min-device-width : 641px) {
-	.container-fluid {width: 640px; height: 360px; background-image: url("/webView/img/640x360/bg.png"); background-repeat: no-repeat;}
-	#homeIcon {height: 65%; margin: 18% 0 0 30%;}
-	#shopIcon {height: 67%; margin: 15% 0 0 80%;}
-	#myIcon {height: 65%; margin: 15% 0 0 30%;}
-	#topcon {height: 15%;}
-	#homecon, #shopcon, #mycon {height: 80%; margin-top: 1%;} 
-	#freeicon {width: 100%; margin: 10% auto;}
-	.category {font-size: 1em; margin: 2% 0 0 0;}
-	.title {font-size: 1.4em; font-weight: bold; margin: 0 auto;}
-	.runningtime {font-size: 0.8em;}
-	.thumnail {width: 88%; margin: 5%;}
-}
 
 /* Samsung Galaxy S8 (landscape) */
 @media only screen
 and (max-device-width : 740px)
-and (min-device-width : 733px) {
-	.container-fluid {width: 740px; height: 360px; background-image: url("/webView/img/740x360/bg.png"); background-repeat: no-repeat;}
-	#homeIcon {height: 65%; margin: 13% 0 0 30%;}
-	#shopIcon {height: 67%; margin: 10% 0 0 80%;}
-	#myIcon {height: 65%; margin: 10% 0 0 30%;}
+and (min-device-width : 641px) {
+	.container-fluid {width: 740px; height: 360px; background-image: url("/webView/img/740x360/bg.png"); background-repeat: no-repeat; margin-left: -3px;}
+	#homeIcon {height: 35px; margin: 13% 0 0 30%;}
+	#shopIcon {height: 35px; margin: 10% 0 0 80%;}
+	#myIcon {height: 35px; margin: 10% 0 0 30%;}
 	#topcon {height: 15%;}
 	#homecon, #shopcon, #mycon {height: 80%; margin-top: 1%;}
-	#freeicon {width: 100%; margin: 2% auto;}
-	.category {font-size: 1em; margin: 0 0 0 0;}
-	.title {font-size: 1.5em; font-weight: bold; margin: 0 auto;}
-	.runningtime {font-size: 0.8em;}
+	#freeicon {width: 140px; margin: 4% auto;}
+	.category {font-size: 14px; margin: 0 0 0 0;}
+	.title {font-size: 23px; font-weight: bold; margin: 0 auto;}
+	.runningtime {font-size: 1852px;}
 	.thumnail {width: 70%; margin: 5% 0 5% 20%;}
 }
 
@@ -77,15 +80,15 @@ and (min-device-width : 733px) {
 and (max-device-width : 853px)
 and (min-device-width : 741px) {
 	.container-fluid {width: 853px; height: 480px; background-image: url("/webView/img/853x480/bg.png"); background-repeat: no-repeat;}
-	#homeIcon {height: 68%; margin: 12% 0 0 40%;}
-	#shopIcon {height: 70%; margin: 10% 0 0 80%;}
-	#myIcon {height: 70%; margin: 10% 0 0 30%;}
+	#homeIcon {height: 40px; margin: 12% 0 0 40%;}
+	#shopIcon {height: 40px; margin: 10% 0 0 80%;}
+	#myIcon {height: 40px; margin: 10% 0 0 30%;}
 	#topcon {height: 12%;}
 	#homecon, #shopcon, #mycon {height: 80%; margin: 2% 0;}
-	#freeicon {width: 100%; margin: 10% auto;}
-	.category {font-size: 1.3em; margin: 2% 0 0 0;}
-	.title {font-size: 2em; font-weight: bold; margin: 0 auto;}
-	.runningtime {font-size: 1.1em;}
+	#freeicon {width: 170px; margin: 10% auto;}
+	.category {font-size: 16px; margin: 4% 0 0 0;}
+	.title {font-size: 26px; font-weight: bold; margin: 0 auto;}
+	.runningtime {font-size: 14px;}
 	.thumnail {width: 88%; margin: 5%;}
 }
 
@@ -94,33 +97,51 @@ and (min-device-width : 741px) {
 and (max-device-width : 960px)
 and (min-device-width : 854px) {
 	.container-fluid {width: 960px; height: 540px; background-image: url("/webView/img/960x540/bg.png"); background-repeat: no-repeat;}
-	#homeIcon {height: 68%; margin: 12% 0 0 40%;}
-	#shopIcon {height: 70%; margin: 10% 0 0 80%;}
-	#myIcon {height: 70%; margin: 10% 0 0 30%;}
+	#homeIcon {height: 45px; margin: 12% 0 0 40%;}
+	#shopIcon {height: 45px; margin: 10% 0 0 80%;}
+	#myIcon {height: 45px; margin: 10% 0 0 30%;}
 	#topcon {height: 13%;}
 	#homecon, #shopcon, #mycon {height: 82%; margin: 1% 0 0 0;}
-	#freeicon {width: 100%; margin: 11% auto;}
-	.category {font-size: 1.4em; margin: 4% 0 0 0;}
-	.title {font-size: 2em; font-weight: bold; margin: 0 auto;}
-	.runningtime {font-size: 1.2em;}
+	#freeicon {width: 190px; margin: 11% auto;}
+	.category {font-size: 18px; margin: 6% 0 0 0;}
+	.title {font-size: 30px; font-weight: bold; margin: 0 auto;}
+	.runningtime {font-size: 16px;}
 	.thumnail {width: 90%; margin: 6%;}
+}
+
+/* Tablet iPad (landscape) */
+@media only screen
+and (max-device-width : 1024px)
+and (min-device-width : 961px)
+and (orientation : landscape) {
+	.container-fluid {width: 1024px; height: 768px; background-image: url("/webView/img/1024x768/bg.png"); background-repeat: no-repeat;}
+	#homeIcon {height: 45px; margin: 12% 0 0 40%;}
+	#shopIcon {height: 45px; margin: 10% 0 0 80%;}
+	#myIcon {height: 45px; margin: 10% 0 0 30%;}
+	#topcon {height: 11%;}
+	#homecon, #shopcon, #mycon {height: 82%; margin-top: 2%;}
+	#freeicon {width: 250px; margin: 18% auto;}
+	.category {font-size: 24px; margin: 10% 0 0 0;}
+	.title {font-size: 32px; font-weight: bold; margin: 0 auto;}
+	.runningtime {font-size: 20px;}
+	.thumnail {width: 85%; margin: 10% 0 0 10%;}
 }
 
 /* Tablet Tab10, Xperia Z4 (landscape) */
 @media only screen
 and (max-device-width : 2440px)
-and (min-device-width : 961px)
+and (min-device-width : 1025px)
 and (orientation : landscape) {
 	.container-fluid {width: 1280px; height: 800px; background-image: url("/webView/img/1280x800/bg.png"); background-repeat: no-repeat;}
-	#homeIcon {height: 68%; margin: 12% 0 0 40%;}
-	#shopIcon {height: 70%; margin: 10% 0 0 80%;}
-	#myIcon {height: 70%; margin: 10% 0 0 30%;}
+	#homeIcon {height: 55px; margin: 12% 0 0 40%;}
+	#shopIcon {height: 55px; margin: 10% 0 0 80%;}
+	#myIcon {height: 55px; margin: 10% 0 0 30%;}
 	#topcon {height: 11%;}
-	#homecon, #shopcon, #mycon {height: 85%; margin-top: 2%;}
-	#freeicon {width: 100%; margin: 18% auto;}
-	.category {font-size: 1.8em; margin: 10% 0 0 0;}
-	.title {font-size: 2.8em; font-weight: bold; margin: 0 auto;}
-	.runningtime {font-size: 1.6em;}
+	#homecon, #shopcon, #mycon {height: 82%; margin-top: 2%;}
+	#freeicon {width: 270px; margin: 18% auto;}
+	.category {font-size: 24px; margin: 10% 0 0 0;}
+	.title {font-size: 40px; font-weight: bold; margin: 0 auto;}
+	.runningtime {font-size: 20px;}
 	.thumnail {width: 85%; margin: 10% 0 0 10%;}
 }
 
@@ -149,7 +170,7 @@ a:hover {text-decoration: none;}
 					<div class="col-6"></div>
 				</div>
 			</div>
-			<img id="logo" class="col-4" src="/webView/img/common/logo_icon.png" style="padding: 0;"/>
+			<div class="col-4" style="padding: 0;"></div>
 			<div class="col-4" style="padding: 0;">
 				<div class="row" style="height: 100%;">
 					<div class="col-6"><img id="shopIcon" src="/webView/img/common/videoList/shop_icon_off.png"/></div>
