@@ -96,6 +96,21 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.getMemberByToken(token);
 	}
 	
+	//webView
+	public void updateAuthKey(Member member) throws Exception {
+		memberDao.updateAuthKey(member);
+	}
+	
+	//webView
+	public Member getMemberByAuthKey(String authKey) throws Exception {
+		return memberDao.getMemberByAuthKey(authKey);
+	}
+	
+	//webView
+	public void deleteAuthKey(int uniqueID) throws Exception {
+		memberDao.deleteAuthKey(uniqueID);
+	}
+	
 	
 	
 	
@@ -145,6 +160,11 @@ public class MemberServiceImpl implements MemberService{
 		}
 		return result;
 	}
+
+	
+	
+	
+	
 	
 	
 	

@@ -94,6 +94,25 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.selectOne("MemberMapper.getMemberByToken", token);
 	}
 	
+	//webView updateAuthKey
+	public void updateAuthKey(Member member) throws Exception {
+		sqlSession.update("MemberMapper.updateAuthKey", member);
+	}
+	
+	//webView getMemberByAuthKey
+	public Member getMemberByAuthKey(String authKey) throws Exception {
+		return sqlSession.selectOne("MemberMapper.getMemberByAuthKey", authKey);
+	}
+	
+	//webView deleteAuthKey
+	public void deleteAuthKey(int uniqueID) throws Exception {
+		sqlSession.update("MemberMapper.deleteAuthKey", uniqueID);
+	}
+	
+	
+	
+	
+	
 	
 	
 	
@@ -127,6 +146,9 @@ public class MemberDaoImpl implements MemberDao{
 		sqlSession.update("MemberMapper.faceupdateMember", member);
 		
 	}
+	
+	
+	
 	
 	
 	

@@ -39,10 +39,16 @@ public interface MemberDao {
 	public void updateFindConditionComplete(int uniqueID) throws Exception;
 	
 	//webView getMemberByToken
-	public Member getMemberByToken(String token);
+	public Member getMemberByToken(String token) throws Exception;
 	
+	//webView updateAuthKey
+	public void updateAuthKey(Member member) throws Exception;
 	
+	//webView getMemberByAuthKey
+	public Member getMemberByAuthKey(String authKey) throws Exception;
 	
+	//webView deleteAuthKey
+	public void deleteAuthKey(int uniqueID) throws Exception ;
 	
 	
 	
@@ -63,6 +69,11 @@ public interface MemberDao {
 		
 	//(totalCount)  return
 	public int getTotalCount(Search search) throws Exception ;
+
+	
+
+	
+	
 	
 	
 	

@@ -128,9 +128,9 @@ and (min-device-width : 1025px) {
 		<!-- ---------------------- -->
 		<!-- ajax check email false -->
 		<!-- ---------------------- -->
-		<div id="notExsist" class="form-group" style="padding: 0; display: none;">
+		<div class="form-group notExsist" style="padding: 0; display: none;">
 			<div class="col-12" style="text-align: center;">
-				<p id="falsePara" style="color: white; font-weight: bold;">일치하는 메일주소가 없습니다.</p>
+				<p class="falsePara" style="color: white; font-weight: bold;">일치하는 메일주소가 없습니다.</p>
 			</div>
 		</div>
 		<div class="form-group">
@@ -156,31 +156,37 @@ and (min-device-width : 1025px) {
 	<!-- ------------------- -->
 	<!-- id email input form -->
 	<!-- ------------------- -->
-	<div id="idAndEmail" class="row" style="padding: 0; margin:-25px 0 0 0; height: 50%; width: 100%; display: none;">
+	<div id="idAndEmail" class="row" style="padding: 0; margin:-70px 0 0 0; height: 50%; width: 100%; display: none;">
 		<div class="col-2"></div>
 		<div class="col-8">
 		
-				<div class="form-group">
-					<div class="col-12">
-						<input id="inputId" name="id" type="text" class="form-control" placeholder="아이디를 입력하세요." required="required">						
-					</div>
+			<div class="form-group notExsist" style="padding: 0; display: none;">
+				<div class="col-12" style="text-align: center;">
+					<p class="falsePara" style="color: white; font-weight: bold;">일치하는 메일주소가 없습니다.</p>
 				</div>
-				<div class="form-group">
-					<div class="col-12">
-						<input id="inputEmail" name="email" type="email" class="form-control" placeholder="이메일주소를 입력하세요." required="required">
-					</div>
+			</div>
+			<div class="form-group">
+				<div class="col-12">
+					<input id="inputId" name="id" type="text" class="form-control" placeholder="아이디를 입력하세요." required="required">						
 				</div>
-				<div class="form-group">
-					<div class="col-12" style="text-align: center;">
-						<button id="chgPwBtn" type="button" class="btn btn-warning" style="color: white; font-weight: bold;">인증번호 요청</button>
-					</div>
+			</div>
+			<div class="form-group">
+				<div class="col-12">
+					<input id="inputEmail" name="email" type="email" class="form-control" placeholder="이메일주소를 입력하세요." required="required">
 				</div>
-				<div class="form-group">
-					<div class="col-12" style="text-align: center;">
-						<a href="javascript:location.href='/web/find?cc=${cc}'"
-							style="color: white;">처음으로</a>
-					</div>
+			</div>
+			<div class="form-group">
+				<div class="col-12" style="text-align: center;">
+					<button id="chgPwBtn" type="button" class="btn btn-warning" style="color: white; font-weight: bold;">인증번호 요청</button>
 				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-12" style="text-align: center;">
+					<a href="javascript:location.href='/web/find?cc=${cc}'"
+						style="color: white;">처음으로</a>
+				</div>
+			</div>
+			
 		</div>
 		<div class="col-2"></div>
 	</div>
@@ -216,6 +222,7 @@ and (min-device-width : 1025px) {
 	</div>
 	</div>
 	
+	<input type="hidden" name="type"/>
 	
 </div>
 
@@ -259,6 +266,7 @@ $("#chgPwBtn").on("click", function(){
 //////////////////////////
 $("#resend").on("click", function(){
 	$("#inputKey").attr("disabled", false);
+	$("#timeSpan").show();
 	$("#resend").hide();
 	
 	idFindAjaxCommon();
@@ -284,6 +292,7 @@ function timer(){
 }
 function tstop(){
 	clearInterval(t1);
+	$("#timeSpan").html("");
 	$("#timeSpan").hide();
 	$("#resend").show();
 	$("#inputKey").attr("disabled", true);
@@ -305,27 +314,35 @@ function idFindAjaxCommon(){
 		, data: data
 		, dataType: "json"
 		, success: function(data){
-			if(data.check == "true" || data.type=="email"){
+			if(data.check == "true" && data.type=="email"){
+				console.log("data.type=='email'");
+				$("input[name=type]").val("email");
 				$("#email").hide();
 				$("#true").show();
 				timer_start();
-			}else if(data.check=="true" || data.type=="both"){
-				$("#email").hide();
+			}else if(data.check=="true" && data.type=="both"){
+				console.log("data.type=='both'");
+				$("input[name=type]").val("both");
+				$("#idAndEmail").hide();
 				$("#true").show();
 				timer_start();
 			}else if(data.check=="notExistEmail"){
-				$("#notExsist").show();
-				$("#falsePara").html("일치하는 이메일주소가 없습니다.");
+				$(".notExsist").show();
+				$(".falsePara").html("일치하는 이메일주소가 없습니다.");
 			}else if(data.check=="notExistID"){
-				$("#notExsist").show();
-				$("#falsePara").html("일치하는 아이디가 없습니다.");
+				$(".notExsist").show();
+				$(".falsePara").html("일치하는 아이디가 없습니다.");
 			}else if(data.check=="notCrt"){
-				$("#notExsist").show();
-				$("#falsePara").html("아이디와 이메일주소의 주인이 일치하지 않습니다.");
+				$(".notExsist").show();
+				$(".falsePara").html("아이디와 이메일주소의 주인이 일치하지 않습니다.");
 			}
 		}
 	})
 }
+
+////////////////////
+//   ajax 인증 처리   //
+///////////////////
 
 
 </script>

@@ -32,6 +32,8 @@ public class Member {
 	private String bankName;
 
 
+	/*인증키*/
+	private int authKey;
 	/*계정찾기 인증 체크*/
 	private boolean findCondition;
 	/*계정찾기 토큰*/
@@ -209,6 +211,14 @@ public class Member {
 		this.bankName = bankName;
 	}
 
+	public int getAuthKey() {
+		return authKey;
+	}
+
+	public void setAuthKey(int authKey) {
+		this.authKey = authKey;
+	}
+
 	public boolean isFindCondition() {
 		return findCondition;
 	}
@@ -280,11 +290,10 @@ public class Member {
 				+ email + ", createDate=" + createDate + ", lastDate=" + lastDate + ", countryCode=" + countryCode
 				+ ", memberSize=" + memberSize + ", nowMoney=" + nowMoney + ", cashMoney=" + cashMoney + ", pointMoney="
 				+ pointMoney + ", safeMoney=" + safeMoney + ", waitMoney=" + waitMoney + ", point=" + point
-				+ ", bankName=" + bankName + ", findCondition=" + findCondition + ", token=" + token + ", fileNo="
-				+ fileNo + ", boardNo=" + boardNo + ", oriNaem=" + oriNaem + ", systemName=" + systemName
-				+ ", filePath=" + filePath + ", fileSize=" + fileSize + "]";
+				+ ", bankName=" + bankName + ", authKey=" + authKey + ", findCondition=" + findCondition + ", token="
+				+ token + ", fileNo=" + fileNo + ", boardNo=" + boardNo + ", oriNaem=" + oriNaem + ", systemName="
+				+ systemName + ", filePath=" + filePath + ", fileSize=" + fileSize + "]";
 	}
-	
 	
 
 }

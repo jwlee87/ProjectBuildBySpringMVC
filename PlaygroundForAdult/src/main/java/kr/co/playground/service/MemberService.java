@@ -39,6 +39,15 @@ public interface MemberService {
 	//webView token으로 계정찾기
 	public Member getMemberByToken(String token) throws Exception;
 	
+	//webView update authKey
+	public void updateAuthKey(Member member) throws Exception;
+
+	//webView getMemberByAuthKey
+	public Member getMemberByAuthKey(String authKey) throws Exception;
+
+	//webView deleteAuthKey
+	public void deleteAuthKey(int uniqueID) throws Exception;
+	
 	
 	
 	
