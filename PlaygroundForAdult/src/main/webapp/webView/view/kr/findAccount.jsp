@@ -22,7 +22,7 @@
 and (max-device-width : 568px)
 and (min-device-width : 400px) {
 	.container-fluid {padding: 2%; width: 568px; height: 320px; background-image: url("/webView/img/568x320/bg_without.png"); background-repeat: no-repeat;}
-	#logo {width: 70%; margin: 20px auto;}
+	#logo {width: 70%; margin: 20px auto 0 auto;}
 	#idBtn {font-size: 20px; font-weight: bold;}
 	#passBtn {font-size: 20px; font-weight: bold;}
 }
@@ -32,7 +32,7 @@ and (min-device-width : 400px) {
 and (max-device-width : 640px)
 and (min-device-width : 569px) {
 	.container-fluid {width: 640px; height: 360px; background-image: url("/webView/img/640x360/bg_without.png"); background-repeat: no-repeat; margin: 0 0 0 -1px;}
-	#logo {width: 320px; margin: 50px auto;}
+	#logo {width: 320px; margin: 20px auto 5px auto;}
 	#idBtn {font-size: 20px; font-weight: bold;}
 	#passBtn {font-size: 20px; font-weight: bold;}
 }
@@ -42,7 +42,7 @@ and (min-device-width : 569px) {
 and (max-device-width : 740px)
 and (min-device-width : 641px) {
 	.container-fluid {width: 740px; height: 360px; background-image: url("/webView/img/740x360/bg_without.png"); background-repeat: no-repeat; margin: 0 0 0 -1px;}
-	#logo {width: 420px; margin: 50px auto;}
+	#logo {width: 420px; margin: 20px auto 5px auto;}
 	#idBtn {font-size: 20px; font-weight: bold;}
 	#passBtn {font-size: 20px; font-weight: bold;}
 }
@@ -52,7 +52,7 @@ and (min-device-width : 641px) {
 and (max-device-width : 853px)
 and (min-device-width : 741px) {
 	.container-fluid {width: 853px; height: 480px; background-image: url("/webView/img/853x480/bg_without.png"); background-repeat: no-repeat;margin: 0 0 0 1px;}
-	#logo {width: 420px; margin: 50px auto;}
+	#logo {width: 420px; margin: 20px auto 0 auto;}
 	#idBtn {font-size: 30px; font-weight: bold;}
 	#passBtn {font-size: 30px; font-weight: bold;}
 }
@@ -62,7 +62,7 @@ and (min-device-width : 741px) {
 and (max-device-width : 960px)
 and (min-device-width : 854px) {
 	.container-fluid {width: 960px; height: 540px; background-image: url("/webView/img/960x540/bg_without.png"); background-repeat: no-repeat; margin: 0 0 0 -1px;}
-	#logo {width: 420px; margin: 50px auto;}
+	#logo {width: 420px; margin: 20px auto 20px auto;}
 	#idBtn {font-size: 30px; font-weight: bold;}
 	#passBtn {font-size: 30px; font-weight: bold;}
 }
@@ -72,7 +72,7 @@ and (min-device-width : 854px) {
 and (max-device-width : 1024px)
 and (min-device-width : 961px) {
 	.container-fluid {width: 1024px; height: 768px; background-image: url("/webView/img/1024x768/bg_without.png"); background-repeat: no-repeat; margin: 0 0 0 -1px;}
-	#logo {width: 420px; margin: 50px auto;}
+	#logo {width: 420px; margin: 20px auto 10px auto;}
 	#idBtn {font-size: 30px; font-weight: bold;}
 	#passBtn {font-size: 30px; font-weight: bold;}
 }
@@ -82,7 +82,7 @@ and (min-device-width : 961px) {
 and (max-device-width : 2560px)
 and (min-device-width : 1025px) {
 	.container-fluid {width: 1280px; height: 800px; background-image: url("/webView/img/1280x800/bg_without.png"); background-repeat: no-repeat; margin: 0 0 0 -1px;}
-	#logo {width: 420px; margin: 50px auto;}
+	#logo {width: 420px; margin: 20px auto 10px auto;}
 	#idBtn {font-size: 40px; font-weight: bold;}
 	#passBtn {font-size: 40px; font-weight: bold;}
 }
@@ -99,12 +99,6 @@ and (min-device-width : 1025px) {
 
 <div class="container-fluid" style="padding: 0;">
 
-	<!-- ------------ -->
-	<!-- parameter id -->
-	<!-- ------------ -->
-	<input id="loginId" type="hidden" value="${member.id}"/>
-	
-	
 	<!-- ---------- -->
 	<!-- logo image -->
 	<!-- ---------- -->
@@ -128,26 +122,33 @@ and (min-device-width : 1025px) {
 	<!-- ---------------- -->
 	<!-- email input form -->
 	<!-- ---------------- -->
-	<div id="email" class="row" style="padding: 0; margin:0; height: 30%; width: 100%; display: none;">
+	<div id="email" class="row" style="padding: 0; margin:0; width: 100%; display: none;">
 		<div class="col-2"></div>
 		<div class="col-8">
-		
-			<div class="form-group">
-				<div class="col-12">
-					<input id="onlyMail" name="email" type="email" class="form-control" id="inputEmail" placeholder="이메일주소를 입력하세요." required="required">						
-				</div>
+		<!-- ---------------------- -->
+		<!-- ajax check email false -->
+		<!-- ---------------------- -->
+		<div id="notExsist" class="form-group" style="padding: 0; display: none;">
+			<div class="col-12" style="text-align: center;">
+				<p id="falsePara" style="color: white; font-weight: bold;">일치하는 메일주소가 없습니다.</p>
 			</div>
-			<div class="form-group">
-				<div class="col-12" style="text-align: center;">
-					<button id="findId" type="buttom" class="btn btn-warning">전송</button>
-				</div>
+		</div>
+		<div class="form-group">
+			<div class="col-12">
+				<input id="onlyMail" name="email" type="email" class="form-control" placeholder="이메일주소를 입력하세요." required="required">						
 			</div>
-			<div class="form-group">
-				<div class="col-12" style="text-align: center;">
-					<a href="javascript:location.href='/web/find?id=${member.id}'"
-						style="color: white;">처음으로</a>
-				</div>
+		</div>
+		<div class="form-group">
+			<div class="col-12" style="text-align: center;">
+				<button id="findId" type="buttom" class="btn btn-warning" style="color: white; font-weight: bold;">인증번호 요청</button>
 			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-12" style="text-align: center;">
+				<a href="javascript:location.href='/web/find?cc=${cc}'"
+					style="color: white;">처음으로</a>
+			</div>
+		</div>
 		</div>
 		<div class="col-2"></div>
 	</div>
@@ -155,28 +156,28 @@ and (min-device-width : 1025px) {
 	<!-- ------------------- -->
 	<!-- id email input form -->
 	<!-- ------------------- -->
-	<div id="idAndEmail" class="row" style="padding: 0; margin:-25px 0 0 0; height: 30%; width: 100%; display: none;">
+	<div id="idAndEmail" class="row" style="padding: 0; margin:-25px 0 0 0; height: 50%; width: 100%; display: none;">
 		<div class="col-2"></div>
 		<div class="col-8">
 		
 				<div class="form-group">
 					<div class="col-12">
-						<input id="id" name="id" type="text" class="form-control" placeholder="아이디를 입력하세요." required="required">						
+						<input id="inputId" name="id" type="text" class="form-control" placeholder="아이디를 입력하세요." required="required">						
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-12">
-						<input id="email" name="email" type="email" class="form-control" placeholder="이메일주소를 입력하세요." required="required">
+						<input id="inputEmail" name="email" type="email" class="form-control" placeholder="이메일주소를 입력하세요." required="required">
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-12" style="text-align: center;">
-						<button type="submit" class="btn btn-warning">인증번호 요청</button>
+						<button id="chgPwBtn" type="button" class="btn btn-warning" style="color: white; font-weight: bold;">인증번호 요청</button>
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-12" style="text-align: center;">
-						<a href="javascript:location.href='/web/find?id=${member.id}'"
+						<a href="javascript:location.href='/web/find?cc=${cc}'"
 							style="color: white;">처음으로</a>
 					</div>
 				</div>
@@ -187,15 +188,23 @@ and (min-device-width : 1025px) {
 	<!-- --------------- -->
 	<!-- ajax check true -->
 	<!-- --------------- -->
-	<div id="true" style="width: 100%; height: 25%;">
-	<div class="row" style="padding: 0; margin:0; height: 25%; width: 100%; display: none;">
+	<div id="true" style="width: 100%; display: none;">
+	<div class="row" style="padding: 0; margin:0; width: 100%;">
 			<div class="col-4"></div>
 			<div class="col-4" style="padding: 0;">
-				<div class="row" style="padding: 0; margin: 0;">
-					<input class="form-control" type="text" placeholder="인증번호를 입력하세요."/>
+				<div class="row" style="padding: 0;">
+					<div class="col-12" style="text-align: center; margin-top: 10px;">
+						<span id="timeSpan" style="color: white;"></span>
+						<button id="resend" type="button" class="btn btn-warning" style="color: white; font-weight: bold; font-size: 10px; display: none; margin-bottom: 10px;">인증번호 다시 요청</button> 
+					</div>
 				</div>
-				<div class="row" style="padding: 0; margin: 0; text-align: center;">
-				
+				<div class="row" style="padding: 0; margin: 0;">
+					<input id="inputKey" class="form-control" type="text" placeholder="인증번호를 입력하세요." required/>
+				</div>
+				<div class="row" style="padding: 0;">
+					<div class="col-12" style="text-align: center; margin-top: 10px;">
+						<button type="button" class="btn btn-warning" style="color: white; font-weight: bold;">전송</button>
+					</div>
 				</div>
 			</div>
 			<div class="col-4"></div>
@@ -207,12 +216,6 @@ and (min-device-width : 1025px) {
 	</div>
 	</div>
 	
-	<!-- ---------------- -->
-	<!-- ajax check email false -->
-	<!-- ---------------- -->
-	<div id="emailFalse" style="width: 100%; height: 25%; display: none; text-align: center;">
-		<p style="color: white; font-weight: bold;">일치하는 이메일이 없습니다.</p>
-	</div>
 	
 </div>
 
@@ -236,14 +239,65 @@ function count(seconds) {
 	console.log(count(time));
 }, 1000); */
 
-////////////
-//find id///
-////////////
+////////////////////////////////
+//   find id by only email   ///
+////////////////////////////////
 $("#findId").on("click", function(){
+	idFindAjaxCommon();
+})
+
+//////////////////////////////////////////////
+//   change password by both id and email   //
+//////////////////////////////////////////////
+$("#chgPwBtn").on("click", function(){
+	idFindAjaxCommon();
+})
+
+
+//////////////////////////
+/////   resend key   /////
+//////////////////////////
+$("#resend").on("click", function(){
+	$("#inputKey").attr("disabled", false);
+	$("#resend").hide();
 	
+	idFindAjaxCommon();
+})
+
+////////////////////
+/////   timer   ////
+////////////////////
+function timer_start(){
+	$("#resend").hide();
+	tcounter = 10;
+	t1 = setInterval(timer, 1000);
+}
+function timer(){
+	tcounter = tcounter-1;
+	temp = Math.floor(tcounter/60);
+	if(Math.floor(tcounter/60)<10){ temp = '0'+temp; }
+	temp = temp + ":";
+	if( (tcounter%60)< 10 ) { temp = temp+'0'; }
+	temp = temp + (tcounter%60);
+	$("#timeSpan").html(temp);
+	if(tcounter<0) tstop();
+}
+function tstop(){
+	clearInterval(t1);
+	$("#timeSpan").hide();
+	$("#resend").show();
+	$("#inputKey").attr("disabled", true);
+}
+
+//////////////////////////////////
+/////// id find ajax common //////
+//////////////////////////////////
+function idFindAjaxCommon(){
 	var data = {};
-	data["loginId"] = $("#loginId").val();
-	data["email"] = $("#onlyMail").val();
+	
+	data["onlyEmail"] = $("#onlyMail").val();
+	data["inputId"] = $("#inputId").val();
+	data["inputEmail"] = $("#inputEmail").val();
 	
 	$.ajax({
 		type: "POST"
@@ -251,16 +305,29 @@ $("#findId").on("click", function(){
 		, data: data
 		, dataType: "json"
 		, success: function(data){
-			if(data.check == "true"){
+			if(data.check == "true" || data.type=="email"){
 				$("#email").hide();
 				$("#true").show();
-			} else if(data.check == "false"){
+				timer_start();
+			}else if(data.check=="true" || data.type=="both"){
 				$("#email").hide();
-				$("#emailFalse").show();
+				$("#true").show();
+				timer_start();
+			}else if(data.check=="notExistEmail"){
+				$("#notExsist").show();
+				$("#falsePara").html("일치하는 이메일주소가 없습니다.");
+			}else if(data.check=="notExistID"){
+				$("#notExsist").show();
+				$("#falsePara").html("일치하는 아이디가 없습니다.");
+			}else if(data.check=="notCrt"){
+				$("#notExsist").show();
+				$("#falsePara").html("아이디와 이메일주소의 주인이 일치하지 않습니다.");
 			}
 		}
 	})
-})
+}
+
+
 </script>
 </body>
 </html>

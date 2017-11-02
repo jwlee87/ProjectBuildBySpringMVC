@@ -77,8 +77,22 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.selectOne("MemberMapper.getMemberByEmail", email);
 	}
 	
-	
-	
+	//webView
+	public void updateToken(Member member) throws Exception {
+		sqlSession.update("MemberMapper.updateToken", member);
+	}
+	//webView
+	public void updateFindConditionNeed(int uniqueID) throws Exception {
+		sqlSession.update("MemberMapper.updateFindConditionNeed", uniqueID);
+	}
+	//webView
+	public void updateFindConditionComplete(int uniqueID) throws Exception {
+		sqlSession.update("MemberMapper.updateFindConditionComplete", uniqueID);
+	}
+	//webView
+	public Member getMemberByToken(String token) {
+		return sqlSession.selectOne("MemberMapper.getMemberByToken", token);
+	}
 	
 	
 	
@@ -113,7 +127,8 @@ public class MemberDaoImpl implements MemberDao{
 		sqlSession.update("MemberMapper.faceupdateMember", member);
 		
 	}
-
+	
+	
 	
 	
 	

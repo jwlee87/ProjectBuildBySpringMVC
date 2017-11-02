@@ -27,7 +27,17 @@ public interface MemberService {
 	
 	public Member getMemberByEmail(String value);
 	
+	//webView 계정찾기 token
+	public void updateToken(Member member) throws Exception;
 	
+	//webView 계정찾기 update email condition Need
+	public void updateFindConditionNeed(int uniqueID) throws Exception;
+	
+	//webView 계정찾기 update email condition Complete
+	public void updateFindConditionComplete(int uniqueID) throws Exception;
+	
+	//webView token으로 계정찾기
+	public Member getMemberByToken(String token) throws Exception;
 	
 	
 	

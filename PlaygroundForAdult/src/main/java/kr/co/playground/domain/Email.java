@@ -6,6 +6,7 @@ public class Email {
 	private String content;
 	private String receiver;
 	private int authKey;
+	private int token;
 	
 	public Email() {
 	}
@@ -42,10 +43,19 @@ public class Email {
 		this.authKey = authKey;
 	}
 
+	public int getToken() {
+		return token;
+	}
+
+	public void setToken(int token) {
+		this.token = token;
+	}
+
 	@Override
 	public String toString() {
 		return "Email [subject=" + subject + ", content=" + content + ", receiver=" + receiver + ", authKey=" + authKey
-				+ "]";
+				+ ", token=" + token + "]";
 	}
+	
 
 }

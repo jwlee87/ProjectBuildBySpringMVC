@@ -29,6 +29,17 @@ public interface MemberDao {
 	
 	public Member getMemberByEmail(String email);
 	
+	//webView 계정찾기 token
+	public void updateToken(Member member) throws Exception;
+	
+	//webView 계정찾기 update email condition Need
+	public void updateFindConditionNeed(int uniqueID) throws Exception;
+	
+	//webView 계정찾기 update email condition Complete
+	public void updateFindConditionComplete(int uniqueID) throws Exception;
+	
+	//webView getMemberByToken
+	public Member getMemberByToken(String token);
 	
 	
 	
@@ -52,7 +63,7 @@ public interface MemberDao {
 		
 	//(totalCount)  return
 	public int getTotalCount(Search search) throws Exception ;
-
+	
 	
 	
 	

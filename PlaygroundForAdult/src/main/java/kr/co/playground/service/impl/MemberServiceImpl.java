@@ -76,21 +76,35 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.getMemberByEmail(email); 
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	//webView
+	public void updateToken(Member member) throws Exception {
+		memberDao.updateToken(member);
+	}
 
+	//webView
+	public void updateFindConditionNeed(int uniqueID) throws Exception {
+		memberDao.updateFindConditionNeed(uniqueID);
+	}
+
+	//webView
+	public void updateFindConditionComplete(int uniqueID) throws Exception {
+		memberDao.updateFindConditionComplete(uniqueID);
+	}
+	
+	//webView
+	public Member getMemberByToken(String token) throws Exception {
+		return memberDao.getMemberByToken(token);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -131,7 +145,8 @@ public class MemberServiceImpl implements MemberService{
 		}
 		return result;
 	}
-
+	
+	
 	
 	
 	

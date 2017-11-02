@@ -30,7 +30,12 @@ public class Member {
 	private long waitMoney;
 	private float point;
 	private String bankName;
-	private String webPoint;
+
+
+	/*계정찾기 인증 체크*/
+	private boolean findCondition;
+	/*계정찾기 토큰*/
+	private String token;
 	
 	private int fileNo;
 	private int boardNo;
@@ -204,12 +209,20 @@ public class Member {
 		this.bankName = bankName;
 	}
 
-	public String getWebPoint() {
-		return webPoint;
+	public boolean isFindCondition() {
+		return findCondition;
 	}
 
-	public void setWebPoint(String webPoint) {
-		this.webPoint = webPoint;
+	public void setFindCondition(boolean findCondition) {
+		this.findCondition = findCondition;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	public int getFileNo() {
@@ -267,9 +280,9 @@ public class Member {
 				+ email + ", createDate=" + createDate + ", lastDate=" + lastDate + ", countryCode=" + countryCode
 				+ ", memberSize=" + memberSize + ", nowMoney=" + nowMoney + ", cashMoney=" + cashMoney + ", pointMoney="
 				+ pointMoney + ", safeMoney=" + safeMoney + ", waitMoney=" + waitMoney + ", point=" + point
-				+ ", bankName=" + bankName + ", webPoint=" + webPoint + ", fileNo=" + fileNo + ", boardNo=" + boardNo
-				+ ", oriNaem=" + oriNaem + ", systemName=" + systemName + ", filePath=" + filePath + ", fileSize="
-				+ fileSize + "]";
+				+ ", bankName=" + bankName + ", findCondition=" + findCondition + ", token=" + token + ", fileNo="
+				+ fileNo + ", boardNo=" + boardNo + ", oriNaem=" + oriNaem + ", systemName=" + systemName
+				+ ", filePath=" + filePath + ", fileSize=" + fileSize + "]";
 	}
 	
 	
