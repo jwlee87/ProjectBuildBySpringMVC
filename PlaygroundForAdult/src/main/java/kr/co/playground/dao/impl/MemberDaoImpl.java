@@ -82,12 +82,12 @@ public class MemberDaoImpl implements MemberDao{
 		sqlSession.update("MemberMapper.updateToken", member);
 	}
 	//webView
-	public void updateFindConditionNeed(int uniqueID) throws Exception {
-		sqlSession.update("MemberMapper.updateFindConditionNeed", uniqueID);
+	public void updateFindConditionTrue(int uniqueID) throws Exception {
+		sqlSession.update("MemberMapper.updateFindConditionTrue", uniqueID);
 	}
 	//webView
-	public void updateFindConditionComplete(int uniqueID) throws Exception {
-		sqlSession.update("MemberMapper.updateFindConditionComplete", uniqueID);
+	public void updateFindConditionFalse(int uniqueID) throws Exception {
+		sqlSession.update("MemberMapper.updateFindConditionFalse", uniqueID);
 	}
 	//webView
 	public Member getMemberByToken(String token) {
@@ -109,24 +109,28 @@ public class MemberDaoImpl implements MemberDao{
 		sqlSession.update("MemberMapper.deleteAuthKey", uniqueID);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public Member getMember4() throws Exception {
-		return sqlSession.selectOne("MemberMapper.getMember");
+	//webView deleteToken
+	public void deleteToken(int uniqueID) throws Exception {
+		sqlSession.update("MemberMapper.deleteToken", uniqueID);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public Member getMember(String email) throws Exception {
 		return sqlSession.selectOne("MemberMapper.getMember3", email);
 	}
@@ -140,12 +144,9 @@ public class MemberDaoImpl implements MemberDao{
 	public int getTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("MemberMapper.getTotalCount", search);
 	}
-
-	@Override
-	public void faceupdateMember(Member member) throws Exception {
-		sqlSession.update("MemberMapper.faceupdateMember", member);
-		
-	}
+	
+	
+	
 	
 	
 	

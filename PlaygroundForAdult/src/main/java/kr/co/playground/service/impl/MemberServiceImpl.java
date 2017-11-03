@@ -51,10 +51,6 @@ public class MemberServiceImpl implements MemberService{
 		m.put("value", value);
 		return memberDao.duplCheck(m);
 	}
-	
-	public void faceupdateMember(Member member) throws Exception {
-		memberDao.faceupdateMember(member);		
-	}
 
 	public void addMember(Member member) throws Exception {
 		memberDao.addMember(member);
@@ -82,13 +78,13 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	//webView
-	public void updateFindConditionNeed(int uniqueID) throws Exception {
-		memberDao.updateFindConditionNeed(uniqueID);
+	public void updateFindConditionTrue(int uniqueID) throws Exception {
+		memberDao.updateFindConditionTrue(uniqueID);
 	}
 
 	//webView
-	public void updateFindConditionComplete(int uniqueID) throws Exception {
-		memberDao.updateFindConditionComplete(uniqueID);
+	public void updateFindConditionFalse(int uniqueID) throws Exception {
+		memberDao.updateFindConditionFalse(uniqueID);
 	}
 	
 	//webView
@@ -111,56 +107,10 @@ public class MemberServiceImpl implements MemberService{
 		memberDao.deleteAuthKey(uniqueID);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public Member getMember(String email) throws Exception {
-		Member member = new Member();
-		member=memberDao.getMember(email);
-		System.out.println(member);
-	
-		return member;
+	//webView
+	public void deleteToken(int uniqueID) throws Exception {
+		memberDao.deleteToken(uniqueID);
 	}
-	
-	
-	public Member getMember(int member_no) throws Exception {
-
-		  Member member = memberDao.getMember(member_no);
-		  System.out.println(member);
-		  
-		  return member;
-		}
-
-	public Map<String , Object > getMemberList(Search search) throws Exception {
-		List<Member> list= memberDao.getMemberList(search);
-		int totalCount = memberDao.getTotalCount(search);
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list );
-		map.put("totalCount", new Integer(totalCount));
-		
-		return map;
-	}
-
-
-	public boolean checkDuplication(String email) throws Exception {
-		boolean result=true;
-		Member member=memberDao.getMember(email);
-		if(member != null) {
-			result=false;
-		}
-		return result;
-	}
-
 	
 	
 	

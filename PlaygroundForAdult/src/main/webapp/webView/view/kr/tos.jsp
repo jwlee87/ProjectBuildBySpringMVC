@@ -31,8 +31,8 @@ and (min-device-width : 400px) {
 and (max-device-width : 640px)
 and (min-device-width : 569px) {
 	.container-fluid {width: 640px; height: 360px; background-image: url("/webView/img/640x360/bg.png"); background-repeat: no-repeat;}
-	#tosBtn {margin: 5% auto;}
-	#privacyBtn {margin: 5% auto;}
+	#tosBtn {width: 100px; margin: 5% auto;}
+	#privacyBtn {width: 100px; margin: 5% auto;}
 }
 
 /* Samsung Galaxy S8 (landscape) */

@@ -205,11 +205,11 @@ and (min-device-width : 1025px) {
 					</div>
 				</div>
 				<div class="row" style="padding: 0; margin: 0;">
-					<input id="inputKey" class="form-control" type="text" placeholder="인증번호를 입력하세요." required/>
+					<input id="inputKey" class="form-control" type="text" placeholder="인증번호를 입력하세요." required="required"/>
 				</div>
 				<div class="row" style="padding: 0;">
 					<div class="col-12" style="text-align: center; margin-top: 10px;">
-						<button type="button" class="btn btn-warning" style="color: white; font-weight: bold;">전송</button>
+						<button type="button" class="btn btn-warning sendKey" style="color: white; font-weight: bold;">전송</button>
 					</div>
 				</div>
 			</div>
@@ -222,11 +222,17 @@ and (min-device-width : 1025px) {
 	</div>
 	</div>
 	
+	
+	<!-- ------------ -->
+	<!-- hidden value -->
+	<!-- ------------ -->
 	<input type="hidden" name="type"/>
 	
+	</div>
 </div>
 
 <script>
+
 $("#idBtn").on("click", function(){
 	$("#select").hide();
 	$("#email").show();
@@ -236,15 +242,6 @@ $("#passBtn").on("click", function(){
 	$("#select").hide();
 	$("#idAndEmail").show();
 })
-
-function count(seconds) {
-	var pad = function(x) { return (x < 10) ? "0"+x : x; }
-	return	pad(parseInt(seconds / 60 % 60)) + ":" +
-			pad(seconds % 60)
-}
-/* setInterval(function(){
-	console.log(count(time));
-}, 1000); */
 
 ////////////////////////////////
 //   find id by only email   ///
@@ -277,7 +274,7 @@ $("#resend").on("click", function(){
 ////////////////////
 function timer_start(){
 	$("#resend").hide();
-	tcounter = 10;
+	tcounter = 180;
 	t1 = setInterval(timer, 1000);
 }
 function timer(){
@@ -343,6 +340,65 @@ function idFindAjaxCommon(){
 ////////////////////
 //   ajax 인증 처리   //
 ///////////////////
+$(".sendKey").on("click", function(){
+	
+	var data = {};
+	
+	data["type"] = $("input[name=type]").val(); 
+	data["authKey"] = $("#inputKey").val();
+	
+	data["onlyEmail"] = $("#onlyMail").val();
+	data["inputId"] = $("#inputId").val();
+	data["inputEmail"] = $("#inputEmail").val();
+	
+	
+	$.ajax({
+		type: "POST"
+		, url: "/web/checkKey"
+		, data: data
+		, dataType: "json"
+		, success: function(data){
+			if(data.type=="email"){
+				if(data.check=="correct"){
+					console.log("correct");
+					console.log(data);
+					$("#timeSpan").html("인증완료! 잠시뒤 요청 페이지로 이동합니다.");
+					setTimeout(function(){
+						location.href="http://localhost/web/findIdByLink?token="+data.token;						
+					}, 1000);
+					
+					
+				}else if(data.check=="notCorrect"){
+					console.log("notCorrect");
+					$("#timeSpan").html("인증번호 불일치");
+				}else if(data.check=="alreadyDone"){
+					console.log("alreadyDone");
+					$("#timeSpan").html("이미 처리된 요청입니다.");
+					tstop();
+				}
+			}else
+			if(data.type=="both"){
+				if(data.check=="correct"){
+					console.log("correct");
+					console.log(data);
+					$("#timeSpan").html("인증완료! 잠시 뒤 요청 페이지로 이동합니다.");
+					setTimeout(function(){
+						location.href="http://localhost/web/findIdByLink?token="+data.token+"&authKey="+data.authKey;						
+					}, 1000);
+					
+					
+				}else if(data.check=="notCorrect"){
+					console.log("noCorrect");
+					$("#timeSpan").html("인증번호 불일치");
+				}else if(data.check=="alreadyDone"){
+					console.log("alreadyDone");
+					$("#timeSpan").html("이미 처리된 요청입니다.");
+					tstop();
+				}
+			}
+		}
+	})
+})
 
 
 </script>

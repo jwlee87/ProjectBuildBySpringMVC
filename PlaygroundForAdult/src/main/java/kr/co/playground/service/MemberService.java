@@ -31,10 +31,10 @@ public interface MemberService {
 	public void updateToken(Member member) throws Exception;
 	
 	//webView 계정찾기 update email condition Need
-	public void updateFindConditionNeed(int uniqueID) throws Exception;
+	public void updateFindConditionTrue(int uniqueID) throws Exception;
 	
 	//webView 계정찾기 update email condition Complete
-	public void updateFindConditionComplete(int uniqueID) throws Exception;
+	public void updateFindConditionFalse(int uniqueID) throws Exception;
 	
 	//webView token으로 계정찾기
 	public Member getMemberByToken(String token) throws Exception;
@@ -47,6 +47,9 @@ public interface MemberService {
 
 	//webView deleteAuthKey
 	public void deleteAuthKey(int uniqueID) throws Exception;
+
+	//webView deleteToken
+	public void deleteToken(int uniqueID) throws Exception;
 	
 	
 	

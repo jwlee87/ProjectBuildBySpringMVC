@@ -149,19 +149,19 @@
 	
 
 	<!-- 이메일 인증 완료한 상태로 변경 -->
-	<update id="updateFindConditionComplete"	parameterType="INTEGER">
+	<update id="updateFindConditionTrue"	parameterType="INTEGER">
 		UPDATE MEMBER_INFO
 		<set>
-			_FINDCONDITION = 1
+			_FINDCONDITION = 'true'
 		</set>
 		WHERE _USERUNIQUEID = #{uniqueID}
 	</update>
 	
 	<!-- 이메일 인증 필요한 상태로 변경 -->
-	<update id="updateFindConditionNeed"	parameterType="INTEGER">
+	<update id="updateFindConditionFalse"	parameterType="INTEGER">
 		UPDATE MEMBER_INFO
 		<set>
-			_FINDCONDITION = 0
+			_FINDCONDITION = 'false'
 		</set>
 		WHERE _USERUNIQUEID = #{uniqueID}
 	</update>
@@ -186,7 +186,7 @@
 	
 	<!-- 메일 update authKey -->
 	<update id="updateAuthKey"	parameterType="member">
-		UPADATE MEMBER_INFO
+		UPDATE MEMBER_INFO
 		<set>
 			_AUTHKEY = #{authKey}
 		</set>
@@ -207,6 +207,15 @@
 		UPDATE MEMBER_INFO
 		<set>
 			_AUTHKEY = 0
+		</set>
+		WHERE _USERUNIQUEID = #{uniqueID}
+	</update>
+	
+	<!-- 토큰키 삭제 -->
+	<update id="deleteToken"	parameterType="integer">
+		UPDATE MEMBER_INFO
+		<set>
+			_TOKEN = 0
 		</set>
 		WHERE _USERUNIQUEID = #{uniqueID}
 	</update>

@@ -59,10 +59,10 @@ public class webViewController {
 		System.out.println(this.getClass());
 	}
 	//////////////////
-	//  videoList  //
-	////////////////
+	//  videoList  ///
+	//////////////////
 	@RequestMapping(value="/videoList", method=RequestMethod.GET)
-	public String videoList(HttpSession session, HttpServletRequest request
+	public String videoList(HttpServletRequest request
 			, @ModelAttribute Member member, @RequestParam String id
 			, @ModelAttribute Video video, Model model)throws Exception{
 		
@@ -71,8 +71,9 @@ public class webViewController {
 		
 		member = memberService.getMemberByID(id);
 		model.addAttribute("member", member);
-		session.setAttribute("wmember", member);
 		String countryCode = String.valueOf(member.getCountryCode());
+		String tempURI = emailSender.makingReturnWebViewURI(member.getCountryCode());
+		String returnURI = tempURI+"videoList.jsp";
 		
 		Device device = DeviceUtils.getCurrentDevice(request);
 		System.out.println("device dubug : "+device);
@@ -96,22 +97,22 @@ public class webViewController {
 			if (countryCode.trim().equals("0")) {
 				List<Video> list = videoService.getFreeVideoKver();
 				model.addAttribute("list", list);
-				return "/webView/view/en/videoList.jsp";
+				return returnURI;
 			//kr
 			} else if (countryCode.trim().equals("1")){
 				List<Video> list = videoService.getFreeVideoKver();
 				model.addAttribute("list", list);
-				return "/webView/view/kr/videoList.jsp";
+				return returnURI;
 			//ch
 			} else if (countryCode.trim().equals("2")){
 				List<Video> list = videoService.getFreeVideoKver();
 				model.addAttribute("list", list);
-				return "/webView/view/ch/videoList.jsp";
+				return returnURI;
 			//jp
 			} else if (countryCode.trim().equals("3")){
 				List<Video> list = videoService.getFreeVideoJver();
 				model.addAttribute("list", list);
-				return "/webView/view/jp/videoList.jsp";
+				return returnURI;
 			//error
 			} else {
 				return "/webView/view/jp/notAccess.jsp";
@@ -130,24 +131,28 @@ public class webViewController {
 			, Model model) throws Exception {
 		
 		member = memberService.getMemberByID(id);
-		if(member == null) {
-			return "/webView/view/jp/notAccess.jsp";
-		}
-		//en
-		if(member.getCountryCode()==0) {
-			return "/webView/view/kr/tos.jsp";
-		}
-		//kr
-		else if(member.getCountryCode()==1) {
-			return "/webView/view/kr/tos.jsp";
-		}
-		//ch
-		else if(member.getCountryCode()==2) {
-			return "/webView/view/kr/tos.jsp";
-		}
-		//jp
-		else if(member.getCountryCode()==3) {
-			return "/webView/view/jp/tos.jsp";
+		
+		if(member != null) {
+			int cc = member.getCountryCode();
+			String returnWebViewURI = emailSender.makingReturnWebViewURI(cc);
+			String returnURI = returnWebViewURI+"tos.jsp";
+			System.out.println(" debugging return page == "+returnURI);
+			//en
+			if(cc==0) {
+				return returnURI;
+			}
+			//kr
+			else if(cc==1) {
+				return returnURI;
+			}
+			//ch
+			else if(cc==2) {
+				return returnURI;
+			}
+			//jp
+			else if(cc==3) {
+				return returnURI;
+			}
 		}
 		return "/webView/view/jp/notAccess.jsp";
 	}
@@ -159,89 +164,127 @@ public class webViewController {
 	public String find(@RequestParam String cc,
 			Model model) throws Exception {
 		model.addAttribute("cc", cc);
+		String returnWebViewURI = emailSender.makingReturnWebViewURI(Integer.parseInt(cc));
+		String returnURI = returnWebViewURI+"findAccount.jsp"; 
 		//en
 		if(cc.equals("0")) {
 			System.out.println("en version");
-			return "/webView/view/en/findAccount.jsp";
+			return returnURI;
 		}
 		//kr
 		else if(cc.equals("1")) {
 			System.out.println("kr version");
-			return "/webView/view/kr/findAccount.jsp";
+			return returnURI;
 		}
 		//ch
 		else if(cc.equals("2")) {
 			System.out.println("ch version");
-			return "/webView/view/ch/findAccount.jsp";
+			return returnURI;
 		}
 		//jp
 		else if(cc.equals("3")) {
 			System.out.println("jp version");
-			return "/webView/view/jp/findAccount.jsp";
+			return returnURI;
 		}
 		return "/webView/view/jp/notAccess.jsp";
 	}
 	
 	
 	
-	/////////////////////
-	// find id by link //
-	/////////////////////
+	//////////////////////////
+	// Access link directly //
+	//////////////////////////
 	@RequestMapping(value="/findIdByLink", method=RequestMethod.GET)
-	public String findIdByLink(@RequestParam String token) throws Exception {
+	public String findIdByLink(HttpServletRequest request, 
+			@RequestParam String token) throws Exception {
 		
+		String authKey = request.getParameter("authKey");
+		if(authKey == null) {
+			authKey = "";
+		}
+		System.out.println("authKey 디버깅= "+authKey);
 		System.out.println(" /findIdByLink Access token: "+token);
 		
 		Member member = memberService.getMemberByToken(token);
 		
-		// exist account searched by token
-		if( member != null ) {
-			System.out.println("토큰으로 검색되는 계정이 있음");
+		if(authKey.equals("")) {
+			// exist account searched by token
+			if( member != null ) {
+				System.out.println("토큰으로 검색되는 계정이 있음");
+				
+				// find condition true
+				if( member.isFindCondition() ) {
+					System.out.println("검색된 계정의 findCondition ture");
+					
+					String id = member.getId();
+					String nick = member.getNickName();
+					String mailAddr = member.getEmail();
+					String contentForID = emailSender.generateIdContent(nick, id);
+					
+					//아이디 알려주는 메일 발사
+					email.setContent(contentForID);
+					email.setReceiver(mailAddr);
+					email.setSubject("[KingOfCasino] "+nick+"님의 아이디 찾기 결과입니다.");
+					emailSender.sendEmail(email);
+					
+					String countryURI = emailSender.assignCountryCode(member.getCountryCode());
+					
+					//조건 초기화
+					memberService.updateFindConditionFalse(member.getUniqueID());
+					//인증키 초기화
+					memberService.deleteAuthKey(member.getUniqueID());
+					
+					return "/webView/view/"+countryURI+"/giveResult.jsp?id="+id;
+				}
+				// 페이지 유효기간 초과
+				// find condition false
+				System.out.println(" 링크 페이지 유효기간 초과! ");
+				return "/webView/view/kr/notAccess.jsp";
+				
+			// not exist account searched by token
+			}
 			
+			System.out.println("토큰으로 검색되는 계정이 없음!!");
+			return "/webView/view/kr/notAccess.jsp";
+		
+		// access email-link directly for change password
+		// authKey and token parameter 
+		// need to return page for change password
+		} else {
 			// find condition true
 			if( member.isFindCondition() ) {
-				System.out.println("검색된 계정의 findCondition ture");
-				memberService.updateFindConditionNeed(member.getUniqueID());
-				
 				String id = member.getId();
-				String nick = member.getNickName();
-				String mailAddr = member.getEmail();
-				String contentForID = emailSender.generateIdContent(nick, id);
+
+				//임시 비밀번호 기능 일시 보류
+				//String nick = member.getNickName();
+				//String mailAddr = member.getEmail();
+				//int tempPw = emailSender.generateAuthKey();
+				//String contentForPw = emailSender.generateTempPwContent(nick, tempPw, id);
+				//임시 비밀번호 알려주는 메일 발사
+				//email.setContent(contentForPw);
+				//email.setReceiver(mailAddr);
+				//email.setSubject("[KingOfCasino] "+nick+"님의 비밀번호 찾기 결과입니다.");
+				//emailSender.sendEmail(email);
 				
-				//아이디 알려주는 메일 발사
-				email.setContent(contentForID);
-				email.setReceiver(mailAddr);
-				email.setSubject("[KingOfCasino] "+nick+"님의 아이디 찾기 결과입니다.");
-				emailSender.sendEmail(email);
+				String countryURI = emailSender.assignCountryCode(member.getCountryCode());
 				
-				String countryURI = "kr";
-				if(member.getCountryCode()==0) {
-					countryURI = "en";
-				} else if(member.getCountryCode()==1) {
-					countryURI = "kr";
-				} else if(member.getCountryCode()==2) {
-					countryURI = "ch";
-				} else if(member.getCountryCode()==3) {
-					countryURI = "jp";
-				}
-				
+				//조건 초기화
+				memberService.updateFindConditionFalse(member.getUniqueID());
 				//인증키 초기화
 				memberService.deleteAuthKey(member.getUniqueID());
-				
-				return "/webView/view/"+countryURI+"/giveId.jsp?id="+id;
-			}
-			// find condition false
-			return "/webView/view/kr/notAccess.jsp";
+				return "/webView/view/"+countryURI+"/giveResult.jsp?id="+id+"&check=ok";
 			
-		// not exist account searched by token
+			//페이지 유효기간 초과
+			} else {
+				System.out.println("링크 페이지 유효기간 초과!");
+				return "/webView/view/kr/notAccess.jsp";
+			}
 		}
-		System.out.println("토큰으로 검색되는 계정이 없음!!");
-		return "/webView/view/kr/notAccess.jsp";
 	}
 	
 	//////////////////////////////////////////////
 	//		ajax find account processing		//
-	//////////////////////////////////////////////
+	////////////////////////////////////////////// used by findAccount.jsp
 	@RequestMapping(value="/findId", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> findAcnt(
@@ -275,8 +318,9 @@ public class webViewController {
 				member.setAuthKey(key);
 				member.setToken(String.valueOf(token).trim());
 				// update findCondition true > 메일 보냈다는 뜻
-				memberService.updateFindConditionComplete(member.getUniqueID());
+				memberService.updateFindConditionTrue(member.getUniqueID());
 				// update token generated for directly get-method-access type
+				memberService.updateAuthKey(member);
 				memberService.updateToken(member);
 				
 				System.out.println(" /findId >> onlyEmail >> debug to Member= "+member);
@@ -323,7 +367,7 @@ public class webViewController {
 					String emailByInputEmail = memberByInputEmail.getEmail();
 
 					//입력받은 아이디로 조회된 멤버와 이메일로 조회된 멤버가 일치 할 때
-					//인증번호 쏴줘야 되는 경우
+					//비번변경을 위한 인증번호 쏴줘야 되는 경우
 					if(emailByInputId.equals(emailByInputEmail)) {
 						
 						System.out.println(" 디버깅 비번 변경 5 ");
@@ -333,15 +377,17 @@ public class webViewController {
 						member.setAuthKey(key);
 						member.setToken(String.valueOf(token).trim());
 						// update findCondition true > 메일 보냈다는 뜻
-						memberService.updateFindConditionComplete(member.getUniqueID());
+						memberService.updateFindConditionTrue(member.getUniqueID());
 						// update token generated for directly get-method-access type
 						memberService.updateToken(member);
+						memberService.updateAuthKey(member);
 						System.out.println(" /findId >> Both id and email >> debug to Member= "+member);
 						
 						String id = member.getId();
 						String nick = member.getNickName();
 						String authKey = String.valueOf(key);
-						String disposableURI = "http://localhost/web/findIdByLink?token="+token;
+						//직접 비번변경 가능한 URI
+						String disposableURI = "http://localhost/web/findIdByLink?token="+token+"&authKey="+authKey;
 						String contentForAuthKey = emailSender.generateAuthKeyContent(nick, disposableURI, authKey, id);
 						
 						email.setContent(contentForAuthKey);
@@ -371,8 +417,8 @@ public class webViewController {
 	}
 	
 	//////////////////////////////////////////////
-	//		ajax find account processing		//
-	//////////////////////////////////////////////
+	//		ajax checking authKey processing	//
+	////////////////////////////////////////////// used by findAccount.jsp
 	@RequestMapping(value="/checkKey", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> checkKey(@RequestParam Map<String, Object> paramMap) throws Exception{
@@ -381,24 +427,88 @@ public class webViewController {
 		String type = (String)paramMap.get("type");
 		String authKey = (String)paramMap.get("authKey");
 		
-		Member member = memberService.getMemberByAuthKey(authKey);
-		if(member != null) {
-			System.out.println("/checkKey member is not NULL");
-			//인증키 초기화
-			memberService.deleteAuthKey(member.getUniqueID());
+		//화면단에도 type 정보 알려줌
+		resultMap.put("type", type);
+		
+		//아이디찾기로 인입
+		if(type.equals("email")) {
+			
+			String onlyEmail = (String)paramMap.get("onlyEmail");
+			Member member = memberService.getMemberByEmail(onlyEmail);
+			
+			//메일로 보낸 URL 접근 안 한 경우
+			if(member.isFindCondition()) {
+				//인증번호 일치
+				if(String.valueOf(member.getAuthKey()).equals(authKey)) {
+					System.out.println("ajax checking authKey processing :: 아이디찾기로 인입 :: 인증번호 일치 ::");
+					
+					resultMap.put("countryURI", emailSender.assignCountryCode(member.getCountryCode()));
+					resultMap.put("token", member.getToken());
+					resultMap.put("check", "correct");
+					
+				//인증번호 불일치
+				} else {
+					System.out.println("ajax checking authKey processing :: 아이디찾기로 인입 :: 인증번호 불일치 ::");
+					resultMap.put("check", "notCorrect");
+				}
+			//메일로 보낸 URL 접근 한 경우
+			} else {
+				System.out.println("ajax checking authKey processing :: 아이디찾기로 인입 :: 이메일 방식으로 완료된 상태에서 잘못된 접근 ::");
+				resultMap.put("check", "alreadyDone");
+			}
+			
+		//비밀번호 찾기로 인입
+		} else if(type.equals("both")) {
+			
+			String inputId = (String)paramMap.get("inputId");
+			String inputEmail = (String)paramMap.get("inputEmail");
+			Member member = memberService.getMemberByID(inputId);
+			
+			//메일로 보낸 URL 접근 안 한 경우 true
+			if(member.isFindCondition()) {
+				//인증번호 일치
+				if(String.valueOf(member.getAuthKey()).equals(authKey)) {
+					System.out.println("ajax checking authKey processing :: 비밀번호 찾기로 인입 :: 인증번호 일치 ::");
+					
+					resultMap.put("token", member.getToken());
+					resultMap.put("authKey", member.getAuthKey());
+					resultMap.put("check", "correct");
+					
+				//인증번호 불일치
+				} else {
+					System.out.println("ajax checking authKey processing :: 비밀번호 찾기로 인입 :: 인증번호 불일치 ::");
+					resultMap.put("check", "notCorrect");
+				}
+			//메일로 보낸 URL 접근 한 경우 false
+			} else {
+				System.out.println("ajax checking authKey processing :: 비밀번호 찾기로 인입 :: 이메일 방식으로 완료된 상태에서 잘못된 접근 ::");
+				resultMap.put("check", "alreadyDone");
+			}
 		}
 		
 		return resultMap;
 	}
 	
-	//////////////////////////////////////////////
-	// jsp page에서 인증시간 초과되어 인증키 초기화 해야하는 경우 //
-	//////////////////////////////////////////////
-	@RequestMapping(value="/resetAuthKey", method=RequestMethod.POST)
+	
+	//////////////////////////
+	// ajax password change //
+	////////////////////////// used by giveResult.jsp
+	@RequestMapping(value="/changePw", method=RequestMethod.POST)
 	@ResponseBody
-	public String resetAuthKey(@RequestParam Map<String, Object> paramMap) {
+	public Map<String, Object> changePw(@RequestParam Map<String, Object> paramMap) throws Exception {
 		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
-		return "";
+		String id = (String)paramMap.get("id");
+		String pass = (String)paramMap.get("pass");
+		
+		Member member = memberService.getMemberByID(id);
+		memberService.updateFindConditionFalse(member.getUniqueID());
+		memberService.deleteAuthKey(member.getUniqueID());
+		member.setPass(pass);
+		memberService.updateMember(member);
+
+		resultMap.put("check", "true");
+		return resultMap;
 	}
 }
