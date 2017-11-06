@@ -117,20 +117,20 @@
 	<!-- ============================================================= -->
 	<!-- /////// Client 에서 전달되는 JSON Data 를 Domain Object 롤 변환 받기위한 설정 ///////-->
 	<!-- ============================================================= -->
-	<bean id="jsonConverter"	class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+	<!-- <bean id="jsonConverter"	class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 		<property name="supportedMediaTypes" value="application/json" />
-	</bean>
+	</bean> -->
 	
 	<!-- ============================================================= -->
 	<!-- /////// AnnotationMethodHandlerAdapter 에 jsonConverer  DI /////// -->
 	<!-- ============================================================= -->
-	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+	<!-- <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">
 			<list>
 				<ref bean="jsonConverter"/>
 			</list>
 		</property>	 
-	</bean>
+	</bean> -->
 	
 	
 </beans>

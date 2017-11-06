@@ -134,6 +134,72 @@ public class EmailSender {
 				+"</meta>";
 	}
 	
+	//make email content for ID
+	public String generateContentForFindId(String nick, String uri,String authKey, String id) {
+		return	"<meta charset='utf-8'>"
+				+"<table class='wrapper' width='80%' height='640px' style='border-spacing: 0; padding: 100px 0 0; border:0; max-width: 760px; background: url(&quot;http://110.10.189.24:9090/webView/img/common/mail_bg.png&quot;)'>"
+				+"<tbody><tr><td align='center' style='vertical-align: top; padding: 0;'>"
+				+"<table class='main welcome' style='border-spacing: 0; max-width: 560px; border-radius: 5px; background: #51352E; padding: 0; border: 2px solid black;'>"
+				+"<thead><tr>"
+				+"<td align='center' style='vertical-align: top; height: 26px; color: black; border-top-left-radius: 5px; border-top-right-radius: 5px; background: #442C25; padding: 20px;'>"
+				+"<img width='200px' height='80px' alt='smile' src='http://110.10.189.24:9090/webView/img/common/logo_icon.png'/>"
+				+"<h2 style='font-weight: 300px; font-size: 36px; line-height: 58px; letter-spacing: -1px; word-spacing: -1px; margin: 0;'></h2>"
+				+"</td></tr></thead><tbody><tr><td style='vertical-align: top; padding: 40px; background: #71524A;'>"
+				+"<h5 style='font-weight: 400px; font-size: 18px; line-height: 28px; word-spacing: -0.5px; margin: 0 0 10px;'>"
+				+nick+"님께서 요청하신 내용입니다.</h5>"
+				+"<br/><span style='font-size: 18px;'>"+nick+"님의 아이디는</span><span style='font-size: 26px; font-weight: bold;'>"
+				+id+"</span><span style='font-size: 18px;'>입니다.</span>"
+				+"<div style='text-align: center; margin-bottom: 80px;'></div>"
+				+"<hr style='border: 0;'/><h6 style='font-weight: 300px; font-size: 12px; ling-height: 20px; word-spacing: -0.5px; color: #808080; text-align: center; margin: 0 0 20px'>"
+				+"비밀번호가 기억나지 않으세요?<br/>아래의 링크를 복사하여 웹브라우저에 붙여 넣으세요."
+				+"<br/>"
+				+uri
+				+"</h6></td></tr><tr>"
+				+"<td align='center' height='100%' style='vertical-align: top; color: white; font-weight: 500px; padding: 20px 0 40px; background: #442C25; max-width: 560px;'>"
+				+"<h4 style='color: black; font-weight: 400px; font-size: 18px; line-height: 28px; word-spacing: -0.5px; margin: 0;'>이용해주셔서 감사합니다.</h4>"
+				+"<h5 style='color: black; text-align: center; margin: 0;'>kingofday inc</h5>"
+				+"</td></tr></tbody></table></td></tr>"
+				+"<tr style='margin-top: 15px;'>"
+				+ "<td style='color: white; text-align: center;'>도움이 필요하시면 <a href='mailto:kingofdayinc@gmail.com'>kingofdayinc@gmail.com</a>으로 연락해 주세요.</td></tr>"
+				+"<tr><td style='color: white; text-align: center; font-size: 8px;'> kingofdayinc / <a style='text-decorataion: none; color: white;'"
+				+"href='http://localhost/web/tos?id="+id+"'>서비스이용방침 / 개인정보처리방침</a>"
+				+"<div style='margin-bottom: 60px;'></div></td></tr>"
+				+"</tbody></table>"
+				+"</meta>";
+	}
+	
+	//make email content for Pass
+	public String generateContentForFindPw(String nick, String uri,String authKey, String id) {
+		return	"<meta charset='utf-8'>"
+				+"<table class='wrapper' width='80%' height='640px' style='border-spacing: 0; padding: 100px 0 0; border:0; max-width: 760px; background: url(&quot;http://110.10.189.24:9090/webView/img/common/mail_bg.png&quot;)'>"
+				+"<tbody><tr><td align='center' style='vertical-align: top; padding: 0;'>"
+				+"<table class='main welcome' style='border-spacing: 0; max-width: 560px; border-radius: 5px; background: #51352E; padding: 0; border: 2px solid black;'>"
+				+"<thead><tr>"
+				+"<td align='center' style='vertical-align: top; height: 26px; color: black; border-top-left-radius: 5px; border-top-right-radius: 5px; background: #442C25; padding: 20px;'>"
+				+"<img width='200px' height='80px' alt='smile' src='http://110.10.189.24:9090/webView/img/common/logo_icon.png'/>"
+				+"<h2 style='font-weight: 300px; font-size: 36px; line-height: 58px; letter-spacing: -1px; word-spacing: -1px; margin: 0;'></h2>"
+				+"</td></tr></thead><tbody><tr><td style='vertical-align: top; padding: 40px; background: #71524A;'>"
+				+"<h5 style='font-weight: 400px; font-size: 18px; line-height: 28px; word-spacing: -0.5px; margin: 0 0 10px;'>"
+				+nick+"님께서 요청하신 내용입니다.</h5>"
+				+"<br/><span style='font-size: 18px;'>"+nick+"님 비밀번호 변경을 위해 아래 링크로 접속 해 주세요.</span>"
+				+"<a href='"+uri+"'><span style='font-size: 26px; font-weight: bold;'><br/>"
+				+"비밀번호 변경하러 가기!</span></a>"
+				+"<div style='text-align: center; margin-bottom: 80px;'></div>"
+				+"<br/>"
+				+"</td></tr><tr>"
+				+"<td align='center' height='100%' style='vertical-align: top; color: white; font-weight: 500px; padding: 20px 0 40px; background: #442C25; max-width: 560px;'>"
+				+"<h4 style='color: black; font-weight: 400px; font-size: 18px; line-height: 28px; word-spacing: -0.5px; margin: 0;'>이용해주셔서 감사합니다.</h4>"
+				+"<h5 style='color: black; text-align: center; margin: 0;'>kingofday inc</h5>"
+				+"</td></tr></tbody></table></td></tr>"
+				+"<tr style='margin-top: 15px;'>"
+				+ "<td style='color: white; text-align: center;'>도움이 필요하시면 <a href='mailto:kingofdayinc@gmail.com'>kingofdayinc@gmail.com</a>으로 연락해 주세요.</td></tr>"
+				+"<tr><td style='color: white; text-align: center; font-size: 8px;'> kingofdayinc / <a style='text-decorataion: none; color: white;'"
+				+"href='http://110.10.189.24/web/tos?id="+id+"'>서비스이용방침 / 개인정보처리방침</a>"
+				+"<div style='margin-bottom: 60px;'></div></td></tr>"
+				+"</tbody></table>"
+				+"</meta>";
+	}
+	
 	//email auth key generate
 	public int generateAuthKey() {
 		Random random = new Random();
@@ -177,7 +243,7 @@ public class EmailSender {
 			}else if(countryCode==3) {
 				returnWebViewURI="/webView/view/jp/";
 			}
-			System.out.println("debug== "+returnWebViewURI);
+			System.out.println(" [[emailSender]] returnWebViewURI debug= "+returnWebViewURI);
 			return returnWebViewURI;
 		}
 }

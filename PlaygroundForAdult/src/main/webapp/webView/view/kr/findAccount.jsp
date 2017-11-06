@@ -222,6 +222,16 @@ and (min-device-width : 1025px) {
 	</div>
 	</div>
 	
+	<!-- -------------- -->
+	<!-- 메일 확인 하라는 페이지 -->
+	<!-- -------------- -->
+	<div id="bye" class="row" style="height: 60%; text-align: center; vertical-align: middle; margin: -15% auto; display: none;">
+		<div style="height: 100%; width: 100%; margin: 10% auto;">
+			<p style="text-shadow: -1px 0 0 black, 1px 0 0 black, 0 0 1px black, 0 0 -1px black; font-size: 1.4em; width: 100%; color: white; font-weight: bold; margin: 0 auto;">요청 완료!</p><br/>
+			<p style="font-size: 1em; width: 100%; color: white; margin: 0 auto;">회원님의 이메일주소로 요청하신 정보를 보내드렸습니다.</p><br/>
+			<p style="font-size: 1em; width: 100%; color: white; margin: 0 auto;">이메일을 확인 해 주세요.</p><br/>
+		</div>
+	</div>
 	
 	<!-- ------------ -->
 	<!-- hidden value -->
@@ -315,13 +325,15 @@ function idFindAjaxCommon(){
 				console.log("data.type=='email'");
 				$("input[name=type]").val("email");
 				$("#email").hide();
-				$("#true").show();
+				$("#bye").show();
+				//$("#true").show();
 				timer_start();
 			}else if(data.check=="true" && data.type=="both"){
 				console.log("data.type=='both'");
 				$("input[name=type]").val("both");
 				$("#idAndEmail").hide();
-				$("#true").show();
+				$("#bye").show();
+				//$("#true").show();
 				timer_start();
 			}else if(data.check=="notExistEmail"){
 				$(".notExsist").show();

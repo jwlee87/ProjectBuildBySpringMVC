@@ -21,45 +21,61 @@
 @media only screen
 and (max-device-width : 568px)
 and (min-device-width : 400px) {
-	.container-fluid {padding: 2%; width: 568px; height: 320px; background-image: url("/webView/img/568x320/bg.png"); background-repeat: no-repeat;}
-	#tosBtn {margin: auto;}
+	.container-fluid {padding: 2%; width: 568px; height: 320px; background-image: url("/webView/img/568x320/bg.png"); background-repeat: no-repeat; overflow-y: hidden; overflow-x: hidden;}
+	#topcon {}
+	#tosBtn {height: 500px; margin: auto;}
 	#privacyBtn {margin: auto;}
+	#tos {height: 80%; display: block;}
+	#privacy {display: none; height: 80%;}
 }
 
-/* Samsung Galaxy S7 (landscape) */
+/* **standard** */
+/* Samsung Galaxy S7, g2 (landscape) */
 @media only screen
 and (max-device-width : 640px)
 and (min-device-width : 569px) {
-	.container-fluid {width: 640px; height: 360px; background-image: url("/webView/img/640x360/bg.png"); background-repeat: no-repeat;}
-	#tosBtn {margin: 5% auto;}
-	#privacyBtn {margin: 5% auto;}
+	.container-fluid {width: 630px; height: 350px; background-image: url("/webView/img/640x360/bg.png"); background-repeat: no-repeat; overflow-y: hidden; overflow-x: hidden; margin: 0; padding: 5px;}
+	#topcon {height: 60px;}
+	#tosBtn {height: 25px; margin: 20px 0 0 -10px;}
+	#privacyBtn {height: 25px; margin: 20px 0 0 10px;}
+	#tos {height: 80%; display: block;}
+	#privacy {display: none; height: 80%;}
 }
 
 /* Samsung Galaxy S8 (landscape) */
 @media only screen
 and (max-device-width : 740px)
 and (min-device-width : 641px) {
-	.container-fluid {width: 740px; height: 360px; background-image: url("/webView/img/740x360/bg.png"); background-repeat: no-repeat;}
+	.container-fluid {width: 740px; height: 360px; background-image: url("/webView/img/740x360/bg.png"); background-repeat: no-repeat; overflow-y: hidden; overflow-x: hidden;}
+	#topcon {}
 	#tosBtn {margin: 4% auto;}
 	#privacyBtn {margin: 4% auto;}
+	#tos {height: 80%; display: block;}
+	#privacy {display: none; height: 80%;}
 }
 
-/* Samsung Galaxy Note4 , LG G3 (landscape) */
+/* LG G3 (landscape) */
 @media only screen
 and (max-device-width : 853px)
 and (min-device-width : 741px) {
-	.container-fluid {width: 853px; height: 480px; background-image: url("/webView/img/853x480/bg.png"); background-repeat: no-repeat;}
+	.container-fluid {width: 853px; height: 480px; background-image: url("/webView/img/853x480/bg.png"); background-repeat: no-repeat; overflow-y: hidden; overflow-x: hidden;}
+	#topcon {}
 	#tosBtn {margin: 5% auto;}
 	#privacyBtn {margin: 5% auto;}
+	#tos {height: 80%; display: block;}
+	#privacy {display: none; height: 80%;}
 }
 
-/* Samsung Galaxy Note4 , LG G3 (landscape) */
+/* Samsung Galaxy Note4 (landscape) */
 @media only screen
 and (max-device-width : 960px)
 and (min-device-width : 854px) {
 	.container-fluid {width: 960px; height: 540px; background-image: url("/webView/img/960x540/bg.png"); background-repeat: no-repeat;}
+	#topcon {}
 	#tosBtn {margin: 5% auto;}
 	#privacyBtn {margin: 5% auto;}
+	#tos {height: 80%; display: block;}
+	#privacy {display: none; height: 80%;}
 }
 
 /* Tablet iPad (landscape) */
@@ -67,8 +83,11 @@ and (min-device-width : 854px) {
 and (max-device-width : 1024px)
 and (min-device-width : 961px) {
 	.container-fluid {width: 1024px; height: 768px; background-image: url("/webView/img/1024x768/bg.png"); background-repeat: no-repeat;}
+	#topcon {}
 	#tosBtn {margin: 5% auto;}
 	#privacyBtn {margin: 5% auto;}
+	#tos {height: 80%; display: block;}
+	#privacy {display: none; height: 80%;}
 }
 
 /* Tablet Tab10, Xperia Z4 (landscape) */
@@ -76,11 +95,14 @@ and (min-device-width : 961px) {
 and (max-device-width : 2560px)
 and (min-device-width : 1025px) {
 	.container-fluid {width: 1280px; height: 800px; background-image: url("/webView/img/1280x800/bg.png"); background-repeat: no-repeat;}
+	#topcon {}
 	#tosBtn {margin: 5% auto;}
 	#privacyBtn {margin: 5% auto;}
+	#tos {height: 80%; display: block;}
+	#privacy {display: none; height: 80%;}
 }
 
-.contentcon {height: 100%; overflow-y: hidden;}
+.contentcon {height: 100%; overflow-y: hidden; overflow-x: hidden}
 
 @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
  font-family: 'Noto Sans KR', sans-serif;

@@ -134,38 +134,43 @@ $("#submitBtn").on("click", function(){
 	var pass = $("#pw").val();
 	var passCheck = $("#pwCheck").val();
 	
+	var length = pass.length;
+	
 	if(pass == ""){
 		$("#comment").html("변경하실 비밀번호를 입력하세요.");
 		return false;
 	} else {
-		if(pass==passCheck){
+		if(length < 4 || length > 8) {
+			$("#comment").html("비밀번호는 4~8자 사이로 입력하세요.");
+		} else if(length >= 4 && length <= 8) {
 			
-			var data = {};
-			data["id"] = id;
-			data["pass"] = pass;
+			if(pass==passCheck){
+				console.log("4");
+				var data = {};
+				data["id"] = id;
+				data["pass"] = pass;
 			
-			$.ajax({
-				type: "POST"
-				, url: "/web/changePw"
-				, data: data
-				, dataType: "json"
-				, success: function(data){
-					if(data.check == "true"){
-						//변경 성공
-						$("#comment").html("비밀번호가 변경되었습니다.");
-						$("input[type=password]").hide();
-						$("button[type=button]").hide();
-					} else {
-						//변경 실패 다시시도 권유
+				$.ajax({
+					type: "POST"
+					, url: "/web/changePw"
+					, data: data
+					, dataType: "json"
+					, success: function(data){
+						if(data.check == "true"){
+							//변경 성공
+							$("#comment").html("비밀번호가 변경되었습니다.");
+							$("input[type=password]").hide();
+							$("button[type=button]").hide();
+						} else {
+							//변경 실패 다시시도 권유
+						}
 					}
-				}
-			})
-			
-		}else{
-			$("#comment").html("비밀번호가 일치하지 않습니다.");
-			return false;
+				})
+			}else{
+				$("#comment").html("비밀번호가 일치하지 않습니다.");
+				return false;
+			}
 		}
-		
 	}
 	
 })

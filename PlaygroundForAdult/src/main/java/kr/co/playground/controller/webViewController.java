@@ -29,7 +29,7 @@ import kr.co.playground.service.VideoService;
 
 @Controller
 @RequestMapping("/web/*")
-public class webViewController {
+public class WebViewController {
 
 	
 	///Field
@@ -47,114 +47,48 @@ public class webViewController {
 	@Autowired
 	private EmailSender emailSender;
 	
-	//한페이지에 표시될 게시글 수
-	@Value("#{commonProperties['countList']}")
-	int countList;
+	@Value("#{commonProperties['realServerURI']}")
+	String realServerURI;
 	
-	@Value("#{commonProperties['countPage']}")
-	int countPage;
+	@Value("#{commonProperties['testServerURI']}")
+	String testServerURI;
 	
 	//Constructor
-	public webViewController() {
+	public WebViewController() {
 		System.out.println(this.getClass());
-	}
-	//////////////////
-	//  videoList  ///
-	//////////////////
-	@RequestMapping(value="/videoList", method=RequestMethod.GET)
-	public String videoList(HttpServletRequest request
-			, @ModelAttribute Member member, @RequestParam String id
-			, @ModelAttribute Video video, Model model)throws Exception{
-		
-		System.out.println("::START Controller:: /web/videoList init");
-		System.out.println("debug requestParam String id= "+id);
-		
-		member = memberService.getMemberByID(id);
-		model.addAttribute("member", member);
-		String countryCode = String.valueOf(member.getCountryCode());
-		String tempURI = emailSender.makingReturnWebViewURI(member.getCountryCode());
-		String returnURI = tempURI+"videoList.jsp";
-		
-		Device device = DeviceUtils.getCurrentDevice(request);
-		System.out.println("device dubug : "+device);
-		if(device == null) {
-			System.out.println("divice is null");
-		}
-		System.out.println("DEVICE GET DEVICEPLATFORM = "+device.getDevicePlatform().name());
-		
-		String deviceType="unknown";
-		if(device.isNormal()) {
-			deviceType = "normal";
-		}else if(device.isMobile()) {
-			deviceType = "mobile";
-		}else if(device.isTablet()) {
-			deviceType = "tablet";
-		}
-		
-		//디바이스 분기처리 추후 데스크탑에서 접근은 막아야함
-		if(deviceType.equals("mobile")||deviceType.equals("tablet")||deviceType.equals("normal")) {
-			//en
-			if (countryCode.trim().equals("0")) {
-				List<Video> list = videoService.getFreeVideoKver();
-				model.addAttribute("list", list);
-				return returnURI;
-			//kr
-			} else if (countryCode.trim().equals("1")){
-				List<Video> list = videoService.getFreeVideoKver();
-				model.addAttribute("list", list);
-				return returnURI;
-			//ch
-			} else if (countryCode.trim().equals("2")){
-				List<Video> list = videoService.getFreeVideoKver();
-				model.addAttribute("list", list);
-				return returnURI;
-			//jp
-			} else if (countryCode.trim().equals("3")){
-				List<Video> list = videoService.getFreeVideoJver();
-				model.addAttribute("list", list);
-				return returnURI;
-			//error
-			} else {
-				return "/webView/view/jp/notAccess.jsp";
-			}
-		} else {
-			System.out.println("This page is not serviced at Desktop");
-			return "/webView/view/jp/notAccess.jsp";
-		}
 	}
 	
 	////////////////////////
 	//  terms of service  //
 	////////////////////////
 	@RequestMapping(value="/tos", method=RequestMethod.GET)
-	public String tos(@ModelAttribute Member member, @RequestParam String id
+	public String tos(@ModelAttribute Member member, @RequestParam String cc
 			, Model model) throws Exception {
 		
-		member = memberService.getMemberByID(id);
 		
-		if(member != null) {
-			int cc = member.getCountryCode();
-			String returnWebViewURI = emailSender.makingReturnWebViewURI(cc);
-			String returnURI = returnWebViewURI+"tos.jsp";
-			System.out.println(" debugging return page == "+returnURI);
-			//en
-			if(cc==0) {
-				return returnURI;
-			}
-			//kr
-			else if(cc==1) {
-				return returnURI;
-			}
-			//ch
-			else if(cc==2) {
-				return returnURI;
-			}
-			//jp
-			else if(cc==3) {
-				return returnURI;
-			}
+		String returnWebViewURI = emailSender.makingReturnWebViewURI(Integer.parseInt(cc));
+		String returnURI = returnWebViewURI+"tos.jsp";
+		String returnNotAccess = returnWebViewURI+"notAccess.jsp";
+		System.out.println(" debugging return page == "+returnURI);
+			
+		//en
+		if(cc.equals("0")) {
+			return returnURI;
 		}
-		return "/webView/view/jp/notAccess.jsp";
+		//kr
+		else if(cc.equals("1")) {
+			return returnURI;
+		}
+		//ch
+		else if(cc.equals("2")) {
+			return returnURI;
+		}
+		//jp
+		else if(cc.equals("3")) {
+			return returnURI;
+		} else {
+			return returnNotAccess;
+		}
 	}
 	
 	/////////////
@@ -202,8 +136,8 @@ public class webViewController {
 		if(authKey == null) {
 			authKey = "";
 		}
-		System.out.println("authKey 디버깅= "+authKey);
-		System.out.println(" /findIdByLink Access token: "+token);
+		System.out.println();
+		System.out.println(" /findIdByLink Access authKey= "+authKey+", token: "+token);
 		
 		Member member = memberService.getMemberByToken(token);
 		
@@ -328,37 +262,41 @@ public class webViewController {
 				String id = member.getId();
 				String nick = member.getNickName();
 				String authKey = String.valueOf(key);
-				String disposableURI = "http://localhost/web/findIdByLink?token="+token;
-				String contentForAuthKey = emailSender.generateAuthKeyContent(nick, disposableURI, authKey, id); 
 				
-				System.out.println(id+" :: "+ nick +" :: "+ authKey+" :: "+inputEmail);
+				//리얼용
+				//String disposableURI = realServerURI+"/findIdByLink?token="+token+"&authKey="+authKey;
 				
-				email.setContent(contentForAuthKey);
+				//로컬용
+				String disposableURI = testServerURI+"/findIdByLink?token="+token+"&authKey="+authKey;
+				
+				System.out.println("URI debugging= "+disposableURI);
+				
+				String contentForFindId = emailSender.generateContentForFindId(nick, disposableURI, authKey, id); 
+				
+				System.out.println(id+" :: "+ nick +" :: "+ authKey+" :: "+onlyEmail);
+				
+				email.setContent(contentForFindId);
 				email.setReceiver(onlyEmail);
-				email.setSubject("[KingOfCasino] "+nick+"님께서 요청하신 인증번호 입니다.");
-				
+				email.setSubject("[KingOfCasino] "+nick+"님 아이디 찾기 결과 입니다.");
 				emailSender.sendEmail(email);
-				
 				resultMap.put("check", "true");
 				resultMap.put("type", "email");
+				
+				return resultMap;
 			}
-
 		// find account by both id and email
 		} else {
 			
-			System.out.println(" 디버깅 비번 변경 1 ");
 			Member member = memberService.getMemberByID(inputId);
 			
 			//입력받은 아이디로 멤버가 조회되지 않을때
 			if(member == null) {
 				
-				System.out.println(" 디버깅 비번 변경 2 ");
 				resultMap.put("check", "notExistID");
 			
 			//입력받은 아이디로 멤버가 조회 될때
 			} else if (member != null) {
 				
-				System.out.println(" 디버깅 비번 변경 3 ");
 				Member memberByInputEmail = memberService.getMemberByEmail(inputEmail);
 				String emailByInputId = member.getEmail();
 				
@@ -370,7 +308,6 @@ public class webViewController {
 					//비번변경을 위한 인증번호 쏴줘야 되는 경우
 					if(emailByInputId.equals(emailByInputEmail)) {
 						
-						System.out.println(" 디버깅 비번 변경 5 ");
 						int key = emailSender.generateAuthKey();
 						int token = emailSender.generateTokenKey();
 						
@@ -386,15 +323,24 @@ public class webViewController {
 						String id = member.getId();
 						String nick = member.getNickName();
 						String authKey = String.valueOf(key);
-						//직접 비번변경 가능한 URI
-						String disposableURI = "http://localhost/web/findIdByLink?token="+token+"&authKey="+authKey;
-						String contentForAuthKey = emailSender.generateAuthKeyContent(nick, disposableURI, authKey, id);
 						
-						email.setContent(contentForAuthKey);
+						//직접 비번변경 가능한 URI
+						//리얼용
+						//String disposableURI = realServerURI+"/findIdByLink?token="+token+"&authKey="+authKey;
+						
+						//로컬용
+						String disposableURI = testServerURI+"/findIdByLink?token="+token+"&authKey="+authKey;
+						
+						System.out.println("uri= "+disposableURI);
+						
+						String contentForFindPw = emailSender.generateContentForFindPw(nick, disposableURI, authKey, id);
+						
+						email.setContent(contentForFindPw);
 						email.setReceiver(inputEmail);
-						email.setSubject("[KingOfCasino] "+nick+"님께서 요청하신 인증번호 입니다.");
+						email.setSubject("[KingOfCasino] "+nick+"님의 요청 결과입니다.");
 						emailSender.sendEmail(email);
 						
+						System.out.println(id+" :: "+ nick +" :: "+ authKey+" :: "+inputEmail);
 						
 						resultMap.put("check", "true");
 						resultMap.put("type", "both");
@@ -403,11 +349,9 @@ public class webViewController {
 					//인증번호 쏘지 말아야 되는 경우
 					}else {
 						
-						System.out.println(" 디버깅 비번 변경 6 ");
 						resultMap.put("check", "notCrt");
 					}
 				} else {
-					System.out.println(" 디버깅 비번 변경 7 ");
 					resultMap.put("check", "notExistEmail");
 				}
 			}
