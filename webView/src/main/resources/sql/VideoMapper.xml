@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="VideoMapper">
+
+	<resultMap id="video" type="video">
+		<result property="videoNo"	 	column="_UniqueID"		jdbcType="INTEGER"/>
+		<result property="no"	 		column="NO"				jdbcType="VARCHAR"/>
+		<result property="title"		column="TITLE"			jdbcType="VARCHAR" />
+		<result property="runningTime"	column="RUNNINGTIME"	jdbcType="VARCHAR" />
+		<result property="code"			column="CODE"			jdbcType="VARCHAR" />
+		<result property="type"			column="TYPE"			jdbcType="BIT" />
+		<result property="price"		column="PRICE"			jdbcType="INTEGER" />
+		<result property="point"		column="POINT"			jdbcType="INTEGER" />
+		<result property="coin"			column="COIN"			jdbcType="INTEGER"  />
+		<result property="explain"		column="EXPLAIN"		jdbcType="VARCHAR" />
+		<result property="countryCode"	column="COUNTRY"		jdbcType="SMALLINT" />
+	</resultMap>
+	
+	<resultMap id="memberVideo" type="video">
+		<result	property="no"	column="_UniqueID"	jdbcType="INTEGER"/>
+		<result	property="userUniqueNo"	column="_UserUniqueID"	jdbcType="INTEGER"/>
+		<result property="videoNo"	column="_VideoUniqueID"	jdbcType="INTEGER"/>
+	</resultMap>
+	
+	<!-- getVideoDetail -->
+	<select id="getVideoDetail" parameterType="INTEGER" resultMap="video">
+	SELECT *
+	FROM VIDEO
+	WHERE _UniqueID = #{param} AND PUBL = 'TRUE'
+	</select>
+	
+	<!-- 무료 영상 -->
+	<select id="getFreeVideo" parameterType="INTEGER" resultMap="video">
+	SELECT *
+	FROM VIDEO
+	WHERE COUNTRY = #{param} AND TYPE = 'FALSE' AND PUBL = 'TRUE'
+	</select>
+	
+	<!-- 구매하지 않은 영상 목록 (샵) -->
+	<select id="getVideoListNotPaid" parameterType="search" resultMap="video">
+		SELECT b.*
+		FROM
+		(	SELECT a.*
+			FROM
+			(	SELECT ROW_NUMBER() OVER(ORDER BY NO) AS rnum, * 
+				FROM VIDEO
+				WHERE TYPE = 'TRUE' AND PUBL = 'TRUE' AND COUNTRY = #{countryCode} AND _UniqueID NOT IN 
+					(
+						SELECT mv._VideoUniqueID
+						FROM MEMBER m
+					JOIN MEMBER_VIDEO mv ON m._UniqueID = mv._UserUniqueID
+						WHERE mv._UserUniqueID = #{userUniqueID}
+					) 
+			) a
+			WHERE a.rnum &lt;= #{endCount} ) b
+		WHERE b.rnum &gt;= #{startCount}
+	
+	</select>
+	
+	<!-- 구매 영상  목록 -->
+	<select id="getVideoListPaid" parameterType="search" resultMap="video">
+	SELECT b.*
+	FROM(	SELECT a.*
+			FROM(	SELECT ROW_NUMBER() OVER(ORDER BY NO) AS rnum, * 
+					FROM VIDEO
+					WHERE TYPE = 'TRUE' AND PUBL = 'TRUE' AND COUNTRY = #{countryCode} AND _UniqueID IN
+					(	SELECT mv._VideoUniqueID
+						FROM MEMBER m
+					JOIN MEMBER_VIDEO mv ON m._UniqueID = mv._UserUniqueID
+						WHERE mv._UserUniqueID = #{userUniqueID}
+					) 
+			) a
+			WHERE a.rnum &lt;= #{endCount} ) b
+	WHERE b.rnum &gt;= #{startCount}
+	</select>
+
+	<!-- total count not paid video -->
+	<select id="getTotalCountNotPaidVideo" parameterType="member" resultType="video">
+	SELECT count(0) as totalCount
+	FROM VIDEO
+	WHERE TYPE = 'TRUE' AND PUBL = 'TRUE' AND COUNTRY = #{countryCode} AND _UniqueID NOT IN (
+		SELECT mv._VideoUniqueID
+		FROM MEMBER m
+	JOIN MEMBER_VIDEO mv ON m._UniqueID = mv._UserUniqueID
+		WHERE mv._UserUniqueID = #{uniqueID}
+	)
+	</select>
+	
+	<!-- total count not paid video -->
+	<select id="getTotalCountPaidVideo" parameterType="member" resultMap="video">
+	SELECT count(0) as totalCount
+	FROM VIDEO
+	WHERE TYPE = 'TRUE' AND PUBL = 'TRUE' AND COUNTRY = #{countryCode} AND _UniqueID IN (
+		SELECT mv._VideoUniqueID
+		FROM MEMBER m
+	JOIN MEMBER_VIDEO mv ON m._UniqueID = mv._UserUniqueID
+		WHERE mv._UserUniqueID = #{uniqueID}
+	)
+	</select>
+
+	<!-- insert Member_Video -->
+	<insert id="insertMemberVideo" parameterType="video">
+	INSERT INTO MEMBER_VIDEO (_UserUniqueID, _VideoUniqueID)
+	VALUES (#{userUniqueNo}, #{videoNo})
+	</insert>
+
+
+</mapper>

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MemberMapper">
+
+	<resultMap id="member" type="member">
+		<result property="uniqueID" 	column="_UniqueID"		jdbcType="INTEGER"/>
+		<result property="levelClass"	column="_CLASS"			jdbcType="SMALLINT" />
+		<result property="id"			column="_ID"			jdbcType="VARCHAR" />
+		<result property="nickName"		column="_NICKNAME"		jdbcType="VARCHAR" />
+		<result property="pass"			column="_PASS"			jdbcType="VARCHAR" />
+		<result property="condition"	column="_CONDITION"		jdbcType="BIT" />
+		
+		<!-- 회원 탈퇴 여부 -->
+		<result property="state"		column="_STATE"			jdbcType="BIT"/>
+		<result property="phone"		column="_PHONE"			jdbcType="VARCHAR"/>
+		<result property="email"		column="_EMAIL"			jdbcType="VARCHAR"/>
+		<result property="createDate"	column="_CREATEDATE"	jdbcType="DATE"/>
+		<result property="lastDate"		column="_LASTDATE"		jdbcType="DATE"/>
+		
+		<!-- 국가코드 en=0 kr=1 ch=2 jp=3 -->
+		<result property="countryCode"	column="_COUNTRY"		jdbcType="INTEGER"/>
+		
+		<!-- 현재 돈 -->
+		<result property="nowMoney"		column="_NOWMONEY"		jdbcType="DECIMAL"/>
+		<!-- 캐쉬 -->
+		<result property="cashMoney"	column="_CASHMONEY"		jdbcType="DECIMAL"/>
+		<!-- 게임포인트 -->
+		<result property="pointMoney"	column="_POINTMONEY"	jdbcType="DECIMAL"/>
+		<result property="safeMoney"	column="_SAFEMONEY"		jdbcType="DECIMAL"/>
+		<result property="waitMoney"	column="_WAITMONEY"		jdbcType="DECIMAL"/>
+		<result property="point"		column="_POINT"			jdbcType="DECIMAL"/>
+		<result property="bankName"		column="_BANKNAME"		jdbcType="VARCHAR"/>
+		
+		<!-- 인증키 -->
+		<result property="authKey"		column="_AUTHKEY"		jdbcType="INTEGER"/>
+		<!-- 계정찾기 조건 -->
+		<result property="findCondition" column="_FINDCONDITION" jdbcType="BIT"/>
+		<!-- 계정찾기 토큰 -->
+		<result property="token"		column="_TOKEN"			jdbcType="VARCHAR"/>
+		
+		<result property="fileNo"		column="file_no"		jdbcType="INTEGER"/>
+		<result property="boardNo"		column="board_no"		jdbcType="INTEGER"/>
+		<result property="oriNaem"		column="ori_name"		jdbcType="VARCHAR"/>
+		<result property="systemName"	column="system_name"	jdbcType="VARCHAR"/>
+		<result property="filePath"		column="file_path"		jdbcType="VARCHAR"/>
+		<result property="fileSize"		column="file_size"		jdbcType="DECIMAL"/>
+		
+	</resultMap>
+	
+	<!-- 회원가입 -->
+	<insert	id="addMember"	parameterType="member">
+		INSERT INTO MEMBER ( _ID, _NICKNAME, _PASS, _EMAIL, _CLASS )
+		VALUES ( #{id}, #{nickName}, #{pass}, #{email}, 6 )
+	</insert>
+	
+	<select id="getMember" resultMap="member">
+	SELECT *
+	FROM Member m
+	INNER JOIN MEMBER_INFO mi ON m._UniqueID = mi._UniqueID
+	LEFT JOIN WEB_FILE wf ON m._UniqueID = wf._UniqueID
+	</select>
+	
+	<select	id="selectOneLoginMember"	parameterType="int"	resultMap="member">
+		SELECT mb.*, mbinfo.*, wfile.*
+			FROM MEMBER mb
+	INNER JOIN MEMBER_INFO mbinfo ON mb._UniqueID = mbinfo._UserUniqueID
+	LEFT JOIN WEB_FILE wfile ON mb._UniqueID = wfile._UniqueID
+			WHERE mb._UniqueID = #{uniqueID}
+	</select>
+	
+	<!-- 로그인 -->
+	<select id="login" parameterType="String" resultMap="member">
+		SELECT *
+		FROM Member m
+	INNER JOIN MEMBER_INFO mi ON m._UniqueID = mi._USERUNIQUEID
+	LEFT JOIN WEB_FILE wf ON m._UniqueID = wf._UniqueID
+		WHERE m._ID = #{param} AND m._STATE = 'true'
+	</select>
+	
+	<!-- 닉네임 중복체크 -->
+	<select id="duplCheck" parameterType="map" resultMap="member">
+		SELECT *
+		FROM MEMBER
+		WHERE 1=1
+		<if test="param == 'nickname'">
+		AND _NICKNAME = #{value}
+		</if>
+		<if test="param == 'id'">
+		AND _ID = #{value}
+		</if>
+		<if test="param == 'email'">
+		AND _EMAIL = #{value}
+		</if>
+	</select>
+	
+	<!-- 내정보 수정 -->
+	<update id="updateMember" parameterType="member">
+	UPDATE MEMBER
+	<set>
+		_NICKNAME	=	#{nickName}
+		,_EMAIL	=	#{email}
+		,_PASS	=	#{pass}
+	</set>
+	WHERE _UniqueID = #{uniqueID}
+	</update>
+
+	<!-- association 을 위한 getMember -->
+	<select	id="getMemberByUniqNo"  parameterType="INTEGER" resultMap="member">
+		SELECT *
+		FROM MEMBER m
+	LEFT JOIN MEMBER_INFO mi ON m._UniqueID = mi._USERUNIQUEID
+		WHERE m._UniqueID = #{param} AND m._STATE = 'true'
+	</select>
+	
+	<select id="getMemberByID"	parameterType="string" resultMap="member">
+		SELECT *
+		FROM MEMBER m
+	LEFT JOIN MEMBER_INFO mi ON m._UniqueID = mi._USERUNIQUEID
+		WHERE m._ID = #{param} AND m._STATE = 'true'
+	</select>
+	
+	<!-- getMemberByEmail -->
+	<select id="getMemberByEmail" parameterType="string" resultMap="member">
+		SELECT *
+		FROM MEMBER m
+	LEFT JOIN MEMBER_INFO mi ON m._UniqueID = mi._USERUNIQUEID
+		WHERE m._EMAIL = #{email} AND m._STATE = 'true'
+	</select>
+	<!-- <select id="getMemberByEmail" parameterType="string" resultMap="member">
+		SELECT *
+		FROM MEMBER m
+	LEFT JOIN MEMBER_INFO mi ON m._UniqueID = mi._USERUNIQUEID
+	LEFT JOIN MEMBER_VIDEO mv ON m._UniqueID = mv._UserUniqueID
+		WHERE m._EMAIL = #{email} AND m._STATE = 'true'
+	</select> -->
+	
+	<!-- 맴버인포 인서트 : 국가코드 0영어 1한국 2일어 -->
+	<insert	id="addMemberInfo"	parameterType="member">
+		INSERT INTO MEMBER_INFO ( _USERUNIQUEID, _LEVEL, _COUNTRY)
+		VALUES(#{uniqueID}, 6, 1)
+	</insert>
+
+	<!-- 회원탈퇴 -->
+	<update id="deleteMember" parameterType="member">
+	UPDATE MEMBER
+	<set>
+		_STATE = 0
+	</set>
+	WHERE _UniqueID = #{uniqueID}
+	</update>
+	
+
+	<!-- 이메일 인증 완료한 상태로 변경 -->
+	<update id="updateFindConditionTrue"	parameterType="INTEGER">
+		UPDATE MEMBER_INFO
+		<set>
+			_FINDCONDITION = 'true'
+		</set>
+		WHERE _USERUNIQUEID = #{uniqueID}
+	</update>
+	
+	<!-- 이메일 인증 필요한 상태로 변경 -->
+	<update id="updateFindConditionFalse"	parameterType="INTEGER">
+		UPDATE MEMBER_INFO
+		<set>
+			_FINDCONDITION = 'false'
+		</set>
+		WHERE _USERUNIQUEID = #{uniqueID}
+	</update>
+	
+	<!-- 계정찾기 메일 보내면서 토큰 저장 -->
+	<update id="updateToken"	parameterType="member">
+		UPDATE MEMBER_INFO
+		<set>
+			_Token = #{token}
+		</set>
+		WHERE _USERUNIQUEID = #{uniqueID}
+	</update>
+	
+	<!-- 계정찾기 토큰으로 아이디 검색 -->
+	<select id="getMemberByToken"	parameterType="string" resultMap="member">
+		SELECT *
+		FROM MEMBER m
+	LEFT JOIN MEMBER_INFO mi ON m._UniqueID = mi._USERUNIQUEID
+	LEFT JOIN MEMBER_VIDEO mv ON m._UniqueID = mv._UserUniqueID
+		WHERE mi._Token = #{param} AND m._STATE = 'true'
+	</select>
+	
+	<!-- 메일 update authKey -->
+	<update id="updateAuthKey"	parameterType="member">
+		UPDATE MEMBER_INFO
+		<set>
+			_AUTHKEY = #{authKey}
+		</set>
+		WHERE _USERUNIQUEID = #{uniqueID}
+	</update>
+	
+	<!-- 인증키로 아이디 검색 -->
+	<select id="getMemberByAuthKey"	parameterType="string" resultMap="member">
+		SELECT *
+		FROM MEMBER m
+	LEFT JOIN MEMBER_INFO mi ON m._UniqueID = mi._USERUNIQUEID
+	LEFT JOIN MEMBER_VIDEO mv ON m._UniqueID = mv._UserUniqueID
+		WHERE mi._AUTHKEY = #{param} AND m._STATE = 'true'
+	</select>
+
+	<!-- 인증키 삭제 -->
+	<update id="deleteAuthKey"	parameterType="integer">
+		UPDATE MEMBER_INFO
+		<set>
+			_AUTHKEY = 0
+		</set>
+		WHERE _USERUNIQUEID = #{uniqueID}
+	</update>
+	
+	<!-- 토큰키 삭제 -->
+	<update id="deleteToken"	parameterType="integer">
+		UPDATE MEMBER_INFO
+		<set>
+			_TOKEN = 0
+		</set>
+		WHERE _USERUNIQUEID = #{uniqueID}
+	</update>
+
+	<!-- 영상구매후 캐쉬변경내역 업데이트 -->
+	<update id="updateMemberMoney" parameterType="member">
+		UPDATE MEMBER_INFO
+		<set>
+			_CASHMONEY = #{cashMoney}
+			, _NOWMONEY = #{nowMoney}
+		</set>
+		WHERE _USERUNIQUEID = #{uniqueID}
+	</update>
+
+
+</mapper>

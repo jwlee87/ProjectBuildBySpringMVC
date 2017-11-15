@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:util="http://www.springframework.org/schema/util"
+
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation=
+				"http://www.springframework.org/schema/beans 
+				http://www.springframework.org/schema/beans/spring-beans.xsd
+				 http://www.springframework.org/schema/context 
+				 http://www.springframework.org/schema/context/spring-context.xsd
+				http://www.springframework.org/schema/util 
+				http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<util:properties id="commonProperties" location="classpath:config/common.properties"/>
+		
+	<context:component-scan base-package="kr.co.playground">
+		<context:include-filter type="annotation"	expression="org.springframework.stereotype.Service" />
+		<context:include-filter type="annotation"	expression="org.springframework.stereotype.Repository" />
+		<context:exclude-filter type="annotation" 	expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	
+	<!-- ============================================================= -->
+	<!-- multipartResolver Setting -->
+	<!-- ============================================================= -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10000000"/>
+		<property name="maxInMemorySize" value="10000000"/>
+	</bean>
+	
+	<!-- ============================================================= -->
+	<!-- mailSender Setting -->
+	<!-- ============================================================= -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="defaultEncoding" value="utf-8" />
+		<property name="username" value="kingofdayinc@gmail.com" />
+		<property name="password" value="Zlddhqmepdl501" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.debug">false</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="email" class="kr.co.playground.domain.Email"></bean>
+	<bean id="emailSender" class="kr.co.playground.common.EmailSender"></bean>
+	<bean id="formatConverter" class="kr.co.playground.common.FormatConverter"></bean>
+	
+	<!-- ============================================================= -->
+	<!-- /////// Client 에서 전달되는 JSON Data 를 Domain Object 롤 변환 받기위한 설정 ///////-->
+	<!-- ============================================================= -->
+	<!-- <bean id="jsonConverter"	class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes" value="application/json" />
+	</bean> -->
+	
+	<!-- ============================================================= -->
+	<!-- /////// AnnotationMethodHandlerAdapter 에 jsonConverer  DI /////// -->
+	<!-- ============================================================= -->
+	<!-- <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="jsonConverter"/>
+			</list>
+		</property>	 
+	</bean> -->
+
+</beans>

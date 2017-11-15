@@ -12,3 +12,17 @@
 /PlaygroundForAdult/src/main/webapp/webView/video/
 /PlaygroundForAdult/src/main/webapp/node_modules/
 /PlaygroundForAdult/src/main/webapp/webView/bootstrap/
+
+/webView/.gradle/
+/webView/.settings/
+/webView/bin/
+/webView/build/
+/webView#.classpath
+/webView#*.project
+/webView#build.gradle
+/webView/libs/
+/webView/RemoteSystemTempFiles/
+/webView/src/main/webapp/resources/
+/webView/src/main/webapp/webView/video/
+/webView/src/main/webapp/node_modules/
+/webView/src/main/webapp/webView/bootstrap/
