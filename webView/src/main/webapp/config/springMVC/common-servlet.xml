@@ -19,7 +19,7 @@
 	<!-- ============================================================= -->
 	<!-- :: 공통적인 사항을 설정한 common-servlet.xml 사용. -->
 	<!-- ============================================================= -->
-	<context:component-scan base-package="kr.co.playground">
+	<context:component-scan base-package="kr.co.kingofday">
 		<context:include-filter 	type="annotation"	expression="org.springframework.stereotype.Controller" />
 		<context:exclude-filter 	type="annotation" 	expression="org.springframework.stereotype.Service"/>
 		<context:exclude-filter 	type="annotation" 	expression="org.springframework.stereotype.Repository"/>
@@ -33,7 +33,7 @@
 	<mvc:interceptors>		
 		<mvc:interceptor>
 			<mvc:mapping path="/web/ask/admin"/>
-			<bean class="kr.co.playground.web.LogonCheckInterceptor" />
+			<bean class="kr.co.kingofday.web.LogonCheckInterceptor" />
 		</mvc:interceptor>
 		
 		<mvc:interceptor>
@@ -78,7 +78,6 @@
 		</property>
 		
 		<property name="defaultErrorView"	value="/common/error.jsp" />
-		
 	</bean>
 	-->
 	

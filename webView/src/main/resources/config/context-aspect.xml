@@ -10,12 +10,12 @@
 				 http://www.springframework.org/schema/aop/spring-aop.xsd">
 				
 	<bean 	id="logAspect"		
-		class="kr.co.playground.aspect.LogAspectJ" />
+		class="kr.co.kingofday.aspect.LogAspectJ" />
 
 	<aop:config>
 		<aop:aspect  ref="logAspect">
 			<aop:around 
-					pointcut="execution(* kr.co.playground.service..*Impl.*(..) )"	method="invoke"/>
+					pointcut="execution(* kr.co.kingofday.service..*Impl.*(..) )"	method="invoke"/>
 		</aop:aspect>
 	</aop:config>
 

@@ -14,8 +14,8 @@
 				http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<util:properties id="commonProperties" location="classpath:config/common.properties"/>
-		
-	<context:component-scan base-package="kr.co.playground">
+	
+	<context:component-scan base-package="kr.co.kingofday">
 		<context:include-filter type="annotation"	expression="org.springframework.stereotype.Service" />
 		<context:include-filter type="annotation"	expression="org.springframework.stereotype.Repository" />
 		<context:exclude-filter type="annotation" 	expression="org.springframework.stereotype.Controller" />
@@ -46,26 +46,8 @@
 			</props>
 		</property>
 	</bean>
-	<bean id="email" class="kr.co.playground.domain.Email"></bean>
-	<bean id="emailSender" class="kr.co.playground.common.EmailSender"></bean>
-	<bean id="formatConverter" class="kr.co.playground.common.FormatConverter"></bean>
+	<bean id="email" class="kr.co.kingofday.domain.Email"></bean>
+	<bean id="emailSender" class="kr.co.kingofday.common.EmailSender"></bean>
+	<bean id="formatConverter" class="kr.co.kingofday.common.FormatConverter"></bean>
 	
-	<!-- ============================================================= -->
-	<!-- /////// Client 에서 전달되는 JSON Data 를 Domain Object 롤 변환 받기위한 설정 ///////-->
-	<!-- ============================================================= -->
-	<!-- <bean id="jsonConverter"	class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-		<property name="supportedMediaTypes" value="application/json" />
-	</bean> -->
-	
-	<!-- ============================================================= -->
-	<!-- /////// AnnotationMethodHandlerAdapter 에 jsonConverer  DI /////// -->
-	<!-- ============================================================= -->
-	<!-- <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-		<property name="messageConverters">
-			<list>
-				<ref bean="jsonConverter"/>
-			</list>
-		</property>	 
-	</bean> -->
-
 </beans>

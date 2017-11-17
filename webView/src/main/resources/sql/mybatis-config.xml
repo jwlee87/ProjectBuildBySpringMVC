@@ -15,10 +15,10 @@
 	<!-- FQCN(Full Qualified Class Name) Alias -->
 	<typeAliases>
 	
-		<typeAlias alias="member" type="kr.co.playground.domain.Member" />
-		<typeAlias alias="webFile" type="kr.co.playground.domain.WebFile" />
-		<typeAlias alias="video" type="kr.co.playground.domain.Video" />
-		<typeAlias alias="search" type="kr.co.playground.domain.Search" />
+		<typeAlias alias="member" type="kr.co.kingofday.domain.Member" />
+		<typeAlias alias="webFile" type="kr.co.kingofday.domain.WebFile" />
+		<typeAlias alias="video" type="kr.co.kingofday.domain.Video" />
+		<typeAlias alias="search" type="kr.co.kingofday.domain.Search" />
 		
 	</typeAliases>
 	
