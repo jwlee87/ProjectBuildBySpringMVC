@@ -16,6 +16,7 @@ public class Member {
 	private String email;
 	private Date createDate;
 	private Date lastDate;
+	private int admin;
 	
 	//국가코드 0=en 1=kr 2=ch 3=jp
 	private int countryCode;
@@ -283,17 +284,35 @@ public class Member {
 		this.fileSize = fileSize;
 	}
 
+	public int getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(int admin) {
+		this.admin = admin;
+	}
 	@Override
 	public String toString() {
 		return "Member [uniqueID=" + uniqueID + ", levelClass=" + levelClass + ", id=" + id + ", nickName=" + nickName
 				+ ", pass=" + pass + ", condition=" + condition + ", state=" + state + ", phone=" + phone + ", email="
-				+ email + ", createDate=" + createDate + ", lastDate=" + lastDate + ", countryCode=" + countryCode
-				+ ", memberSize=" + memberSize + ", nowMoney=" + nowMoney + ", cashMoney=" + cashMoney + ", pointMoney="
-				+ pointMoney + ", safeMoney=" + safeMoney + ", waitMoney=" + waitMoney + ", point=" + point
-				+ ", bankName=" + bankName + ", authKey=" + authKey + ", findCondition=" + findCondition + ", token="
-				+ token + ", fileNo=" + fileNo + ", boardNo=" + boardNo + ", oriNaem=" + oriNaem + ", systemName="
-				+ systemName + ", filePath=" + filePath + ", fileSize=" + fileSize + "]";
+				+ email + ", createDate=" + createDate + ", lastDate=" + lastDate + ", admin=" + admin
+				+ ", countryCode=" + countryCode + ", memberSize=" + memberSize + ", nowMoney=" + nowMoney
+				+ ", cashMoney=" + cashMoney + ", pointMoney=" + pointMoney + ", safeMoney=" + safeMoney
+				+ ", waitMoney=" + waitMoney + ", point=" + point + ", bankName=" + bankName + ", authKey=" + authKey
+				+ ", findCondition=" + findCondition + ", token=" + token + ", fileNo=" + fileNo + ", boardNo="
+				+ boardNo + ", oriNaem=" + oriNaem + ", systemName=" + systemName + ", filePath=" + filePath
+				+ ", fileSize=" + fileSize + ", getUniqueID()=" + getUniqueID() + ", getLevelClass()=" + getLevelClass()
+				+ ", getId()=" + getId() + ", getNickName()=" + getNickName() + ", getPass()=" + getPass()
+				+ ", getCondition()=" + getCondition() + ", getState()=" + getState() + ", getPhone()=" + getPhone()
+				+ ", getEmail()=" + getEmail() + ", getCreateDate()=" + getCreateDate() + ", getLastDate()="
+				+ getLastDate() + ", getCountryCode()=" + getCountryCode() + ", getMemberSize()=" + getMemberSize()
+				+ ", getNowMoney()=" + getNowMoney() + ", getCashMoney()=" + getCashMoney() + ", getPointMoney()="
+				+ getPointMoney() + ", getSafeMoney()=" + getSafeMoney() + ", getWaitMoney()=" + getWaitMoney()
+				+ ", getPoint()=" + getPoint() + ", getBankName()=" + getBankName() + ", getAuthKey()=" + getAuthKey()
+				+ ", isFindCondition()=" + isFindCondition() + ", getToken()=" + getToken() + ", getFileNo()="
+				+ getFileNo() + ", getBoardNo()=" + getBoardNo() + ", getOriNaem()=" + getOriNaem()
+				+ ", getSystemName()=" + getSystemName() + ", getFilePath()=" + getFilePath() + ", getFileSize()="
+				+ getFileSize() + ", getAdmin()=" + getAdmin() + ", getClass()=" + getClass() + ", hashCode()="
+				+ hashCode() + ", toString()=" + super.toString() + "]";
 	}
-	
-
 }

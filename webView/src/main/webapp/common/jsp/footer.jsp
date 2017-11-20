@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="kr.co.playground.common.FormatUtil" %>
+<%@ page import="kr.co.kingofday.common.FormatUtil" %>
 <!-- 푸터 시작 -->
 <footer>
 	<div class="footer-head">
@@ -114,7 +114,7 @@
 <div class="footer-foot">
 <div class="footcon">
 	<div class="fcol-1">
-		<div class="fmessage"><p>Hello. welcome to Adult playground!!!</p></div>
+		<div class="fmessage"><p>Hello. welcome!!!</p></div>
 	</div>
 	<div class="fcol-2">
 	<div class="btn-group" style="float: right;">

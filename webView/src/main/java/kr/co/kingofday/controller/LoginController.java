@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import kr.co.kingofday.common.EmailSender;
+import kr.co.kingofday.common.CommonGenerator;
 import kr.co.kingofday.domain.Email;
 import kr.co.kingofday.domain.Member;
 import kr.co.kingofday.domain.WebFile;
@@ -51,7 +51,7 @@ public class LoginController {
 	private Email email;
 	
 	@Autowired
-	private EmailSender emailSender;
+	private CommonGenerator commonGenerator;
 	
 	@Value("#{commonProperties['uploadPath']}")
 	String uploadPath;
@@ -296,7 +296,7 @@ public class LoginController {
 			} else {
 				logger.debug("멤버 낫널 "+member);
 				
-				int key = emailSender.generateAuthKey();
+				int key = commonGenerator.generateAuthKey();
 				String authKey = String.valueOf(key);
 				String mailAddr = member.getEmail();
 				
@@ -328,7 +328,7 @@ public class LoginController {
 						);
 				email.setReceiver(emailAddr);
 				email.setSubject(member.getNickName()+"님의 아이디 찾기 결과입니다.");
-				emailSender.sendEmail(email);
+				commonGenerator.sendEmail(email);
 				
 				
 				session.setAttribute("email", email);
@@ -352,7 +352,7 @@ public class LoginController {
 				
 				logger.debug("멤버 낫널 "+member);
 				
-				int key = emailSender.generateAuthKey();
+				int key = commonGenerator.generateAuthKey();
 				String authKey = String.valueOf(key);
 				
 				//입력한 아이디와 이메일주소의 사용자가 일치
@@ -388,7 +388,7 @@ public class LoginController {
 							);
 					email.setReceiver(emailAddr);
 					email.setSubject(member.getNickName()+"님의 아이디 찾기 결과입니다.");
-					emailSender.sendEmail(email);
+					commonGenerator.sendEmail(email);
 					
 					
 					session.setAttribute("email", email);

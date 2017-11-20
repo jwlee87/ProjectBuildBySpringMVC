@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.icert.comm.secu.IcertSecuManager;
 
-import kr.co.kingofday.common.EmailSender;
+import kr.co.kingofday.common.CommonGenerator;
 import kr.co.kingofday.common.FormatUtil;
 import kr.co.kingofday.domain.Email;
 import kr.co.kingofday.domain.Member;
@@ -51,7 +51,7 @@ public class WebViewController {
 	private Email email;
 	
 	@Autowired
-	private EmailSender emailSender;
+	private CommonGenerator commonGenerator;
 	
 	private Logger logger = LogManager.getLogger();
 	
@@ -88,7 +88,7 @@ public class WebViewController {
 	public String tos(@ModelAttribute Member member, @RequestParam String cc
 			, Model model) throws Exception {
 		
-		String returnWebViewURI = emailSender.makingReturnWebViewURI(Integer.parseInt(cc));
+		String returnWebViewURI = commonGenerator.makingReturnWebViewURI(Integer.parseInt(cc));
 		String returnURI = returnWebViewURI+"tos.jsp";
 		String returnNotAccess = returnWebViewURI+"notAccess.jsp";
 		logger.debug(" debugging return page == "+returnURI);
@@ -120,7 +120,7 @@ public class WebViewController {
 	public String find(@RequestParam String cc,
 			Model model) throws Exception {
 		model.addAttribute("cc", cc);
-		String returnWebViewURI = emailSender.makingReturnWebViewURI(Integer.parseInt(cc));
+		String returnWebViewURI = commonGenerator.makingReturnWebViewURI(Integer.parseInt(cc));
 		String returnURI = returnWebViewURI+"findAccount.jsp"; 
 		//en
 		if(cc.equals("0")) {
@@ -174,15 +174,15 @@ public class WebViewController {
 					String id = member.getId();
 					String nick = member.getNickName();
 					String mailAddr = member.getEmail();
-					String contentForID = emailSender.generateIdContent(nick, id);
+					String contentForID = commonGenerator.generateIdContent(nick, id);
 					
 					//아이디 알려주는 메일 발사
 					email.setContent(contentForID);
 					email.setReceiver(mailAddr);
 					email.setSubject("[KingOfCasino] "+nick+"님의 아이디 찾기 결과입니다.");
-					emailSender.sendEmail(email);
+					commonGenerator.sendEmail(email);
 					
-					String countryURI = emailSender.assignCountryCode(member.getCountryCode());
+					String countryURI = commonGenerator.assignCountryCode(member.getCountryCode());
 					
 					//조건 초기화
 					memberService.updateFindConditionFalse(member.getUniqueID());
@@ -221,7 +221,7 @@ public class WebViewController {
 				//email.setSubject("[KingOfCasino] "+nick+"님의 비밀번호 찾기 결과입니다.");
 				//emailSender.sendEmail(email);
 				
-				String countryURI = emailSender.assignCountryCode(member.getCountryCode());
+				String countryURI = commonGenerator.assignCountryCode(member.getCountryCode());
 				
 				//조건 초기화
 				memberService.updateFindConditionFalse(member.getUniqueID());
@@ -272,8 +272,8 @@ public class WebViewController {
 				
 				logger.debug(" 멤버 널 ");
 				
-				int key = emailSender.generateAuthKey();
-				int token = emailSender.generateTokenKey();
+				int key = commonGenerator.generateAuthKey();
+				int token = commonGenerator.generateTokenKey();
 				
 				member.setAuthKey(key);
 				member.setToken(String.valueOf(token).trim());
@@ -297,14 +297,14 @@ public class WebViewController {
 				
 				logger.debug("URI debugging= "+disposableURI);
 				
-				String contentForFindId = emailSender.generateContentForFindId(nick, disposableURI, authKey, id); 
+				String contentForFindId = commonGenerator.generateContentForFindId(nick, disposableURI, authKey, id); 
 				
 				logger.debug(id+" :: "+ nick +" :: "+ authKey+" :: "+onlyEmail);
 				
 				email.setContent(contentForFindId);
 				email.setReceiver(onlyEmail);
 				email.setSubject("[KingOfCasino] "+nick+"님 아이디 찾기 결과 입니다.");
-				emailSender.sendEmail(email);
+				commonGenerator.sendEmail(email);
 				resultMap.put("check", "true");
 				resultMap.put("type", "email");
 				
@@ -334,8 +334,8 @@ public class WebViewController {
 					//비번변경을 위한 인증번호 쏴줘야 되는 경우
 					if(emailByInputId.equals(emailByInputEmail)) {
 						
-						int key = emailSender.generateAuthKey();
-						int token = emailSender.generateTokenKey();
+						int key = commonGenerator.generateAuthKey();
+						int token = commonGenerator.generateTokenKey();
 						
 						member.setAuthKey(key);
 						member.setToken(String.valueOf(token).trim());
@@ -359,12 +359,12 @@ public class WebViewController {
 						
 						logger.debug("uri= "+disposableURI);
 						
-						String contentForFindPw = emailSender.generateContentForFindPw(nick, disposableURI, authKey, id);
+						String contentForFindPw = commonGenerator.generateContentForFindPw(nick, disposableURI, authKey, id);
 						
 						email.setContent(contentForFindPw);
 						email.setReceiver(inputEmail);
 						email.setSubject("[KingOfCasino] "+nick+"님의 요청 결과입니다.");
-						emailSender.sendEmail(email);
+						commonGenerator.sendEmail(email);
 						
 						logger.debug(id+" :: "+ nick +" :: "+ authKey+" :: "+inputEmail);
 						
@@ -412,7 +412,7 @@ public class WebViewController {
 				if(String.valueOf(member.getAuthKey()).equals(authKey)) {
 					logger.debug("ajax checking authKey processing :: 아이디찾기로 인입 :: 인증번호 일치 ::");
 					
-					resultMap.put("countryURI", emailSender.assignCountryCode(member.getCountryCode()));
+					resultMap.put("countryURI", commonGenerator.assignCountryCode(member.getCountryCode()));
 					resultMap.put("token", member.getToken());
 					resultMap.put("check", "correct");
 					

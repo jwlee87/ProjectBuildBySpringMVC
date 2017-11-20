@@ -1,7 +1,5 @@
 package kr.co.kingofday.domain;
 
-import org.springframework.beans.factory.annotation.Value;
-
 public class Search {
 	
 	///Filed

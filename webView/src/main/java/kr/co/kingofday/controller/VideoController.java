@@ -20,9 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.co.kingofday.common.EmailSender;
-import kr.co.kingofday.common.FormatConverter;
-import kr.co.kingofday.domain.Email;
+import kr.co.kingofday.common.CommonGenerator;
 import kr.co.kingofday.domain.Member;
 import kr.co.kingofday.domain.Search;
 import kr.co.kingofday.domain.Video;
@@ -43,7 +41,7 @@ public class VideoController {
 	private VideoService videoService;
 	
 	@Autowired
-	private EmailSender emailSender;
+	private CommonGenerator commonGenerator;
 	
 	private Logger logger = LogManager.getLogger();
 	
@@ -70,9 +68,9 @@ public class VideoController {
 		model.addAttribute("member", member);
 		int cc = member.getCountryCode();
 		String countryCode = String.valueOf(cc);
-		String tempURI = emailSender.makingReturnWebViewURI(member.getCountryCode());
-		String returnURI = tempURI+"video/videoList.jsp";
-		String errorURI = tempURI+"video/notAccess.jsp"; 
+		String tempURI = commonGenerator.makingReturnWebViewURI(member.getCountryCode());
+		String returnURI = tempURI+"video/videoList";
+		String errorURI = tempURI+"video/notAccess"; 
 		
 		Device device = DeviceUtils.getCurrentDevice(request);
 		logger.debug("device dubug : "+device);
@@ -147,9 +145,9 @@ public class VideoController {
 		
 		int cc = member.getCountryCode();
 		String countryString = String.valueOf(cc);
-		String tempURI = emailSender.makingReturnWebViewURI(member.getCountryCode());
-		String returnURI = tempURI+"video/shopList.jsp";
-		String errorURI = tempURI+"video/notAccess.jsp";
+		String tempURI = commonGenerator.makingReturnWebViewURI(member.getCountryCode());
+		String returnURI = tempURI+"video/shopList";
+		String errorURI = tempURI+"video/notAccess";
 		
 		if(countryString.trim().equals("0")) {
 			return returnURI;
@@ -187,9 +185,9 @@ public class VideoController {
 		
 		int cc = member.getCountryCode();
 		String countryString = String.valueOf(cc);
-		String tempURI = emailSender.makingReturnWebViewURI(member.getCountryCode());
-		String returnURI = tempURI+"video/myList.jsp";
-		String errorURI = tempURI+"video/notAccess.jsp";
+		String tempURI = commonGenerator.makingReturnWebViewURI(member.getCountryCode());
+		String returnURI = tempURI+"video/myList";
+		String errorURI = tempURI+"video/notAccess";
 		
 		if(countryString.trim().equals("0")) {
 			return returnURI;
@@ -214,7 +212,7 @@ public class VideoController {
 		video = videoService.getVideoDetail(no);
 		model.addAttribute("video", video);
 		model.addAttribute("id", id);
-		return "/webView/view/kr/video/free.jsp";
+		return "/webView/view/kr/video/free";
 	}
 	//////////////////////////////
 	///// notPaidVideoDetail /////
@@ -225,7 +223,7 @@ public class VideoController {
 		video = videoService.getVideoDetail(no);
 		model.addAttribute("video", video);
 		model.addAttribute("id", id);
-		return "/webView/view/kr/video/notPaidDetail.jsp";
+		return "/webView/view/kr/video/notPaidDetail";
 	}
 	
 	

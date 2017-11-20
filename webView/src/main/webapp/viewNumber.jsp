@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="kr.co.playground.common.FormatUtil" %>
+<%@ page import="kr.co.kingofday.common.FormatUtil" %>
 <%
 	request.setAttribute("price", 1223232345L);
 %>
+<!DOCTYPE html>
 <html>
-<!DOCTYPE html">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
