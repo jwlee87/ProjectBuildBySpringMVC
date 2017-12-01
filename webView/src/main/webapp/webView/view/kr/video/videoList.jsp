@@ -17,7 +17,7 @@
 
 <link rel="stylesheet" href="/node_modules/bootstrap/css/bootstrap.min.css"/>
 
-<script src="/node_modules/jquery/dist/jquery.min.js"></script>
+<script src="/admin/vendor/jquery/jquery.js"></script>
 <script src="/webView/bootstrap/js/popper.min.js"></script>
 <script src="/node_modules/bootstrap/js/bootstrap.js"></script>
 
@@ -145,10 +145,14 @@ and (orientation : landscape) {
 	.thumnail {width: 88%; margin: 5%;}
 }
 
+#lodingIcon{position: absolute; top: 30%; left: 30%;}
 .contentcon {height: 100%; overflow-y: hidden; overflow-x: hidden}
 p { color: white; text-decoration: none;}
 a:hover {text-decoration: none;}
 
+/* Preloader */
+#preloader {position: fixed;top:0;left:0;right:0;bottom:0;background-color:#000;z-index:1000;}
+#status {width:80px; height:80px; position:absolute; left:50%; top:50%; background-image:url(/webView/img/common/loadingIcon.gif); background-repeat:no-repeat; background-size:40px; background-position:center; margin:-40px 0 0 -40px;}
 
 @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
  font-family: 'Noto Sans KR', sans-serif;
@@ -158,8 +162,8 @@ a:hover {text-decoration: none;}
 <body style="height: 100%; width: 100%; background-color: black;">
 
 <div class="container-fluid">
-	<div class="contentcon" style="height: 100%;">
 
+	<div class="contentcon" style="height: 100%;">
 		<div id="topcon" class="row">
 			<div class="col-4">
 				<div class="row" style="height: 100%;">
@@ -211,11 +215,17 @@ a:hover {text-decoration: none;}
 
 			</div>
 		</div>
-		
 	</div>
 </div>
 
+<div id="preloader">
+    <div id="status"></div>
+</div>
+
 <script>
+$(window).on("load", function(){
+	setTimeout(function(){ $("#preloader").hide(); }, 500);
+})
 </script>
 </body>
 </html>

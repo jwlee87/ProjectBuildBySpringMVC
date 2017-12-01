@@ -4,7 +4,6 @@
  		 PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
  		"http://mybatis.org/dtd/mybatis-3-config.dtd">
   						
-<!--	mybatis-config.xml :: MyBatis Framework  MetaData -->
 <configuration>
 
 	<!-- 기타 설정정보 :: [MyBatis_Home]/mybatis-3.2.1.pdf 참조 -->
@@ -15,10 +14,14 @@
 	<!-- FQCN(Full Qualified Class Name) Alias -->
 	<typeAliases>
 	
-		<typeAlias alias="member" type="kr.co.kingofday.domain.Member" />
-		<typeAlias alias="webFile" type="kr.co.kingofday.domain.WebFile" />
-		<typeAlias alias="video" type="kr.co.kingofday.domain.Video" />
-		<typeAlias alias="search" type="kr.co.kingofday.domain.Search" />
+		<typeAlias alias="member"     type="kr.co.kingofday.domain.Member" />
+		<typeAlias alias="webFile"    type="kr.co.kingofday.domain.WebFile" />
+		<typeAlias alias="video"      type="kr.co.kingofday.domain.Video" />
+		<typeAlias alias="search"     type="kr.co.kingofday.domain.Search" />
+		<typeAlias alias="adultCheck" type="kr.co.kingofday.domain.AdultCheck"/>
+		<typeAlias alias="ask"        type="kr.co.kingofday.domain.Ask"/>
+		<typeAlias alias="answer"     type="kr.co.kingofday.domain.Answer"/>
+		<typeAlias alias="reward"     type="kr.co.kingofday.domain.Reward"/>
 		
 	</typeAliases>
 	
@@ -27,6 +30,8 @@
 		<mapper resource="sql/MemberMapper.xml"/>
 		<mapper resource="sql/WebFileMapper.xml"/>
 		<mapper resource="sql/VideoMapper.xml"/>
+		<mapper resource="sql/AdminMapper.xml"/>
+		<mapper resource="sql/RewardMapper.xml"/>
 	</mappers>
 
 </configuration>

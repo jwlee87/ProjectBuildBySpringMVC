@@ -15,6 +15,7 @@ import org.springframework.mobile.device.DeviceUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +29,6 @@ import kr.co.kingofday.service.MemberService;
 import kr.co.kingofday.service.VideoService;
 
 @Controller
-@RequestMapping("/web/video/*")
 public class VideoController {
 	
 	///Field
@@ -56,7 +56,7 @@ public class VideoController {
 	//////////////////
 	//  videoList  ///
 	//////////////////
-	@RequestMapping(value="/list", method=RequestMethod.GET)
+	@RequestMapping(value="/web/video/list", method=RequestMethod.GET)
 	public String videoList(HttpServletRequest request
 		, @ModelAttribute Member member, @RequestParam String id
 		, @ModelAttribute Video video, Model model)throws Exception{
@@ -125,7 +125,7 @@ public class VideoController {
 	/////////////////////
 	// video shop list //
 	/////////////////////
-	@RequestMapping(value="/shop", method=RequestMethod.GET)
+	@RequestMapping(value="/web/video/shop", method=RequestMethod.GET)
 	public String videoShopList(@RequestParam String id, @RequestParam String cp
 			, @ModelAttribute Member member, Model model, @ModelAttribute Search search
 			, @ModelAttribute Video video) throws Exception {
@@ -164,7 +164,7 @@ public class VideoController {
 	////////////////////
 	///// my video /////
 	////////////////////
-	@RequestMapping(value="/my", method=RequestMethod.GET)
+	@RequestMapping(value="/web/video/my", method=RequestMethod.GET)
 	public String myVideoList(@RequestParam String id, @ModelAttribute Member member
 			, Model model, @ModelAttribute Search search, @RequestParam String cp
 			, @ModelAttribute Video video) throws Exception {
@@ -206,7 +206,7 @@ public class VideoController {
 	//////////////////////////////
 	///// VideoDetail /////
 	//////////////////////////////
-	@RequestMapping(value="/detail", method=RequestMethod.GET)
+	@RequestMapping(value="/web/video/detail", method=RequestMethod.GET)
 	public String freeDetail(@RequestParam String id, @RequestParam int no
 			, @ModelAttribute Video video, Model model) throws Exception{
 		video = videoService.getVideoDetail(no);
@@ -217,7 +217,7 @@ public class VideoController {
 	//////////////////////////////
 	///// notPaidVideoDetail /////
 	//////////////////////////////
-	@RequestMapping(value="/videoDetail", method=RequestMethod.GET)
+	@RequestMapping(value="/web/video/videoDetail", method=RequestMethod.GET)
 	public String notPaidDetail(@RequestParam String id, @RequestParam int no
 			, @ModelAttribute Video video, Model model) throws Exception{
 		video = videoService.getVideoDetail(no);
@@ -230,7 +230,7 @@ public class VideoController {
 	//////////////////////////
 	///// ajax buy check /////
 	//////////////////////////
-	@RequestMapping(value="/buyCheck", method=RequestMethod.POST)
+	@RequestMapping(value="/web/video/buyCheck", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> buyCheck(@RequestParam Map<String, Object> paramMap
 			, @ModelAttribute Video video) throws Exception {
@@ -279,4 +279,13 @@ public class VideoController {
 		}
 		
 	}
+	
+	// Never Die Baccarat Application Video Player
+	@RequestMapping(value="/ndb/player/{videoNo}")
+	public String videoPlayer(@PathVariable String videoNo, Model model) throws Exception{
+		model.addAttribute("no", videoNo);
+		
+		return "ndb/player";
+	}
+	
 }

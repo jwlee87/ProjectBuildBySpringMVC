@@ -27,6 +27,7 @@ import com.icert.comm.secu.IcertSecuManager;
 
 import kr.co.kingofday.common.CommonGenerator;
 import kr.co.kingofday.common.FormatUtil;
+import kr.co.kingofday.domain.AdultCheck;
 import kr.co.kingofday.domain.Email;
 import kr.co.kingofday.domain.Member;
 import kr.co.kingofday.domain.VerifyInfo;
@@ -59,7 +60,7 @@ public class WebViewController {
 	String realServerURI;
 	
 	@Value("#{commonProperties['testServerURI']}")
-	String ServerURI;
+	String testServerURI;
 	
 	@Value("#{commonProperties['cpId']}")
 	String cpId;
@@ -76,6 +77,8 @@ public class WebViewController {
 	@Value("#{commonProperties['tr_url']}")
 	String tr_url;
 	
+	@Value("#{commonProperties['adultYear']}")
+	int adultYear;
 	//Constructor
 	public WebViewController() {
 		logger.info(this.getClass());
@@ -89,8 +92,8 @@ public class WebViewController {
 			, Model model) throws Exception {
 		
 		String returnWebViewURI = commonGenerator.makingReturnWebViewURI(Integer.parseInt(cc));
-		String returnURI = returnWebViewURI+"tos.jsp";
-		String returnNotAccess = returnWebViewURI+"notAccess.jsp";
+		String returnURI = returnWebViewURI+"tos";
+		String returnNotAccess = returnWebViewURI+"notAccess";
 		logger.debug(" debugging return page == "+returnURI);
 			
 		//en
@@ -121,7 +124,7 @@ public class WebViewController {
 			Model model) throws Exception {
 		model.addAttribute("cc", cc);
 		String returnWebViewURI = commonGenerator.makingReturnWebViewURI(Integer.parseInt(cc));
-		String returnURI = returnWebViewURI+"findAccount.jsp"; 
+		String returnURI = returnWebViewURI+"findAccount"; 
 		//en
 		if(cc.equals("0")) {
 			logger.debug("en version");
@@ -142,7 +145,7 @@ public class WebViewController {
 			logger.debug("jp version");
 			return returnURI;
 		}
-		return "/webView/view/jp/notAccess.jsp";
+		return "forward:/webView/view/jp/notAccess.jsp";
 	}
 	
 	
@@ -189,18 +192,18 @@ public class WebViewController {
 					//인증키 초기화
 					memberService.deleteAuthKey(member.getUniqueID());
 					
-					return "/webView/view/"+countryURI+"/giveResult.jsp?id="+id;
+					return "forward:/webView/view/"+countryURI+"/giveResult.jsp?id="+id;
 				}
 				// 페이지 유효기간 초과
 				// find condition false
 				logger.debug(" 링크 페이지 유효기간 초과! ");
-				return "/webView/view/kr/notAccess.jsp";
+				return "forward:/webView/view/kr/notAccess.jsp";
 				
 			// not exist account searched by token
 			}
 			
 			logger.debug("토큰으로 검색되는 계정이 없음!!");
-			return "/webView/view/kr/notAccess.jsp";
+			return "forward:/webView/view/kr/notAccess.jsp";
 		
 		// access email-link directly for change password
 		// authKey and token parameter 
@@ -227,12 +230,12 @@ public class WebViewController {
 				memberService.updateFindConditionFalse(member.getUniqueID());
 				//인증키 초기화
 				memberService.deleteAuthKey(member.getUniqueID());
-				return "/webView/view/"+countryURI+"/giveResult.jsp?id="+id+"&check=ok";
+				return "forward:/webView/view/"+countryURI+"/giveResult.jsp?id="+id+"&check=ok";
 			
 			//페이지 유효기간 초과
 			} else {
 				logger.debug("링크 페이지 유효기간 초과!");
-				return "/webView/view/kr/notAccess.jsp";
+				return "forward:/webView/view/kr/notAccess.jsp";
 			}
 		}
 	}
@@ -431,7 +434,7 @@ public class WebViewController {
 		} else if(type.equals("both")) {
 			
 			String inputId = (String)paramMap.get("inputId");
-			String inputEmail = (String)paramMap.get("inputEmail");
+			//String inputEmail = (String)paramMap.get("inputEmail");
 			Member member = memberService.getMemberByID(inputId);
 			
 			//메일로 보낸 URL 접근 안 한 경우 true
@@ -517,7 +520,7 @@ public class WebViewController {
 		logger.debug("tr_url= "+tr_url);
 		logger.debug("tr_add= "+tr_add);
 		
-		return "/webView/view/kr/verify/requestCrt.jsp";
+		return "forward:/webView/view/kr/verify/requestCrt.jsp";
 	}
 	
 	///////////////////////////////
@@ -536,7 +539,7 @@ public class WebViewController {
 			logger.error("결과값 비정상");
 			return "";
 		} else {
-			return "/webView/view/kr/verify/resultCrt.jsp";
+			return "forward:/webView/view/kr/verify/resultCrt.jsp";
 		}
 	}
 	
@@ -706,6 +709,20 @@ public class WebViewController {
 				+"\n성별"+gender+"\n성명"+name+"\n결과값"+resultValue+"\n인증밥법"+certMet+"\n ip주소"+ip+"\n미성년자 성명"+M_name
 				+"\n미성년자 생년월일"+M_birthDay+"\n미성년자 성별"+M_gender+"\n미성년자 내외국인"+M_nation+"\n추가DATA정보"+plusInfo);
 		
-		return "/webView/view/kr/verify/success.jsp";
+		String birthYear = birthDay.substring(0,4);
+		int birthYearInt = Integer.parseInt(birthYear);
+		String generateDate = strCurrentTime.substring(0,8);
+		
+		logger.debug(" [결과값 디버깅] birthYearInt= "+birthYearInt+", generateDate= "+generateDate);
+		if( birthYearInt <= adultYear) {
+			logger.info("성인");
+			AdultCheck adultCheck = new AdultCheck(phoneNo);
+			memberService.addAdultCheck(adultCheck);
+			model.addAttribute("adult", "true");
+		} else {
+			model.addAttribute("adult", "false");
+			logger.info("미성년자");
+		}
+		return "forward:/webView/view/kr/verify/success.jsp";
 	}
 }

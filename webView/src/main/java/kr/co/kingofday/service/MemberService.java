@@ -1,10 +1,9 @@
 package kr.co.kingofday.service;
 
 import java.util.List;
-import java.util.Map;
 
+import kr.co.kingofday.domain.AdultCheck;
 import kr.co.kingofday.domain.Member;
-import kr.co.kingofday.domain.Search;
 
 
 public interface MemberService {
@@ -43,7 +42,7 @@ public interface MemberService {
 	public void updateAuthKey(Member member) throws Exception;
 
 	//webView getMemberByAuthKey
-	public Member getMemberByAuthKey(String authKey) throws Exception;
+	public Member getMemberByAuthKey(int authKey) throws Exception;
 
 	//webView deleteAuthKey
 	public void deleteAuthKey(int uniqueID) throws Exception;
@@ -53,6 +52,9 @@ public interface MemberService {
 	
 	// buy video
 	public void updateMemberMoney(Member member) throws Exception;
+	
+	// Adult Check
+	public void addAdultCheck(AdultCheck adultCheck) throws Exception;
 	
 	
 	

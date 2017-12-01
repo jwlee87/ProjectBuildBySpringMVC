@@ -158,6 +158,10 @@ and (orientation : landscape) {
 p { color: white; text-decoration: none;}
 a:hover {text-decoration: none;}
 
+/* Preloader */
+#preloader {position: fixed;top:0;left:0;right:0;bottom:0;background-color:#000;z-index:1000;}
+#status {width:80px; height:80px; position:absolute; left:50%; top:50%; background-image:url(/webView/img/common/loadingIcon.gif); background-size:40px; background-repeat:no-repeat; background-position:center; margin:-40px 0 0 -40px;}
+
 
 @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
  font-family: 'Noto Sans KR', sans-serif;
@@ -283,11 +287,18 @@ a:hover {text-decoration: none;}
 	</div>
 </div>
 
+<div id="preloader">
+    <div id="status"></div>
+</div>
+
 <script>
 function goPage(pageNo,id) {
 	location.href = "/web/video/my?id="+id+"&cp="+pageNo;
 }
 
+$(window).on("load", function(){
+	setTimeout(function(){ $("#preloader").hide(); }, 500);
+})
 </script>
 </body>
 </html>

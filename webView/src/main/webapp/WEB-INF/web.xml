@@ -11,7 +11,6 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 	
-	
 	<context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
@@ -37,6 +36,15 @@
         <filter-name>encodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    
+    <filter>
+        <filter-name>xssEscapeServletFilter</filter-name>
+        <filter-class>com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>xssEscapeServletFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 	
 	<filter>
         <filter-name>diviceResolverRequestFilter</filter-name>
@@ -56,6 +64,7 @@
             <param-value>/config/springMVC/common-servlet.xml</param-value>
             <!-- Servlet Meta-data / Spring Meta-data 위치 분리함 -->
         </init-param>
+        
         <load-on-startup>1</load-on-startup>
     </servlet>
 	

@@ -50,6 +50,12 @@
 		
 	</resultMap>
 	
+	<resultMap id="adultCheck" type="adultCheck">
+	   <result property="uniqueId"     column="_UniqueID"     jdbcType="INTEGER"/>
+	   <result property="phone"        column="_phone"        jdbcType="VARCHAR"/>
+	   <result property="generateDate" column="_generateDate" jdbcType="TIMESTAMP"/>
+	</resultMap>
+	
 	<!-- 회원가입 -->
 	<insert	id="addMember"	parameterType="member">
 		INSERT INTO MEMBER ( _ID, _NICKNAME, _PASS, _EMAIL, _CLASS )
@@ -185,7 +191,6 @@
 		SELECT *
 		FROM MEMBER m
 	LEFT JOIN MEMBER_INFO mi ON m._UniqueID = mi._USERUNIQUEID
-	LEFT JOIN MEMBER_VIDEO mv ON m._UniqueID = mv._UserUniqueID
 		WHERE mi._Token = #{param} AND m._STATE = 'true'
 	</select>
 	
@@ -199,11 +204,10 @@
 	</update>
 	
 	<!-- 인증키로 아이디 검색 -->
-	<select id="getMemberByAuthKey"	parameterType="string" resultMap="member">
+	<select id="getMemberByAuthKey"	parameterType="integer" resultMap="member">
 		SELECT *
 		FROM MEMBER m
 	LEFT JOIN MEMBER_INFO mi ON m._UniqueID = mi._USERUNIQUEID
-	LEFT JOIN MEMBER_VIDEO mv ON m._UniqueID = mv._UserUniqueID
 		WHERE mi._AUTHKEY = #{param} AND m._STATE = 'true'
 	</select>
 
@@ -234,6 +238,12 @@
 		</set>
 		WHERE _USERUNIQUEID = #{uniqueID}
 	</update>
+	
+	<!-- 성인인증 -->
+	<insert id="addAdultCheck" parameterType="adultCheck">
+	   INSERT INTO ADULTCHECK (_phone)
+	   VALUES (#{phone})
+	</insert>
 
 
 </mapper>

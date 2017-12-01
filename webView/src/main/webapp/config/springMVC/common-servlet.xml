@@ -51,8 +51,14 @@
 	<!-- ============================================================= -->
 	<mvc:interceptors>		
 		<mvc:interceptor>
+		    <mvc:mapping path="admin/loginCheck"/>
+			<mvc:mapping path="/admin/pages/answer"/>
+			<mvc:mapping path="/admin/pages/answerList"/>
+			<mvc:mapping path="/admin/pages/askList"/>
 			<mvc:mapping path="/admin"/>
-			<mvc:mapping path="/admin/pages/**"/>
+			<mvc:mapping path="/ask/write"/>
+			<mvc:mapping path="/ask/answer/**"/>
+
 			<bean class="kr.co.kingofday.web.LogonCheckInterceptor" />
 		</mvc:interceptor>
 		
@@ -81,7 +87,11 @@
 	<!-- 관리자 페이지 -->
 	<mvc:resources mapping="/admin/**" location="/admin/" />
 	
+	<!-- 네버다이 바카라 프로젝트 코드명 ndb -->
+	<mvc:resources mapping="/ndb/**" location="/ndb/" />
+	
 	<mvc:default-servlet-handler />
+	
 	<mvc:view-resolvers>
 		<mvc:jsp prefix="/" suffix=".jsp" />
 	</mvc:view-resolvers>

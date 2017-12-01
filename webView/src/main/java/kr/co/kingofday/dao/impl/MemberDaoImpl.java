@@ -11,9 +11,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import kr.co.kingofday.dao.MemberDao;
+import kr.co.kingofday.domain.AdultCheck;
 import kr.co.kingofday.domain.Member;
-import kr.co.kingofday.domain.Search;
-
 
 @Repository("memberDaoImpl")
 public class MemberDaoImpl implements MemberDao{
@@ -97,7 +96,7 @@ public class MemberDaoImpl implements MemberDao{
 	}
 	
 	//webView getMemberByAuthKey
-	public Member getMemberByAuthKey(String authKey) throws Exception {
+	public Member getMemberByAuthKey(int authKey) throws Exception {
 		return sqlSession.selectOne("MemberMapper.getMemberByAuthKey", authKey);
 	}
 	
@@ -115,36 +114,9 @@ public class MemberDaoImpl implements MemberDao{
 		sqlSession.update("MemberMapper.updateMemberMoney", member);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public Member getMember(String email) throws Exception {
-		return sqlSession.selectOne("MemberMapper.getMember3", email);
+	public void addAdultCheck(AdultCheck adultCheck) throws Exception {
+		sqlSession.insert("addAdultCheck", adultCheck);
 	}
-	public Member getMember(int member_no) throws Exception {
-		  return sqlSession.selectOne("MemberMapper.getMemberByNo", member_no);
-		}
-	public List<Member> getMemberList(Search search) throws Exception {
-		return sqlSession.selectList("MemberMapper.getMemberList", search);
-	}
-
-	public int getTotalCount(Search search) throws Exception {
-		return sqlSession.selectOne("MemberMapper.getTotalCount", search);
-	}
-	
 	
 	
 	

@@ -3,9 +3,8 @@ package kr.co.kingofday.dao;
 import java.util.List;
 import java.util.Map;
 
+import kr.co.kingofday.domain.AdultCheck;
 import kr.co.kingofday.domain.Member;
-import kr.co.kingofday.domain.Search;
-
 
 public interface MemberDao {
 	
@@ -45,7 +44,7 @@ public interface MemberDao {
 	public void updateAuthKey(Member member) throws Exception;
 	
 	//webView getMemberByAuthKey
-	public Member getMemberByAuthKey(String authKey) throws Exception;
+	public Member getMemberByAuthKey(int authKey) throws Exception;
 	
 	//webView deleteAuthKey
 	public void deleteAuthKey(int uniqueID) throws Exception ;
@@ -55,7 +54,7 @@ public interface MemberDao {
 
 	public void updateMemberMoney(Member member) throws Exception;
 	
-	
+	public void addAdultCheck(AdultCheck adultCheck) throws Exception;
 	
 	
 	

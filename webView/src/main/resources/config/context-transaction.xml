@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -38,13 +38,10 @@
 	
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
-			<!-- get 으로 시작된는 Method에 적용 transaction 규칙 -->				
 			<tx:method 	name="get*" 		propagation="REQUIRED"	read-only="true" />
-			<!-- add 으로 시작된는 Method에 적용 transaction 규칙 -->		
 			<tx:method	name="add*"	 		propagation="REQUIRED"/>
 			<tx:method	name="update*"		propagation="REQUIRED"/>
 			<tx:method name="delete*"/>
-			<!-- <tx:method	name="*"	 />-->	
 		</tx:attributes>
 	</tx:advice>
 

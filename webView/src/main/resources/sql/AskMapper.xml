@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AskMapper">
+
+    <resultMap id="ask" type="ask">
+        <result property="uniqueNo"       column="uniqueNo"       jdbcType="INTEGER"/>
+        <result property="rowNum"         column="rowNum"         jdbcType="INTEGER"/>
+        <result property="memberUniqueNo" column="memberUniqueNo" jdbcType="INTEGER"/>
+        <result property="writer"         column="writer"         jdbcType="VARCHAR"/>
+        <result property="title"          column="title"          jdbcType="VARCHAR"/>
+        <result property="askDate"        column="askDate"        jdbcType="TIMESTAMP"/>
+        <result property="answerDate"     column="answerDate"     jdbcType="TIMESTAMP"/>
+        <result property="askContent"     column="askContent"     jdbcType="VARCHAR"/>
+        <result property="answerCheck"    column="answerCheck"    jdbcType="BIT"/>
+        <result property="answer"         column="answer"         jdbcType="VARCHAR"/>
+        <result property="responder"      column="responder"      jdbcType="VARCHAR"/>
+        <result property="countryCode"    column="countryCode"    jdbcType="INTEGER"/>
+        <result property="deleteCheck"    column="deleteCheck"    jdbcType="BIT"/>
+        <result property="askType"        column="askType"        jdbcType="CHAR"/>
+    </resultMap>
+
+    <resultMap id="member" type="member">
+        <result property="uniqueID"     column="_UniqueID"      jdbcType="INTEGER"/>
+        <result property="levelClass"   column="_CLASS"         jdbcType="SMALLINT" />
+        <result property="id"           column="_ID"            jdbcType="VARCHAR" />
+        <result property="nickName"     column="_NICKNAME"      jdbcType="VARCHAR" />
+        <result property="pass"         column="_PASS"          jdbcType="VARCHAR" />
+        <result property="condition"    column="_CONDITION"     jdbcType="BIT" />
+        <result property="admin"        column="_ADMIN"         jdbcType="INTEGER" />
+        <!-- 회원 탈퇴 여부 -->
+        <result property="state"        column="_STATE"         jdbcType="BIT"/>
+        <result property="phone"        column="_PHONE"         jdbcType="VARCHAR"/>
+        <result property="email"        column="_EMAIL"         jdbcType="VARCHAR"/>
+        <result property="createDate"   column="_CREATEDATE"    jdbcType="DATE"/>
+        <result property="lastDate"     column="_LASTDATE"      jdbcType="DATE"/>
+        <!-- 국가코드 en=0 kr=1 ch=2 jp=3 -->
+        <result property="countryCode"  column="_COUNTRY"       jdbcType="INTEGER"/>
+        <!-- 현재 돈 -->
+        <result property="nowMoney"     column="_NOWMONEY"      jdbcType="DECIMAL"/>
+        <!-- 캐쉬 -->
+        <result property="cashMoney"    column="_CASHMONEY"     jdbcType="DECIMAL"/>
+        <!-- 게임포인트 -->
+        <result property="pointMoney"   column="_POINTMONEY"    jdbcType="DECIMAL"/>
+        <result property="safeMoney"    column="_SAFEMONEY"     jdbcType="DECIMAL"/>
+        <result property="waitMoney"    column="_WAITMONEY"     jdbcType="DECIMAL"/>
+        <result property="point"        column="_POINT"         jdbcType="DECIMAL"/>
+        <result property="bankName"     column="_BANKNAME"      jdbcType="VARCHAR"/>
+        <!-- 인증키 -->
+        <result property="authKey"      column="_AUTHKEY"       jdbcType="INTEGER"/>
+        <!-- 계정찾기 조건 -->
+        <result property="findCondition" column="_FINDCONDITION" jdbcType="BIT"/>
+        <!-- 계정찾기 토큰 -->
+        <result property="token"        column="_TOKEN"         jdbcType="VARCHAR"/>
+        <result property="fileNo"       column="file_no"        jdbcType="INTEGER"/>
+        <result property="boardNo"      column="board_no"       jdbcType="INTEGER"/>
+        <result property="oriNaem"      column="ori_name"       jdbcType="VARCHAR"/>
+        <result property="systemName"   column="system_name"    jdbcType="VARCHAR"/>
+        <result property="filePath"     column="file_path"      jdbcType="VARCHAR"/>
+        <result property="fileSize"     column="file_size"      jdbcType="DECIMAL"/>
+    </resultMap>
+	
+	<!-- 유저 질문 등록 -->
+	<insert    id="addAsk"     parameterType="ask">
+		INSERT INTO ASK ( memberUniqueNo, writer, title, askDate, askContent, countryCode, askType )
+        VALUES ( #{memberUniqueNo}, #{writer}, #{title}, GETDATE(), #{askContent}, #{countryCode}, #{askType} )
+	</insert>
+	
+	<!-- 운영자 답변 등록/수정 -->
+	<update    id="updateAsk"  parameterType="ask">
+        UPDATE ASK
+        <set>
+            answerCheck     =   'true'
+            ,answer         =   #{answer}
+            ,responder      =   #{responder}
+            ,answerDate     =   GETDATE()
+        </set>
+        WHERE sequenceNo    =   #{sequenceNo}
+    </update>
+    
+    <!-- 유저 질문 삭제 -->
+    <update id="deleteAsk"  parameterType="ask">
+        UPDATE ASK
+        <set>
+            deleteCheck =   'true'
+        </set>
+        WHERE sequenceNo    =   #{sequenceNo}
+    </update>
+	
+	<!-- 유저 개인 문의 내역 list -->
+	<select    id="selectAskListForAnUser" parameterType="member" resultMap="ask">
+	   SELECT ROW_NUMBER() OVER(ORDER BY uniqueNo) AS rowNum, CONVERT(varchar(10), askDate, 102) AS askDateToStr, RTRIM(askType), *
+       FROM ASK
+       WHERE memberUniqueNo = #{uniqueID} AND countryCode = #{countryCode} AND answerCheck = 'false'
+	</select>
+</mapper>

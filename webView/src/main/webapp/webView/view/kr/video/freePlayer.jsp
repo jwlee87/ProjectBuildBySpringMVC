@@ -100,14 +100,29 @@ and (orientation : landscape) {
 	.absolute img {width: 30px;}
 	#player{width: 100%; overflow: hidden;}
 }
+
+
+/* Preloader */
+#preloader {position: fixed;top:0;left:0;right:0;bottom:0;background-color:#000;z-index:1000;}
+#status {width:80px; height:80px; position:absolute; left:50%; top:50%; background-image:url(/webView/img/common/loadingIcon.gif); background-size:40px; background-repeat:no-repeat; background-position:center; margin:-40px 0 0 -40px;}
+
+
 </style>
 </head>
 <body class="container-fluid">
-	<video id="player" style="margin: 0 auto;" poster="/webView/video/kr/thumnail/${param.no}_thumnail.png" controls controlsList="nodownload">
+	<video id="player" style=" margin: 0 auto;" poster="/webView/video/kr/thumnail/${param.no}_thumnail.png" controls controlsList="nodownload">
 		<source src="/webView/video/kr/bm_k_${param.no}.mp4" type="video/mp4">
 	</video>
 	<div class="absolute">
 		<a href="javascript:history.go(-1)"><img src="/webView/img/common/free/exit_btn.png"/></a>
 	</div>
+    <div id="preloader">
+        <div id="status"></div>
+    </div>
+<script>
+$(window).on("load", function(){
+	setTimeout(function(){ $("#preloader").hide(); }, 500);
+})
+</script>
 </body>
 </html>

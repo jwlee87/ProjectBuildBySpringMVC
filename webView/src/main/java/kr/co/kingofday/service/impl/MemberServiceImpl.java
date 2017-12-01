@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import kr.co.kingofday.dao.MemberDao;
+import kr.co.kingofday.domain.AdultCheck;
 import kr.co.kingofday.domain.Member;
-import kr.co.kingofday.domain.Search;
 import kr.co.kingofday.service.MemberService;;
 
 
@@ -100,7 +100,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	//webView
-	public Member getMemberByAuthKey(String authKey) throws Exception {
+	public Member getMemberByAuthKey(int authKey) throws Exception {
 		return memberDao.getMemberByAuthKey(authKey);
 	}
 	
@@ -114,9 +114,13 @@ public class MemberServiceImpl implements MemberService{
 		memberDao.deleteToken(uniqueID);
 	}
 
-	// buy video
+	//buy video
 	public void updateMemberMoney(Member member) throws Exception {
 		memberDao.updateMemberMoney(member);
+	}
+	//adultCheck
+	public void addAdultCheck(AdultCheck adultCheck) throws Exception {
+		memberDao.addAdultCheck(adultCheck);
 	}
 	
 	

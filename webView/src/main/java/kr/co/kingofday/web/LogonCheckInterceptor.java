@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.util.WebUtils;
 
 import kr.co.kingofday.domain.Member;
 import kr.co.kingofday.service.MemberService;
@@ -32,26 +33,47 @@ public class LogonCheckInterceptor extends HandlerInterceptorAdapter {
 		
 		logger.debug(" [LogonCheckInterceptor START] ");
 		
-		HttpSession session = request.getSession();
-		Member member = (Member)session.getAttribute("admin");
+		Member admin = (Member)WebUtils.getSessionAttribute(request, "admin");
+		Member user = (Member)WebUtils.getSessionAttribute(request, "member");
 		
-		logger.debug(" == session="+session+" member="+member+" == ");
-		
+		logger.debug(" == sessionId="+WebUtils.getSessionId(request)+" IP= "+request.getRemoteAddr());		
 		//세션 널
-		if(member == null) {
-			logger.debug(" == Interceptor false ==");
-			logger.debug(" [LogonCheckInterceptor END] ");
-			response.sendRedirect("/admin/login/login");
-			return false;
-		} else if (member.getAdmin() != 0) {
-			logger.debug(" == Interceptor true ==");
-			logger.debug(" [LogonCheckInterceptor END] ");
-			return true;
+		if(admin == null) {
+			if(user != null) {
+				logger.debug(" == user access ==");
+				logger.debug(" == Interceptor true ==");
+				logger.debug(" [LogonCheckInterceptor END] ");
+				return true;
+			} else {
+				logger.debug(" == Interceptor false ==");
+				logger.debug(" [LogonCheckInterceptor END] ");
+				response.sendRedirect("/admin/login/login");
+				return false;
+			}
+		} else if (admin.getAdmin() != 0) {
+			if(user != null) {
+				logger.debug(" == user access ==");
+				logger.debug(" == Interceptor true ==");
+				logger.debug(" [LogonCheckInterceptor END] ");
+				return true;
+			} else {
+				logger.debug(" == admin access ==");
+				logger.debug(" == Interceptor true ==");
+				logger.debug(" [LogonCheckInterceptor END] ");
+				return true;
+			}
 		} else {
-			logger.debug(" == Interceptor false ==");
-			logger.debug(" [LogonCheckInterceptor END] ");
-			response.sendRedirect("/admin/login/login");
-			return false;
+			if(user != null) {
+				logger.debug(" == user access ==");
+				logger.debug(" == Interceptor true ==");
+				logger.debug(" [LogonCheckInterceptor END] ");
+				return true;
+			} else {
+				logger.debug(" == Interceptor false ==");
+				logger.debug(" [LogonCheckInterceptor END] ");
+				response.sendRedirect("/admin/login/login");
+				return false;
+			}
 		}
 		
 	}

@@ -1,7 +1,11 @@
 package kr.co.kingofday.common;
 
-import java.util.Random;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -211,9 +215,40 @@ public class CommonGenerator {
 				+"</meta>";
 	}
 	
+	//////////////////////////////////////////
+	// Never Die Baccarat (NDB) find ID 메일 ///
+	//////////////////////////////////////////
+	public String findIDForNDB(String id, String uri) {
+		return "<meta charset='utf-8'><div style='width=100%'>"
+				+"<h2>안녕하세요!</h2><br><p>회원님께서 요청하신 내용입니다.</p><br>"
+				+"<p>회원님의 아이디는 <span style='color: black; background-color:gray; font-weight: bold; font-size: 14px;'>"+id+"</span>입니다.</p>"
+				+"<p>비밀번호가 기억나지 않으세요?</p>" 
+				+"<p>아래의 링크를 복사하여 웹브라우저에 붙여 넣으세요.</p><br>"
+				+"===================================<br>"
+				+uri+"<br>"
+				+"===================================<br>"
+				+"<p>도움이 필요하시면 <a href='mailto:kingofdayinc@gmail.com'>kingofdayinc@gmail.com</a>으로 연락해 주세요.</p><br>"
+				+"<p style='font-size: 8px;'>kingofdayinc / <a style='text-decoration: none; color: black;' href='http://110.10.189.24/web/tos?id="+id+"'>서비스이용방침 / 개인정보처리방침</a></p>"
+				+"</div></meta>";
+	}
+	
+	//////////////////////////////////////////
+	// Never Die Baccarat (NDB) find PW 메일 //
+	//////////////////////////////////////////
+	public String findPWForNDB(String id, String uri) {
+		return "<meta charset='utf-8'><div style='width=100%'>"
+				+"<h2>안녕하세요!</h2><br><p>회원님께서 요청하신 내용입니다.</p><br>"
+				+"<p>비밀번호가 기억나지 않으세요?</p>" 
+				+"===================================<br>"
+				+"<a href='"+uri+"'>비밀번호 변경 페이지로 이동합니다.</a><br>"
+				+"===================================<br>"
+				+"<p>도움이 필요하시면 <a href='mailto:kingofdayinc@gmail.com'>kingofdayinc@gmail.com</a>으로 연락해 주세요.</p><br>"
+				+"<p style='font-size: 8px;'>kingofdayinc / <a style='text-decoration: none; color: black;' href='http://110.10.189.24/web/tos?id="+id+"'>서비스이용방침 / 개인정보처리방침</a></p>"
+				+"</div></meta>";
+	}
+	
 	//email auth key generate
 	public int generateAuthKey() {
-		Random random = new Random();
 		int intValue = (int)((Math.random() * (999999 - 100000 + 1)) + 100000 );
 		logger.debug(" random key debug= "+intValue);
 		return intValue;
@@ -221,7 +256,6 @@ public class CommonGenerator {
 	
 	//token auth key generate
 	public int generateTokenKey() {
-		Random random = new Random();
 		int intValue = (int)((Math.random() * (99999 - 10000 + 1)) + 10000 );
 		logger.debug(" token key debug= "+intValue);
 		return intValue;
@@ -243,18 +277,48 @@ public class CommonGenerator {
 	}
 	
 	//making return view URI
-		public String makingReturnWebViewURI(int countryCode) {
-			String returnWebViewURI = "";
-			if(countryCode==0) {
-				returnWebViewURI="webView/view/en/";
-			}else if(countryCode==1) {
-				returnWebViewURI="webView/view/kr/";
-			}else if(countryCode==2) {
-				returnWebViewURI="webView/view/ch/";
-			}else if(countryCode==3) {
-				returnWebViewURI="webView/view/jp/";
-			}
-			logger.debug(" [[CommonGenerator]] returnWebViewURI debug= "+returnWebViewURI);
-			return returnWebViewURI;
+	public String makingReturnWebViewURI(int countryCode) {
+		String returnWebViewURI = "";
+		if(countryCode==0) {
+			returnWebViewURI="webView/view/en/";
+		}else if(countryCode==1) {
+			returnWebViewURI="webView/view/kr/";
+		}else if(countryCode==2) {
+			returnWebViewURI="webView/view/ch/";
+		}else if(countryCode==3) {
+			returnWebViewURI="webView/view/jp/";
 		}
+		logger.debug(" [[CommonGenerator]] returnWebViewURI debug= "+returnWebViewURI);
+		return returnWebViewURI;
+	}
+	
+	//HMACMD5 copy
+	public static String sStringToHMACMD5(String s, String keyString)
+    {
+        String sEncodedString = null;
+        try
+        {
+            SecretKeySpec key = new SecretKeySpec((keyString).getBytes("UTF-8"), "HmacMD5");
+            Mac mac = Mac.getInstance("HmacMD5");
+            mac.init(key);
+
+            byte[] bytes = mac.doFinal(s.getBytes("ASCII"));
+
+            StringBuffer hash = new StringBuffer();
+
+            for (int i=0; i<bytes.length; i++) {
+                String hex = Integer.toHexString(0xFF &  bytes[i]);
+                if (hex.length() == 1) {
+                    hash.append('0');
+                }
+                hash.append(hex);
+            }
+            sEncodedString = hash.toString();
+        }
+        catch (UnsupportedEncodingException e) {}
+        catch(InvalidKeyException e){}
+        catch (NoSuchAlgorithmException e) {}
+        return sEncodedString ;
+    }
+	
 }

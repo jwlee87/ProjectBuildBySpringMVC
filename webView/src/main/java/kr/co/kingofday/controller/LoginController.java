@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -20,7 +19,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -152,9 +150,9 @@ public class LoginController {
 		String oriName = file.getOriginalFilename();
 		logger.debug(" 파일네임 디버깅 :"+oriName);
 		
-		ServletContext context = request.getServletContext();
+		//ServletContext context = request.getServletContext();
 		
-		String path = context.getRealPath("/fileUpload");
+		//String path = context.getRealPath("/fileUpload");
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("/yyyy/MM/dd");
 		String datePath = sdf.format(new Date());
@@ -193,7 +191,7 @@ public class LoginController {
 		// 프로필 이미지 없음
 		else {
 			if (oriName != null && !oriName.equals("")) {
-				String body = oriName.split("\\.")[0];
+				//String body = oriName.split("\\.")[0];
 				String ext = "."+oriName.split("\\.")[1];
 				long fileSize = file.getSize();
 				logger.debug(" 프로필파일 사이즈 디버깅: "+fileSize);
@@ -298,7 +296,7 @@ public class LoginController {
 				
 				int key = commonGenerator.generateAuthKey();
 				String authKey = String.valueOf(key);
-				String mailAddr = member.getEmail();
+				//String mailAddr = member.getEmail();
 				
 				
 				email.setAuthKey(key);
@@ -463,7 +461,7 @@ public class LoginController {
 			
 			logger.debug("/checkKeyForChgPw 디버깅 입니다.");
 			Map<String, Object> resultMap = new HashMap<String, Object>();
-			Email email = (Email)session.getAttribute("email");
+			//Email email = (Email)session.getAttribute("email");
 			String authKey = (String)session.getAttribute("authKey");
 			String paramKey = (String)params.get("authKey");
 			String paramEmail = (String)params.get("email");

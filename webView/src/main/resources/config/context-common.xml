@@ -29,6 +29,14 @@
 		<property name="maxInMemorySize" value="10000000"/>
 	</bean>
 	
+	<!-- @PathVariable Setting -->
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+	   <property name="alwaysUseFullPath" value="true"/>
+	</bean>
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+	   <property name="alwaysUseFullPath" value="true"/>
+	</bean>
+	
 	<!-- ============================================================= -->
 	<!-- mailSender Setting -->
 	<!-- ============================================================= -->
@@ -36,8 +44,8 @@
 		<property name="host" value="smtp.gmail.com" />
 		<property name="port" value="587" />
 		<property name="defaultEncoding" value="utf-8" />
-		<property name="username" value="kingofdayinc@gmail.com" />
-		<property name="password" value="Zlddhqmepdl501" />
+		<property name="username" value="mail.kingofday@gmail.com" />
+		<property name="password" value="Zlddhqmepdl501"/>
 		<property name="javaMailProperties">
 			<props>
 				<prop key="mail.smtp.starttls.enable">true</prop>
