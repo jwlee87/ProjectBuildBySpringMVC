@@ -90,7 +90,7 @@ public class VideoController {
 		}
 		
 		//디바이스 분기처리 추후 데스크탑에서 접근은 막아야함
-		if(deviceType.equals("mobile")||deviceType.equals("tablet")||deviceType.equals("normal")) {
+		if(deviceType.equals("mobile") || deviceType.equals("tablet") || deviceType.equals("normal")) {
 		
 			//en
 			if (countryCode.trim().equals("0")) {
@@ -284,7 +284,6 @@ public class VideoController {
 	@RequestMapping(value="/ndb/player/{videoNo}")
 	public String videoPlayer(@PathVariable String videoNo, Model model) throws Exception{
 		model.addAttribute("no", videoNo);
-		
 		return "ndb/player";
 	}
 	

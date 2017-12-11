@@ -1,6 +1,8 @@
 package kr.co.kingofday.controller;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,12 +22,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.WebUtils;
 
+import com.nhncorp.lucy.security.xss.XssPreventer;
+
 import kr.co.kingofday.common.CommonGenerator;
 import kr.co.kingofday.domain.Answer;
 import kr.co.kingofday.domain.Ask;
 import kr.co.kingofday.domain.Member;
+import kr.co.kingofday.domain.News;
+import kr.co.kingofday.domain.SearchNDB;
 import kr.co.kingofday.service.AdminService;
 import kr.co.kingofday.service.MemberService;
+import kr.co.kingofday.service.NewsService;
 
 @Controller
 public class AdminController {
@@ -38,6 +45,10 @@ public class AdminController {
 	@Autowired
 	@Qualifier("adminServiceImpl")
 	private AdminService adminService;
+	
+	@Autowired
+	@Qualifier("newsServiceImpl")
+	private NewsService newsService;
 	
 	@Autowired
 	private CommonGenerator commonGenerator;
@@ -225,4 +236,67 @@ public class AdminController {
 		
 		return "forward:/admin/"+userNo+"/askList";
 	}
+	
+	@RequestMapping(value="/admin/news/list/{page}")
+	public String newsList(Model model, @PathVariable int page) throws Exception {
+		News n1 = newsService.getTotalCount();
+		int totalCount = n1.getTotalCount();
+		SearchNDB search = new SearchNDB(page, totalCount, 5, 10);
+		search.setTotalCount(totalCount);
+		ArrayList<News> list = newsService.getNewsList(search);
+		
+		model.addAttribute("pageResult", search);
+		model.addAttribute("list", list);
+		
+		return "admin/pages/newsList";
+	}
+	
+	@RequestMapping(value="admin/news/detail/{page}/{no}")
+	public String newsDetail(Model model, @PathVariable int page, @PathVariable int no) throws Exception {
+		News news = newsService.getNews(no);
+
+		logger.debug("news.content= "+news.getContent());
+		//String cleanContent = XssPreventer.escape(news.getContent());
+		//logger.debug("news.cleanContent= "+cleanContent);
+		//String a = "<p>내용을 입력하세요.</p>";
+		//news.setContent(cleanContent);
+		
+		model.addAttribute("news", news);
+		model.addAttribute("page", page);
+		return "admin/pages/newsDetail";
+	}
+	
+	//Create
+	@RequestMapping(value="/admin/news/write")
+	public String newsWrite(@ModelAttribute News news) throws Exception {
+		newsService.addNews(news);
+		return "forward:/admin/news/list/1";
+	}
+	//Update
+	@RequestMapping(value="/admin/news/update")
+	public String newsUpdate(@ModelAttribute News news) throws Exception {
+		
+		logger.debug("제목= "+news.getTitle()+", 내용= "+news.getContent());
+
+		newsService.updateNews(news);
+		return "forward:/admin/news/list/1";
+	}
+	//Delete
+	@RequestMapping(value="/admin/news/delete/{uniqueID}")
+	public String newsDelete(@PathVariable int uniqueID, @ModelAttribute News news) throws Exception {
+		news = newsService.getNews(uniqueID);
+		newsService.deleteNews(news);
+		return "forward:/admin/news/list/1";
+	}
+	
+	@RequestMapping(value="/admin/news/update/{page}/{uniqueID}")
+	public String updateNews(@PathVariable int uniqueID, Model model,
+			@PathVariable int page) throws Exception {
+		News news = newsService.getNews(uniqueID);
+		model.addAttribute("news", news);
+		model.addAttribute("page", page);
+		logger.debug("content= "+news.getContent());
+		return "admin/pages/updateNews";
+	}
+	
 }

@@ -225,7 +225,7 @@ public class CommonGenerator {
 				+"<p>비밀번호가 기억나지 않으세요?</p>" 
 				+"<p>아래의 링크를 복사하여 웹브라우저에 붙여 넣으세요.</p><br>"
 				+"===================================<br>"
-				+uri+"<br>"
+				+"<a href='"+uri+"'>비밀번호 변경 페이지로 이동합니다.</a><br>"
 				+"===================================<br>"
 				+"<p>도움이 필요하시면 <a href='mailto:kingofdayinc@gmail.com'>kingofdayinc@gmail.com</a>으로 연락해 주세요.</p><br>"
 				+"<p style='font-size: 8px;'>kingofdayinc / <a style='text-decoration: none; color: black;' href='http://110.10.189.24/web/tos?id="+id+"'>서비스이용방침 / 개인정보처리방침</a></p>"
@@ -315,9 +315,15 @@ public class CommonGenerator {
             }
             sEncodedString = hash.toString();
         }
-        catch (UnsupportedEncodingException e) {}
-        catch(InvalidKeyException e){}
-        catch (NoSuchAlgorithmException e) {}
+        catch (UnsupportedEncodingException e) {
+        	e.printStackTrace();
+        }
+        catch(InvalidKeyException e){
+        	e.printStackTrace();
+        }
+        catch (NoSuchAlgorithmException e) {
+        	e.printStackTrace();
+        }
         return sEncodedString ;
     }
 	

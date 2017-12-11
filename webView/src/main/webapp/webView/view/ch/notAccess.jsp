@@ -21,6 +21,10 @@
 
 </head>
 <body>
-	<p>This page is not available at your system.</p>
+	<div style="text-align: center; margin-top: 50px;">
+		<h1>This page is not available at your system.</h1>
+		<br/>
+		<h2 style="font-size: 1em;">If you have problems, contact us <a href="mailto:kingofdayinc@gmail.com">kingofdayinc@gmail.com</a></h2>
+	</div>
 </body>
 </html>

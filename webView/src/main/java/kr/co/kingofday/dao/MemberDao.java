@@ -55,6 +55,8 @@ public interface MemberDao {
 	public void updateMemberMoney(Member member) throws Exception;
 	
 	public void addAdultCheck(AdultCheck adultCheck) throws Exception;
+
+	public void updateReward(Member member) throws Exception;
 	
 	
 	

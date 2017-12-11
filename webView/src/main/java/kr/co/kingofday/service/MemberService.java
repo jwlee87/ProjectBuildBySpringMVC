@@ -55,6 +55,8 @@ public interface MemberService {
 	
 	// Adult Check
 	public void addAdultCheck(AdultCheck adultCheck) throws Exception;
+
+	public void updateReward(Member member) throws Exception;
 	
 	
 	

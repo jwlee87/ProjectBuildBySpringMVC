@@ -129,10 +129,10 @@ button {float: right; margin: 0.5%;}
                         <div class="table-responsive">
                             <table class="table-striped" style="width: 100%;">
                                 <tbody>
-                                    <tr>
+                                    <%-- <tr>
                                         <td style="width:15%; min-width: 80px;">답변번호</td>
                                         <td>${answer.uniqueNo}</td>
-                                    </tr>
+                                    </tr> --%>
                                     <tr>
                                         <td>답변자</td>
                                         <td>${answer.respondent}</td>

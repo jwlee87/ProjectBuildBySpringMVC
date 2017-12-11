@@ -25,4 +25,9 @@ public class RewardDaoImpl implements kr.co.kingofday.dao.RewardDao {
 	public void addReward(Reward reward) throws Exception {
 		sqlSession.insert("RewardMapper.addReward", reward);
 	}
+
+	@Override
+	public Reward getReward(int reward_key) throws Exception {
+		return sqlSession.selectOne("RewardMapper.getReward", reward_key);
+	}
 }

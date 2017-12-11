@@ -6,6 +6,7 @@
 		xmlns:mvc="http://www.springframework.org/schema/mvc"
 		
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:beans="http://www.springframework.org/schema/beans"
 		xsi:schemaLocation=
 				"http://www.springframework.org/schema/beans 
 				http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -14,7 +15,12 @@
 				http://www.springframework.org/schema/context/spring-context.xsd
 				
 				http://www.springframework.org/schema/mvc
-				http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+				http://www.springframework.org/schema/mvc/spring-mvc.xsd
+				
+				http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans.xsd
+				">
+
 
 	<!-- ============================================================= -->
 	<!-- :: 공통적인 사항을 설정한 common-servlet.xml 사용. -->
@@ -49,7 +55,7 @@
 	<!-- ============================================================= -->
 	<!-- 인터셉터 처리 -->
 	<!-- ============================================================= -->
-	<mvc:interceptors>		
+	<mvc:interceptors>
 		<mvc:interceptor>
 		    <mvc:mapping path="admin/loginCheck"/>
 			<mvc:mapping path="/admin/pages/answer"/>
@@ -58,6 +64,10 @@
 			<mvc:mapping path="/admin"/>
 			<mvc:mapping path="/ask/write"/>
 			<mvc:mapping path="/ask/answer/**"/>
+			<mvc:mapping path="/admin/news/write"/>
+			<mvc:mapping path="/admin/news/update"/>
+			<mvc:mapping path="/admin/news/delete/*"/>
+			
 
 			<bean class="kr.co.kingofday.web.LogonCheckInterceptor" />
 		</mvc:interceptor>

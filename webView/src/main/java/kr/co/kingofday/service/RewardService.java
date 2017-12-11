@@ -10,5 +10,7 @@ public interface RewardService {
 
 	public void addReward(Reward reward) throws Exception;
 
+	public Reward getReward(int reward_key) throws Exception;
+
 	
 }

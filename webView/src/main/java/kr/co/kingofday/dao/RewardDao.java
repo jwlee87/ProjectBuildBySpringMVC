@@ -8,4 +8,6 @@ public interface RewardDao {
 	public List<Reward> getRewardList(Reward reward) throws Exception;
 
 	public void addReward(Reward reward) throws Exception;
+
+	public Reward getReward(int reward_key) throws Exception;
 }

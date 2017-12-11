@@ -122,6 +122,12 @@ public class MemberServiceImpl implements MemberService{
 	public void addAdultCheck(AdultCheck adultCheck) throws Exception {
 		memberDao.addAdultCheck(adultCheck);
 	}
+
+	// 리워드 보상 지급
+	@Override
+	public void updateReward(Member member) throws Exception {
+		memberDao.updateReward(member);
+	}
 	
 	
 	

@@ -115,7 +115,12 @@ public class MemberDaoImpl implements MemberDao{
 	}
 	
 	public void addAdultCheck(AdultCheck adultCheck) throws Exception {
-		sqlSession.insert("addAdultCheck", adultCheck);
+		sqlSession.insert("MemberMapper.addAdultCheck", adultCheck);
+	}
+
+	@Override
+	public void updateReward(Member member) throws Exception {
+		sqlSession.insert("MemberMapper.updateReward", member);
 	}
 	
 	

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="NewsMapper">
+	
+	<resultMap id="news" type="news">
+        <result property="uniqueID"		column="_UniqueID"		jdbcType="INTEGER"/>
+        <result property="title"		column="_Title"			jdbcType="VARCHAR"/>
+        <result property="content"		column="_Content"		jdbcType="VARCHAR"/>
+        <result property="genDate"		column="_GenDate"		jdbcType="TIMESTAMP"/>
+        <result property="viewedCount"	column="_ViewedCount"	jdbcType="INTEGER"/>
+        <result property="filePath"		column="_FilePath"		jdbcType="VARCHAR"/>
+    </resultMap>
+    
+	<insert    id="addNews"     parameterType="news">
+		INSERT INTO NEWS ( _Title, _Content )
+        VALUES ( #{title}, #{content} )
+	</insert>
+    
+    <select id="getNewsList" parameterType="searchNDB" resultMap="news">
+    	SELECT b.*
+		FROM (
+				SELECT a.*
+				FROM	(	SELECT ROW_NUMBER() OVER(ORDER BY _GenDate DESC) AS rnum, *
+							FROM NEWS
+						) a
+				WHERE a.rnum &lt;= #{endCount} 
+						) b
+		WHERE b.rnum &gt;= #{startCount}
+    </select>
+    
+    <!-- 리워드 중복 체크 -->
+    <select id="getNews" parameterType="integer" resultMap="news">
+    	SELECT *
+    	FROM NEWS
+    	WHERE _UniqueID = #{param}
+    </select>
+    
+    <select id="getTotalCount" resultMap="news">
+    	SELECT count(0) as totalCount
+		FROM NEWS
+    </select>
+    
+    <update id="updateNews" parameterType="news">
+    	UPDATE NEWS
+    	<set>
+    		_Title = #{title}
+    		, _Content = #{content}
+    	</set>
+    	WHERE _UniqueID = #{uniqueID}
+    </update>
+    
+    <delete id="deleteNews" parameterType="news">
+    	DELETE FROM NEWS
+    	WHERE _UniqueID = #{uniqueID}
+    </delete>
+</mapper>

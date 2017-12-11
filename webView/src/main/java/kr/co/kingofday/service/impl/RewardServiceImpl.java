@@ -27,4 +27,9 @@ public class RewardServiceImpl implements RewardService {
 	public void addReward(Reward reward) throws Exception {
 		rewardDao.addReward(reward);
 	}
+
+	@Override
+	public Reward getReward(int reward_key) throws Exception {
+		return rewardDao.getReward(reward_key);
+	}
 }

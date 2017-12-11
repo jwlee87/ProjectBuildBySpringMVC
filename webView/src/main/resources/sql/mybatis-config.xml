@@ -14,14 +14,16 @@
 	<!-- FQCN(Full Qualified Class Name) Alias -->
 	<typeAliases>
 	
-		<typeAlias alias="member"     type="kr.co.kingofday.domain.Member" />
-		<typeAlias alias="webFile"    type="kr.co.kingofday.domain.WebFile" />
-		<typeAlias alias="video"      type="kr.co.kingofday.domain.Video" />
-		<typeAlias alias="search"     type="kr.co.kingofday.domain.Search" />
-		<typeAlias alias="adultCheck" type="kr.co.kingofday.domain.AdultCheck"/>
-		<typeAlias alias="ask"        type="kr.co.kingofday.domain.Ask"/>
-		<typeAlias alias="answer"     type="kr.co.kingofday.domain.Answer"/>
-		<typeAlias alias="reward"     type="kr.co.kingofday.domain.Reward"/>
+		<typeAlias alias="member"		type="kr.co.kingofday.domain.Member" />
+		<typeAlias alias="webFile"		type="kr.co.kingofday.domain.WebFile" />
+		<typeAlias alias="video"		type="kr.co.kingofday.domain.Video" />
+		<typeAlias alias="search"		type="kr.co.kingofday.domain.Search" />
+		<typeAlias alias="adultCheck"	type="kr.co.kingofday.domain.AdultCheck"/>
+		<typeAlias alias="ask"			type="kr.co.kingofday.domain.Ask"/>
+		<typeAlias alias="answer"		type="kr.co.kingofday.domain.Answer"/>
+		<typeAlias alias="reward"		type="kr.co.kingofday.domain.Reward"/>
+		<typeAlias alias="news"			type="kr.co.kingofday.domain.News"/>
+		<typeAlias alias="searchNDB"	type="kr.co.kingofday.domain.SearchNDB"/>
 		
 	</typeAliases>
 	
@@ -32,6 +34,7 @@
 		<mapper resource="sql/VideoMapper.xml"/>
 		<mapper resource="sql/AdminMapper.xml"/>
 		<mapper resource="sql/RewardMapper.xml"/>
+		<mapper resource="sql/NewsMapper.xml"/>
 	</mappers>
 
 </configuration>

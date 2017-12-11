@@ -24,10 +24,12 @@
 <style>
 
 /* Preloader */
-body {-webkit-transform: rotate(90deg); background-color: black;}
+body {background-color: black;}
 video::-webkit-media-controls-fullscreen-button {
     display: none;
 }
+#preloader {position: fixed;top:0;left:0;right:0;bottom:0;background-color:#000;z-index:1000;}
+#status {width:60px; height:60px; position:absolute; left:50%; top:50%; background-image:url(/webView/img/common/loadingIcon.gif); background-size:40px; background-repeat:no-repeat; background-position:center; margin:-30px 0 0 -30px;}
 
 
 </style>
@@ -36,30 +38,20 @@ video::-webkit-media-controls-fullscreen-button {
     <video class="container-fluid" id="player" poster="/webView/video/kr/thumnail/${no}_thumnail.png" controls controlsList="nodownload" style="margin: 0; padding: 0;">
         <source src="/webView/video/kr/bm_k_${no}.mp4" type="video/mp4">
     </video>
+	<div id="preloader">
+        <div id="status"></div>
+    </div>
 <script>
 $(window).on("load", function(){
-    
+	setTimeout(function(){ $("#preloader").hide(); }, 500);
     var height = $("body").outerHeight(true);
     var width = $("video").outerWidth(true);
     console.log("height= "+height);
     console.log("width= "+width);
-    
-    if(300 <= height && height < 768){
-        height = 360;
-        width = 630;
-        /* $("#player").css("margin-left","5px").css("margin-bottom","-5px"); */
-        console.log("iPhone6 Plus height= "+height+", width= "+width);
-    }else if( 768 <= height && height < 1024 ){
-        width = 800;
-        $("#player").css("margin-left","250px");
-        console.log("iPad height= "+height);
-    } else if( height <= 1024 && height < 1280) {
-        width = 1000;
-        $("#player").css("margin-left","400px");
-        console.log(height);
+	
+    if( 400 < width && width <=740 ){
+    	$("#player").css("height",360);
     }
-    $("#player").width(width).css("opacity","1");
-
 })
 </script>
 </body>

@@ -22,5 +22,12 @@
     	WHERE _UserUniqueID = #{userUniqueID}
     </select>
     
+    <!-- 리워드 중복 체크 -->
+    <select id="getReward" parameterType="integer" resultMap="reward">
+    	SELECT *
+    	FROM REWARD
+    	WHERE _Reward_key = #{param}
+    </select>
+    
     
 </mapper>

@@ -55,6 +55,9 @@
 	   <result property="phone"        column="_phone"        jdbcType="VARCHAR"/>
 	   <result property="generateDate" column="_generateDate" jdbcType="TIMESTAMP"/>
 	</resultMap>
+    
+    
+	<!-- SQL문 시작 -->
 	
 	<!-- 회원가입 -->
 	<insert	id="addMember"	parameterType="member">
@@ -245,5 +248,13 @@
 	   VALUES (#{phone})
 	</insert>
 
+	<!-- 리워드 보상 지급 -->
+	<update id="updateReward" parameterType="member">
+		UPDATE MEMBER_INFO
+		<set>
+			_CASHMONEY = #{cashMoney}
+		</set>
+		WHERE _USERUNIQUEID = #{uniqueID}
+	</update>
 
 </mapper>
